@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/petrromanov/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/petrromanov/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/petrromanov/Downloads/airsoft_arena/android/app/.cxx/Debug/2u3o3s52/armeabi-v7a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/petrromanov/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/petrromanov/Downloads/airsoft_arena/android/app/.cxx/Debug/2u3o3s52/armeabi-v7a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

@@ -1,0 +1,1 @@
+/Users/petrromanov/Downloads/airsoft_arena/build/app/intermediates/cxx/RelWithDebInfo/3s48f184/obj/arm64-v8a

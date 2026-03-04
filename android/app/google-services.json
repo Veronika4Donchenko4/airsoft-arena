@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "521026531859",
+    "project_id": "airsoft-arena-ae65a",
+    "storage_bucket": "airsoft-arena-ae65a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521026531859:android:c5c4cc03f1a18fc61e45e6",
+        "android_client_info": {
+          "package_name": "com.romanovdev.airsoftarena"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIBaZDHDbiTIJNLBteSWQhB_lFC5UI2Bw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

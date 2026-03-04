@@ -1,0 +1,2 @@
+/Users/petrromanov/Downloads/airsoft_arena/android/app/.cxx/RelWithDebInfo/3s48f184/x86/CMakeFiles/edit_cache.dir
+/Users/petrromanov/Downloads/airsoft_arena/android/app/.cxx/RelWithDebInfo/3s48f184/x86/CMakeFiles/rebuild_cache.dir
