@@ -8,7 +8,7 @@ Future initializeFirebaseRemoteConfig() async {
     ));
     await FirebaseRemoteConfig.instance.setDefaults(const {
       'maxPlayersLimit': 20,
-      'minRateForGameCreate': 10,
+      'minRateForGameCreate': 0,
       'coefficientPriorityKills': 2,
     });
     await FirebaseRemoteConfig.instance.fetchAndActivate();

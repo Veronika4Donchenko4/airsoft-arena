@@ -359,7 +359,7 @@ class _AppliListTeamPageWidgetState extends State<AppliListTeamPageWidget> {
                                                                   jobRecord
                                                                       .where(
                                                             'index',
-                                                            isEqualTo: 7,
+                                                            isEqualTo: 0,
                                                           ),
                                                           singleRecord: true,
                                                         ),

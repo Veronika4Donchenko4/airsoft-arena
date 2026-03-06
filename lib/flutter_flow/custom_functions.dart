@@ -173,17 +173,9 @@ bool allowToStartGame(
   int maxPlayers,
   List<TeamRecord> teams,
 ) {
-  bool allow = true;
-  // bool allow = usersInGame.length == maxTeam * maxPlayers;
-
-  for (var i in teams) {
-    if (i.usersJob.length < maxPlayers) {
-      allow = false;
-      break;
-    }
-  }
-
-  return allow;
+  if (usersInGame.isEmpty) return false;
+  // Достаточно, чтобы игроков было не меньше числа команд (по 1 на команду минимум)
+  return usersInGame.length >= maxTeam;
 }
 
 DocumentReference? getMyTeamReferrence(

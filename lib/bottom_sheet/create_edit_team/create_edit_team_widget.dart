@@ -87,7 +87,7 @@ class _CreateEditTeamWidgetState extends State<CreateEditTeamWidget> {
           stream: queryTeamRecord(
             queryBuilder: (teamRecord) => teamRecord.where(
               'game',
-              isEqualTo: widget!.teamDoc?.game,
+              isEqualTo: widget!.teamDoc?.game ?? widget!.gameRef,
             ),
           ),
           builder: (context, snapshot) {

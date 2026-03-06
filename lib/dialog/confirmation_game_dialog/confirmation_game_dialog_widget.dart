@@ -151,23 +151,59 @@ class _ConfirmationGameDialogWidgetState
                           createdTime: getCurrentTimestamp,
                         ),
                         gameRoundRecordReference);
+
+                    // Авторасределение игроков без команды
+                    final allTeams = widget!.teams ?? [];
+                    final teamAssignments =
+                        <DocumentReference, DocumentReference?>{};
+                    // Сначала назначаем тех, кто уже в команде
+                    for (final user in widget!.gameDoc!.users) {
+                      final team = functions.getTeamIBelongsReference(
+                          user, allTeams.toList());
+                      if (team != null) teamAssignments[user] = team;
+                    }
+                    // Автораспределяем остальных по командам с наименьшим числом игроков
+                    final autoDistributed = <DocumentReference, int>{
+                      for (final t in allTeams) t.reference: 0,
+                    };
+                    final maxPlayers = widget!.gameDoc!.playersLimit;
+                    for (final user in widget!.gameDoc!.users) {
+                      if (!teamAssignments.containsKey(user)) {
+                        DocumentReference? best;
+                        int minCount = 999999;
+                        for (final team in allTeams) {
+                          final total = team.usersJob.length +
+                              (autoDistributed[team.reference] ?? 0);
+                          if ((maxPlayers == 0 || total < maxPlayers) &&
+                              total < minCount) {
+                            minCount = total;
+                            best = team.reference;
+                          }
+                        }
+                        teamAssignments[user] = best;
+                        if (best != null) {
+                          autoDistributed[best] =
+                              (autoDistributed[best] ?? 0) + 1;
+                        }
+                      }
+                    }
+
                     while (_model.usersSaveCounter <
                         widget!.gameDoc!.users.length) {
+                      final currentUser = widget!.gameDoc!.users
+                          .elementAtOrNull(_model.usersSaveCounter)!;
+                      final assignedTeam = teamAssignments[currentUser];
                       var gameRoundUserRecordReference =
                           GameRoundUserRecord.collection.doc();
                       await gameRoundUserRecordReference
                           .set(createGameRoundUserRecordData(
                         game: widget!.gameDoc?.reference,
-                        user: widget!.gameDoc?.users
-                            ?.elementAtOrNull(_model.usersSaveCounter),
+                        user: currentUser,
                         isDead: false,
                         kills: 0,
                         rating: 0.0,
                         dateTime: getCurrentTimestamp,
-                        team: functions.getTeamIBelongsReference(
-                            widget!.gameDoc!.users
-                                .elementAtOrNull(_model.usersSaveCounter)!,
-                            widget!.teams!.toList()),
+                        team: assignedTeam,
                         isReady: false,
                         roundReference: _model.roundCreated?.reference,
                       ));
@@ -175,16 +211,12 @@ class _ConfirmationGameDialogWidgetState
                           GameRoundUserRecord.getDocumentFromData(
                               createGameRoundUserRecordData(
                                 game: widget!.gameDoc?.reference,
-                                user: widget!.gameDoc?.users
-                                    ?.elementAtOrNull(_model.usersSaveCounter),
+                                user: currentUser,
                                 isDead: false,
                                 kills: 0,
                                 rating: 0.0,
                                 dateTime: getCurrentTimestamp,
-                                team: functions.getTeamIBelongsReference(
-                                    widget!.gameDoc!.users.elementAtOrNull(
-                                        _model.usersSaveCounter)!,
-                                    widget!.teams!.toList()),
+                                team: assignedTeam,
                                 isReady: false,
                                 roundReference: _model.roundCreated?.reference,
                               ),

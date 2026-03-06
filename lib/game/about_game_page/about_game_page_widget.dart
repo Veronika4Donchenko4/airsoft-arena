@@ -1968,119 +1968,72 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             16.0, 0.0, 16.0, 0.0),
                                         child: AuthUserStreamWidget(
-                                          builder: (context) => InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              await showDialog(
-                                                barrierColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .overlay,
-                                                context: context,
-                                                builder: (dialogContext) {
-                                                  return Dialog(
-                                                    elevation: 0,
-                                                    insetPadding:
-                                                        EdgeInsets.zero,
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                                0.0, 0.0)
-                                                            .resolve(
-                                                                Directionality.of(
-                                                                    context)),
-                                                    child: WebViewAware(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          FocusScope.of(
-                                                                  dialogContext)
-                                                              .unfocus();
-                                                          FocusManager.instance
-                                                              .primaryFocus
-                                                              ?.unfocus();
-                                                        },
-                                                        child:
-                                                            ConfirmationGameDialogWidget(
-                                                          gameDoc:
-                                                              containerGameRecord,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: wrapWithModel(
-                                              model: _model.generalButtomModel1,
-                                              updateCallback: () =>
-                                                  safeSetState(() {}),
-                                              child: GeneralButtomWidget(
-                                                title: 'Начать игру',
-                                                isActive: (containerGameRecord
-                                                            .teams.length ==
-                                                        containerGameRecord
-                                                            .teamLimit) &&
-                                                    functions.allowToStartGame(
-                                                        containerGameRecord
-                                                            .users
-                                                            .toList(),
-                                                        containerGameRecord
-                                                            .teamLimit,
-                                                        containerGameRecord
-                                                            .playersLimit,
-                                                        containerTeamRecordList
-                                                            .toList()),
-                                                icon: null,
-                                                ignoreIsActive: false,
-                                                onTap: () async {
-                                                  await showDialog(
-                                                    barrierColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .overlay,
-                                                    context: context,
-                                                    builder: (dialogContext) {
-                                                      return Dialog(
-                                                        elevation: 0,
-                                                        insetPadding:
-                                                            EdgeInsets.zero,
-                                                        backgroundColor:
-                                                            Colors.transparent,
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                    0.0, 0.0)
-                                                                .resolve(
-                                                                    Directionality.of(
-                                                                        context)),
-                                                        child: WebViewAware(
+                                          builder: (context) => wrapWithModel(
+                                            model: _model.generalButtomModel1,
+                                            updateCallback: () =>
+                                                safeSetState(() {}),
+                                            child: GeneralButtomWidget(
+                                              title: 'Начать игру',
+                                              isActive: (containerGameRecord
+                                                          .teams.length ==
+                                                      containerGameRecord
+                                                          .teamLimit) &&
+                                                  functions.allowToStartGame(
+                                                      containerGameRecord
+                                                          .users
+                                                          .toList(),
+                                                      containerGameRecord
+                                                          .teamLimit,
+                                                      containerGameRecord
+                                                          .playersLimit,
+                                                      containerTeamRecordList
+                                                          .toList()),
+                                              icon: null,
+                                              ignoreIsActive: false,
+                                              onTap: () async {
+                                                await showDialog(
+                                                  barrierColor:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .overlay,
+                                                  context: context,
+                                                  builder: (dialogContext) {
+                                                    return Dialog(
+                                                      elevation: 0,
+                                                      insetPadding:
+                                                          EdgeInsets.zero,
+                                                      backgroundColor:
+                                                          Colors.transparent,
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                                  0.0, 0.0)
+                                                              .resolve(
+                                                                  Directionality.of(
+                                                                      context)),
+                                                      child: WebViewAware(
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            FocusScope.of(
+                                                                    dialogContext)
+                                                                .unfocus();
+                                                            FocusManager
+                                                                .instance
+                                                                .primaryFocus
+                                                                ?.unfocus();
+                                                          },
                                                           child:
-                                                              GestureDetector(
-                                                            onTap: () {
-                                                              FocusScope.of(
-                                                                      dialogContext)
-                                                                  .unfocus();
-                                                              FocusManager
-                                                                  .instance
-                                                                  .primaryFocus
-                                                                  ?.unfocus();
-                                                            },
-                                                            child:
-                                                                ConfirmationGameDialogWidget(
-                                                              gameDoc:
-                                                                  containerGameRecord,
-                                                              teams:
-                                                                  containerTeamRecordList,
-                                                            ),
+                                                              ConfirmationGameDialogWidget(
+                                                            gameDoc:
+                                                                containerGameRecord,
+                                                            teams:
+                                                                containerTeamRecordList,
                                                           ),
                                                         ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                              ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              },
                                             ),
                                           ),
                                         ),
@@ -2133,17 +2086,11 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                   if ((valueOrDefault(
                                               currentUserDocument?.type, 0) ==
                                           0) &&
-                                      functions.ifIntInRange(
-                                          containerGameRecord.teams.length,
-                                          containerGameRecord.teamLimit,
-                                          1) &&
                                       (valueOrDefault(
                                               currentUserDocument?.rate, 0.0) >=
                                           getRemoteConfigInt(
                                                   'minRateForGameCreate')
                                               .toDouble()) &&
-                                      ((containerTeamRecordList.isNotEmpty) ==
-                                          true) &&
                                       (functions
                                                   .getMyTeamReferrence(
                                                       currentUserReference!,
