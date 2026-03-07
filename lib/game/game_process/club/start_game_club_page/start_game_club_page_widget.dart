@@ -989,6 +989,33 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 8.0),
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  for (final u in containerGameRoundUserRecordList) {
+                                                    if (u.isReady == false) {
+                                                      await u.reference.update(createGameRoundUserRecordData(isReady: true));
+                                                    }
+                                                  }
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(context).secondary,
+                                                    borderRadius: BorderRadius.circular(12.0),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(14.0),
+                                                    child: Text(
+                                                      'Отметить всех готовыми',
+                                                      textAlign: TextAlign.center,
+                                                      style: FlutterFlowTheme.of(context).bodyMedium,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             AuthUserStreamWidget(
                                               builder: (context) =>
                                                   wrapWithModel(
@@ -1011,10 +1038,7 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                                       (containerGameRecord
                                                               ?.creator ==
                                                           currentUserReference) &&
-                                                      functions
-                                                          .allPlayersReadyForGame(
-                                                              containerGameRoundUserRecordList
-                                                                  .toList()),
+                                                      true,
                                                   ignoreIsActive: false,
                                                   onTap: () async {
                                                     await containerGameRoundRecordList
