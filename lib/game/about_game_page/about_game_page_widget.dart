@@ -220,9 +220,7 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                         (currentUserReference ==
                                                             containerGameRecord
                                                                 .creator)
-                                                    ? (containerGameRecord
-                                                            .status ==
-                                                        0)
+                                                    ? true
                                                     : false),
                                             child: Builder(
                                               builder: (context) =>
