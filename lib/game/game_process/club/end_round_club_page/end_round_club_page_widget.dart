@@ -542,6 +542,7 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                         .update(
                                                             createGameRoundRecordData(
                                                           status: 3,
+                                                          endDateTime: DateTime.now(),
                                                         ));
 
                                                     context.goNamed(

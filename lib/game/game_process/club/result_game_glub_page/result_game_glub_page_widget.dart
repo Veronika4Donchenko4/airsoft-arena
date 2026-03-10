@@ -1317,7 +1317,7 @@ class _ResultGameGlubPageWidgetState extends State<ResultGameGlubPageWidget> {
                                                                             .userCounter)!
                                                                     .reference,
                                                                 containerTeamRecordList
-                                                                    .toList())!),
+                                                                    .toList()) ?? FirebaseFirestore.instance.doc('teams/none')),
                                                         losses: functions.totalLoses(
                                                             _model.userLoaded
                                                                 ?.elementAtOrNull(
@@ -1332,10 +1332,10 @@ class _ResultGameGlubPageWidgetState extends State<ResultGameGlubPageWidget> {
                                                                     .userLoaded!
                                                                     .elementAtOrNull(
                                                                         _model
-                                                                            .userCounter)!
-                                                                    .reference,
+                                                                            .userCounter)
+                                                                    ?.reference ?? FirebaseFirestore.instance.doc('users/none'),
                                                                 containerTeamRecordList
-                                                                    .toList())!),
+                                                                    .toList()) ?? FirebaseFirestore.instance.doc('teams/none')),
                                                       ),
                                                       ...mapToFirestore(
                                                         {

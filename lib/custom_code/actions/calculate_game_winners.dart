@@ -15,7 +15,7 @@ Future<List<DocumentReference>> calculateGameWinners(
     List<GameRoundRecord> gameRoundList) async {
   // 1. Группируем записи по teamWinner (предполагаем, что teamWinner - это DocumentReference)
   Map<DocumentReference, List<GameRoundRecord>> grouped = groupBy(
-    gameRoundList,
+    gameRoundList.where((record) => record.teamWinner != null).toList(),
     (record) => record.teamWinner!,
   );
 

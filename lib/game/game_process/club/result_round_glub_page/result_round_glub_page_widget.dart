@@ -286,7 +286,12 @@ class _ResultRoundGlubPageWidgetState extends State<ResultRoundGlubPageWidget> {
                                                                     4.0,
                                                                     0.0,
                                                                     0.0),
-                                                        child: StreamBuilder<
+                                                        child: containerGameRoundRecordList.sortedList(keyOf: (e) => e.createdTime!, desc: false).lastOrNull?.teamWinner == null
+                                                            ? Padding(
+                                                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                child: Text('Ничья', style: FlutterFlowTheme.of(context).bodyMedium),
+                                                              )
+                                                            : StreamBuilder<
                                                             TeamRecord>(
                                                           stream: TeamRecord.getDocument(
                                                               containerGameRoundRecordList

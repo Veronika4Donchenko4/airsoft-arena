@@ -1123,7 +1123,7 @@ class _ProcessRoundClubPageWidgetState
                                                         containerGameRoundUserRecordList
                                                             .toList()) !=
                                                     null,
-                                                ignoreIsActive: false,
+                                                ignoreIsActive: true,
                                                 onTap: () async {
                                                   await containerGameRoundRecordList
                                                       .sortedList(
@@ -1165,7 +1165,7 @@ class _ProcessRoundClubPageWidgetState
                                                                   containerTeamRecordList
                                                                       .toList(),
                                                                   containerGameRoundUserRecordList
-                                                                      .toList())!,
+                                                                      .toList()) ?? containerTeamRecordList.first.reference,
                                                               functions.getTeamIBelongsReference(
                                                                   containerGameRoundUserRecordList
                                                                       .elementAtOrNull(
@@ -1173,7 +1173,7 @@ class _ProcessRoundClubPageWidgetState
                                                                               .userCounter)!
                                                                       .user!,
                                                                   containerTeamRecordList
-                                                                      .toList())!),
+                                                                      .toList()) ?? FirebaseFirestore.instance.doc('teams/none')),
                                                         ));
                                                     _model.userCounter =
                                                         _model.userCounter + 1;

@@ -206,7 +206,7 @@ class _PlayerSearchWidgetState extends State<PlayerSearchWidget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 24.0),
                       child: Text(
                         'Укажите радиус поиска и отправьте приглашения игрокам поблизости, чтобы присоединиться к вашей команде.',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -232,7 +232,7 @@ class _PlayerSearchWidgetState extends State<PlayerSearchWidget> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 24.0),
                       child: wrapWithModel(
                         model: _model.generalButtomModel,
                         updateCallback: () => safeSetState(() {}),
