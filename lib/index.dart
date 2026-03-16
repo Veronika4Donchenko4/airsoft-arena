@@ -13,6 +13,8 @@ export '/login/create_profile/create_profile_widget.dart'
 export '/profile/profile_page/profile_page_widget.dart' show ProfilePageWidget;
 export '/profile/notification_page/notification_page_widget.dart'
     show NotificationPageWidget;
+export '/profile/my_games_page/my_games_page_widget.dart'
+    show MyGamesPageWidget;
 export '/profile/edit_profile_page/edit_profile_page_widget.dart'
     show EditProfilePageWidget;
 export '/profile/change_role_page/change_role_page_widget.dart'
@@ -60,6 +62,8 @@ export '/game/game_process/club/process_round_club_page/process_round_club_page_
     show ProcessRoundClubPageWidget;
 export '/leaderboard/my_rate_page/my_rate_page_widget.dart'
     show MyRatePageWidget;
+export '/leaderboard/player_profile_page/player_profile_page_widget.dart'
+    show PlayerProfilePageWidget;
 export '/chat/dialog_page/dialog_page_widget.dart' show DialogPageWidget;
 export '/leaderboard/share_user_info/share_user_info_widget.dart'
     show ShareUserInfoWidget;

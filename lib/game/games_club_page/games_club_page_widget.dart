@@ -76,7 +76,8 @@ class _GamesClubPageWidgetState extends State<GamesClubPageWidget> {
             ),
             builder: (context, snapshot) {
               // Customize what your widget looks like when it's loading.
-              if (!snapshot.hasData) {
+              if (!snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: SizedBox(
                     width: 30.0,
@@ -89,7 +90,7 @@ class _GamesClubPageWidgetState extends State<GamesClubPageWidget> {
                   ),
                 );
               }
-              List<GameRecord> containerGameRecordList = snapshot.data!;
+              List<GameRecord> containerGameRecordList = snapshot.data ?? [];
 
               return Container(
                 decoration: BoxDecoration(),

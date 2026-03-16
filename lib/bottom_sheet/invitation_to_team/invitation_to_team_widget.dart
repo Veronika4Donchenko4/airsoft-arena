@@ -1098,7 +1098,7 @@ class _InvitationToTeamWidgetState extends State<InvitationToTeamWidget> {
                                       queryBuilder: (jobRecord) =>
                                           jobRecord.where(
                                         'index',
-                                        isEqualTo: 7,
+                                        isEqualTo: 0,
                                       ),
                                       singleRecord: true,
                                     ),

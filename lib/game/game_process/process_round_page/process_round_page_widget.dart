@@ -517,7 +517,8 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                                   withPlus: true,
                                                   isActiv:
                                                       !containerGameRoundUserRecord!
-                                                          .isDead,
+                                                          .isDead &&
+                                                      _model.killsCounter < 1,
                                                   action: () async {
                                                     _model.killsCounter =
                                                         _model.killsCounter + 1;

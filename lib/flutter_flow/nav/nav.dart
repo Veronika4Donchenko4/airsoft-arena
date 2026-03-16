@@ -151,6 +151,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => NotificationPageWidget(),
         ),
         FFRoute(
+          name: MyGamesPageWidget.routeName,
+          path: MyGamesPageWidget.routePath,
+          builder: (context, params) => MyGamesPageWidget(),
+        ),
+        FFRoute(
           name: EditProfilePageWidget.routeName,
           path: EditProfilePageWidget.routePath,
           builder: (context, params) => EditProfilePageWidget(),
@@ -334,6 +339,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: MyRatePageWidget.routeName,
           path: MyRatePageWidget.routePath,
           builder: (context, params) => MyRatePageWidget(),
+        ),
+        FFRoute(
+          name: PlayerProfilePageWidget.routeName,
+          path: PlayerProfilePageWidget.routePath,
+          asyncParams: {
+            'userDoc': getDoc(['User'], UserRecord.fromSnapshot),
+          },
+          builder: (context, params) => PlayerProfilePageWidget(
+            userDoc: params.getParam(
+              'userDoc',
+              ParamType.Document,
+            )!,
+          ),
         ),
         FFRoute(
           name: DialogPageWidget.routeName,

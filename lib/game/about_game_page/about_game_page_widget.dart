@@ -1764,7 +1764,13 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                 .users
                                                                 .contains(
                                                                     currentUserReference) ==
-                                                            true))
+                                                            true) &&
+                                                        !containerTeamRecordList
+                                                            .any((team) => team
+                                                                .usersJob
+                                                                .any((uj) =>
+                                                                    uj.user?.id ==
+                                                                    currentUserReference?.id)))
                                                       AuthUserStreamWidget(
                                                         builder: (context) =>
                                                             InkWell(
@@ -2089,20 +2095,10 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                           getRemoteConfigInt(
                                                   'minRateForGameCreate')
                                               .toDouble()) &&
-                                      (functions
-                                                  .getMyTeamReferrence(
-                                                      currentUserReference!,
-                                                      containerTeamRecordList
-                                                          .toList())
-                                                  ?.id ==
-                                              null ||
-                                          functions
-                                                  .getMyTeamReferrence(
-                                                      currentUserReference!,
-                                                      containerTeamRecordList
-                                                          .toList())
-                                                  ?.id ==
-                                              '') &&
+                                      !containerTeamRecordList.any((team) =>
+                                              team.usersJob.any((uj) =>
+                                                  uj.user?.id ==
+                                                  currentUserReference?.id)) &&
                                       (containerGameRecord.teams.length <
                                           containerGameRecord.teamLimit) &&
                                       (containerGameRecord.users

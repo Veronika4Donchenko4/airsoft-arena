@@ -1075,12 +1075,11 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                         selectedMedia.length &&
                                     downloadUrls.length ==
                                         selectedMedia.length) {
-                                  safeSetState(() {
-                                    _model.uploadedLocalFile_uploadDataHgy =
-                                        selectedUploadedFiles.first;
-                                    _model.uploadedFileUrl_uploadDataHgy =
-                                        downloadUrls.first;
-                                  });
+                                  _model.uploadedLocalFile_uploadDataHgy =
+                                      selectedUploadedFiles.first;
+                                  _model.uploadedFileUrl_uploadDataHgy =
+                                      downloadUrls.first;
+                                  safeSetState(() {});
                                 } else {
                                   safeSetState(() {});
                                   return;
@@ -1097,7 +1096,16 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                   clearUnsetFields: false,
                                 ),
                                 type: _model.typeUser,
-                                photoUrl: _model.uploadedFileUrl_uploadDataHgy,
+                                photoUrl: _model
+                                                .uploadedLocalFile_uploadDataUserImage !=
+                                            null &&
+                                        (_model
+                                                .uploadedLocalFile_uploadDataUserImage
+                                                .bytes
+                                                ?.isNotEmpty ??
+                                            false)
+                                    ? _model.uploadedFileUrl_uploadDataHgy
+                                    : currentUserPhoto,
                               ));
                             } else {
                               await currentUserReference!
@@ -1107,7 +1115,16 @@ class _CreateProfileWidgetState extends State<CreateProfileWidget> {
                                   clearUnsetFields: false,
                                 ),
                                 type: _model.typeUser,
-                                photoUrl: _model.uploadedFileUrl_uploadDataHgy,
+                                photoUrl: _model
+                                                .uploadedLocalFile_uploadDataUserImage !=
+                                            null &&
+                                        (_model
+                                                .uploadedLocalFile_uploadDataUserImage
+                                                .bytes
+                                                ?.isNotEmpty ??
+                                            false)
+                                    ? _model.uploadedFileUrl_uploadDataHgy
+                                    : currentUserPhoto,
                                 clubName:
                                     _model.textFieldClubNameTextController.text,
                                 clubDescription: _model

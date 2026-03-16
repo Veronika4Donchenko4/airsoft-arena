@@ -190,7 +190,7 @@ class _PlayerSearchWidgetState extends State<PlayerSearchWidget> {
                                 inactiveColor:
                                     FlutterFlowTheme.of(context).secondaryText,
                                 min: 0.0,
-                                max: 1000.0,
+                                max: 10000.0,
                                 value: _model.sliderValue ??= 200.0,
                                 onChanged: (newValue) {
                                   newValue =

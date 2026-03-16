@@ -2,6 +2,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -47,9 +48,29 @@ class _PlayerListLiderbordWidgetState extends State<PlayerListLiderbordWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(),
-      child: Row(
+    return InkWell(
+      splashColor: Colors.transparent,
+      focusColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () async {
+        if (widget.userDoc == null) return;
+        context.pushNamed(
+          PlayerProfilePageWidget.routeName,
+          queryParameters: {
+            'userDoc': serializeParam(
+              widget.userDoc,
+              ParamType.Document,
+            ),
+          }.withoutNulls,
+          extra: <String, dynamic>{
+            'userDoc': widget.userDoc,
+          },
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(),
+        child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
@@ -154,6 +175,7 @@ class _PlayerListLiderbordWidgetState extends State<PlayerListLiderbordWidget> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

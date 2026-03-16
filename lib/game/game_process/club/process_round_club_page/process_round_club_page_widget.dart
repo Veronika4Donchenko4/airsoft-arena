@@ -835,8 +835,121 @@ class _ProcessRoundClubPageWidgetState
                                                                                   }
 
                                                                                   final containerUserRecord = snapshot.data!;
+                                                                                  final roundUserRecord = containerGameRoundUserRecordList
+                                                                                      .where((e) => e.user == userListItem.user)
+                                                                                      .toList()
+                                                                                      .firstOrNull;
 
-                                                                                  return Container(
+                                                                                  return InkWell(
+                                                                                    splashColor: Colors.transparent,
+                                                                                    focusColor: Colors.transparent,
+                                                                                    hoverColor: Colors.transparent,
+                                                                                    highlightColor: Colors.transparent,
+                                                                                    onTap: () async {
+                                                                                      if (roundUserRecord == null || roundUserRecord.isDead) return;
+
+                                                                                      final opponents = containerGameRoundUserRecordList
+                                                                                          .where((e) => e.team != _model.teamSelected)
+                                                                                          .toList();
+
+                                                                                      if (opponents.isEmpty) return;
+
+                                                                                      final opponentUsers = await Future.wait(
+                                                                                        opponents.map((e) => UserRecord.getDocument(e.user!).first),
+                                                                                      );
+
+                                                                                      GameRoundUserRecord? selectedKiller;
+
+                                                                                      await showDialog(
+                                                                                        context: context,
+                                                                                        builder: (dialogContext) => StatefulBuilder(
+                                                                                          builder: (dialogContext, setDialogState) {
+                                                                                            return AlertDialog(
+                                                                                              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                              title: Text(
+                                                                                                'Отметить как убитого?',
+                                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                      font: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                                                                                                      fontSize: 16.0,
+                                                                                                      letterSpacing: 0.0,
+                                                                                                    ),
+                                                                                              ),
+                                                                                              content: Column(
+                                                                                                mainAxisSize: MainAxisSize.min,
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                children: [
+                                                                                                  Text(
+                                                                                                    'Кто убил ${containerUserRecord.displayName}?',
+                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                          font: GoogleFonts.inter(fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight),
+                                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                          fontSize: 13.0,
+                                                                                                          letterSpacing: 0.0,
+                                                                                                        ),
+                                                                                                  ),
+                                                                                                  SizedBox(height: 8.0),
+                                                                                                  ...List.generate(opponents.length, (i) {
+                                                                                                    final opponent = opponents[i];
+                                                                                                    final opponentUser = opponentUsers[i];
+                                                                                                    return RadioListTile<GameRoundUserRecord>(
+                                                                                                      dense: true,
+                                                                                                      contentPadding: EdgeInsets.zero,
+                                                                                                      title: Text(
+                                                                                                        opponentUser.displayName,
+                                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                              font: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                                                                                                              fontSize: 13.0,
+                                                                                                              letterSpacing: 0.0,
+                                                                                                            ),
+                                                                                                      ),
+                                                                                                      value: opponent,
+                                                                                                      groupValue: selectedKiller,
+                                                                                                      activeColor: FlutterFlowTheme.of(context).primary,
+                                                                                                      onChanged: (val) => setDialogState(() => selectedKiller = val),
+                                                                                                    );
+                                                                                                  }),
+                                                                                                ],
+                                                                                              ),
+                                                                                              actions: [
+                                                                                                TextButton(
+                                                                                                  onPressed: () => Navigator.pop(dialogContext),
+                                                                                                  child: Text(
+                                                                                                    'Отмена',
+                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                          font: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                                                                                                          color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                                          letterSpacing: 0.0,
+                                                                                                        ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                                TextButton(
+                                                                                                  onPressed: selectedKiller == null
+                                                                                                      ? null
+                                                                                                      : () async {
+                                                                                                          Navigator.pop(dialogContext);
+                                                                                                          await roundUserRecord.reference.update(
+                                                                                                            createGameRoundUserRecordData(isDead: true),
+                                                                                                          );
+                                                                                                          await selectedKiller!.reference.update({
+                                                                                                            'kills': FieldValue.increment(1),
+                                                                                                          });
+                                                                                                        },
+                                                                                                  child: Text(
+                                                                                                    'Подтвердить',
+                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                          font: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                                                                                                          color: FlutterFlowTheme.of(context).primary,
+                                                                                                          letterSpacing: 0.0,
+                                                                                                        ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
+                                                                                            );
+                                                                                          },
+                                                                                        ),
+                                                                                      );
+                                                                                    },
+                                                                                    child: Container(
                                                                                     width: double.infinity,
                                                                                     decoration: BoxDecoration(),
                                                                                     child: Column(
@@ -1085,6 +1198,7 @@ class _ProcessRoundClubPageWidgetState
                                                                                         ),
                                                                                       ],
                                                                                     ),
+                                                                                  ),
                                                                                   );
                                                                                 },
                                                                               );

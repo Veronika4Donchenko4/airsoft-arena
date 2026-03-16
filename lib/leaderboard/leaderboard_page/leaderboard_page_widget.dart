@@ -988,6 +988,8 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                       ),
                                       primary: false,
                                       shrinkWrap: true,
+                                      physics:
+                                          NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.vertical,
                                       itemCount: userRateList.length,
                                       separatorBuilder: (_, __) =>
