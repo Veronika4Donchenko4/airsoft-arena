@@ -205,7 +205,37 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                   ? containerGameRoundUserRecordList.first
                                   : null;
 
-                          return Container(
+                          return StreamBuilder<List<GameRoundUserRecord>>(
+                            stream: queryGameRoundUserRecord(
+                              queryBuilder: (q) => q
+                                  .where(
+                                    'game',
+                                    isEqualTo:
+                                        containerGameRecord?.reference,
+                                  )
+                                  .where(
+                                    'roundReference',
+                                    isEqualTo:
+                                        containerGameRoundRecordList
+                                            .sortedList(
+                                                keyOf: (e) =>
+                                                    e.createdTime!,
+                                                desc: false)
+                                            .lastOrNull
+                                            ?.reference,
+                                  ),
+                            ),
+                            builder: (context, allRoundSnapshot) {
+                              final allRoundUsers =
+                                  allRoundSnapshot.data ?? [];
+                              final opponentAliveCount = allRoundUsers
+                                  .where((r) =>
+                                      r.team?.id !=
+                                          containerGameRoundUserRecord
+                                              ?.team?.id &&
+                                      !r.isDead)
+                                  .length;
+                              return Container(
                             decoration: BoxDecoration(),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -518,7 +548,8 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                                   isActiv:
                                                       !containerGameRoundUserRecord!
                                                           .isDead &&
-                                                      _model.killsCounter < 1,
+                                                      _model.killsCounter <
+                                                          opponentAliveCount,
                                                   action: () async {
                                                     _model.killsCounter =
                                                         _model.killsCounter + 1;
@@ -647,6 +678,8 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                 ],
                               ),
                             ),
+                          );
+                            },
                           );
                         },
                       ),
