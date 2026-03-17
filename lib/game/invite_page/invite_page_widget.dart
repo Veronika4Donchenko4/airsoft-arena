@@ -114,7 +114,17 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
 
                               final containerGameRecord = snapshot.data!;
 
-                              return InkWell(
+                              return StreamBuilder<TeamRecord>(
+                                stream: TeamRecord.getDocument(
+                                    inviteToGameTeamItem.team!),
+                                builder: (context, teamSnapshot) {
+                                  final teamRecord = teamSnapshot.data;
+                                  if (teamRecord != null &&
+                                      teamRecord.usersJob.length >=
+                                          containerGameRecord.playersLimit) {
+                                    return SizedBox.shrink();
+                                  }
+                                  return InkWell(
                                 splashColor: Colors.transparent,
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
@@ -472,6 +482,8 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
                                     ),
                                   ),
                                 ),
+                              );
+                                },
                               );
                             },
                           ),

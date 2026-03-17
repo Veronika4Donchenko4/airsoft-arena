@@ -52,6 +52,22 @@ class _MyGamePageWidgetState extends State<MyGamePageWidget> {
     super.dispose();
   }
 
+  Future<bool> _hasNonFullInvitations() async {
+    final invites =
+        currentUserDocument?.proposedGameTeam?.toList() ?? [];
+    for (final entry in invites) {
+      if (entry.team == null || entry.game == null) continue;
+      try {
+        final team =
+            await TeamRecord.getDocument(entry.team!).first;
+        final game =
+            await GameRecord.getDocument(entry.game!).first;
+        if (team.usersJob.length < game.playersLimit) return true;
+      } catch (_) {}
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
@@ -138,7 +154,13 @@ class _MyGamePageWidgetState extends State<MyGamePageWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
                                 child: AuthUserStreamWidget(
-                                  builder: (context) => InkWell(
+                                  builder: (context) => FutureBuilder<bool>(
+                                    future: _hasNonFullInvitations(),
+                                    builder: (context, snap) {
+                                      if (snap.data != true) {
+                                        return SizedBox.shrink();
+                                      }
+                                      return InkWell(
                                     splashColor: Colors.transparent,
                                     focusColor: Colors.transparent,
                                     hoverColor: Colors.transparent,
@@ -246,6 +268,8 @@ class _MyGamePageWidgetState extends State<MyGamePageWidget> {
                                         ),
                                       ),
                                     ),
+                                  );
+                                    },
                                   ),
                                 ),
                               ),

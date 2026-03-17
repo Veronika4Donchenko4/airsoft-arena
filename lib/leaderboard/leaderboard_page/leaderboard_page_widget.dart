@@ -293,7 +293,34 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Align(
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
+                                              onTap: () {
+                                                final user =
+                                                    containerUserRecordList
+                                                        .sortedList(
+                                                            keyOf: (e) =>
+                                                                e.rate,
+                                                            desc: true)
+                                                        .elementAtOrNull(1);
+                                                if (user == null) return;
+                                                context.pushNamed(
+                                                  PlayerProfilePageWidget
+                                                      .routeName,
+                                                  queryParameters: {
+                                                    'userDoc': serializeParam(
+                                                        user,
+                                                        ParamType.Document),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    'userDoc': user,
+                                                  },
+                                                );
+                                              },
+                                              child: Align(
                                               alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Padding(
@@ -516,7 +543,35 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                 ),
                                               ),
                                             ),
-                                            Align(
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
+                                              onTap: () {
+                                                final user =
+                                                    containerUserRecordList
+                                                        .sortedList(
+                                                            keyOf: (e) =>
+                                                                e.rate,
+                                                            desc: true)
+                                                        .firstOrNull;
+                                                if (user == null) return;
+                                                context.pushNamed(
+                                                  PlayerProfilePageWidget
+                                                      .routeName,
+                                                  queryParameters: {
+                                                    'userDoc': serializeParam(
+                                                        user,
+                                                        ParamType.Document),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    'userDoc': user,
+                                                  },
+                                                );
+                                              },
+                                              child: Align(
                                               alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Padding(
@@ -736,7 +791,35 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                 ),
                                               ),
                                             ),
-                                            Align(
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor: Colors.transparent,
+                                              onTap: () {
+                                                final user =
+                                                    containerUserRecordList
+                                                        .sortedList(
+                                                            keyOf: (e) =>
+                                                                e.rate,
+                                                            desc: true)
+                                                        .elementAtOrNull(2);
+                                                if (user == null) return;
+                                                context.pushNamed(
+                                                  PlayerProfilePageWidget
+                                                      .routeName,
+                                                  queryParameters: {
+                                                    'userDoc': serializeParam(
+                                                        user,
+                                                        ParamType.Document),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
+                                                    'userDoc': user,
+                                                  },
+                                                );
+                                              },
+                                              child: Align(
                                               alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Padding(
@@ -958,6 +1041,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                   ),
                                                 ),
                                               ),
+                                            ),
                                             ),
                                           ],
                                         ),
