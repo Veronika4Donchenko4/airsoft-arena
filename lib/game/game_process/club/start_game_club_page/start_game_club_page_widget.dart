@@ -708,16 +708,16 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                                                                               ),
                                                                                             ),
                                                                                             Padding(
-                                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
                                                                                               child: Row(
                                                                                                 mainAxisSize: MainAxisSize.min,
                                                                                                 children: [
                                                                                                   Padding(
-                                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 1.0, 0.0),
+                                                                                                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 4.0, 0.0),
                                                                                                     child: Container(
                                                                                                       decoration: BoxDecoration(
                                                                                                         color: valueOrDefault<Color>(
-                                                                                                          containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull!.isReady ? FlutterFlowTheme.of(context).success : FlutterFlowTheme.of(context).warning,
+                                                                                                          containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull?.isReady == true ? FlutterFlowTheme.of(context).success : FlutterFlowTheme.of(context).warning,
                                                                                                           FlutterFlowTheme.of(context).warning,
                                                                                                         ),
                                                                                                         borderRadius: BorderRadius.circular(8.0),
@@ -726,7 +726,7 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                                                                                         padding: EdgeInsetsDirectional.fromSTEB(8.0, 5.0, 8.0, 5.0),
                                                                                                         child: Text(
                                                                                                           valueOrDefault<String>(
-                                                                                                            containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull!.isReady ? 'Готов' : 'Ожидание',
+                                                                                                            containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull?.isReady == true ? 'Готов' : 'Ожидание',
                                                                                                             'Ожидание',
                                                                                                           ),
                                                                                                           style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -741,6 +741,30 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                                                                                                 fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                                               ),
                                                                                                         ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  InkWell(
+                                                                                                    splashColor: Colors.transparent,
+                                                                                                    focusColor: Colors.transparent,
+                                                                                                    hoverColor: Colors.transparent,
+                                                                                                    highlightColor: Colors.transparent,
+                                                                                                    onTap: () async {
+                                                                                                      final roundUserRecord = containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull;
+                                                                                                      if (roundUserRecord != null) {
+                                                                                                        await roundUserRecord.reference.update(createGameRoundUserRecordData(attended: !roundUserRecord.attended));
+                                                                                                      }
+                                                                                                    },
+                                                                                                    child: Container(
+                                                                                                      padding: EdgeInsets.all(5.0),
+                                                                                                      decoration: BoxDecoration(
+                                                                                                        color: containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull?.attended == true ? FlutterFlowTheme.of(context).success : FlutterFlowTheme.of(context).accent1,
+                                                                                                        borderRadius: BorderRadius.circular(8.0),
+                                                                                                      ),
+                                                                                                      child: Icon(
+                                                                                                        containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull?.attended == true ? Icons.check_rounded : Icons.close_rounded,
+                                                                                                        color: containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull?.attended == true ? FlutterFlowTheme.of(context).primaryBackground : FlutterFlowTheme.of(context).secondaryText,
+                                                                                                        size: 16.0,
                                                                                                       ),
                                                                                                     ),
                                                                                                   ),
@@ -992,6 +1016,10 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                             Padding(
                                               padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 8.0),
                                               child: InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
                                                 onTap: () async {
                                                   for (final u in containerGameRoundUserRecordList) {
                                                     if (u.isReady == false) {
@@ -1001,16 +1029,105 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                                 },
                                                 child: Container(
                                                   width: double.infinity,
+                                                  height: 48.0,
                                                   decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(context).secondary,
+                                                    borderRadius: BorderRadius.circular(12.0),
+                                                    border: Border.all(
+                                                      color: FlutterFlowTheme.of(context).primary,
+                                                      width: 2.0,
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(4.0),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme.of(context).primary,
+                                                        borderRadius: BorderRadius.circular(8.0),
+                                                      ),
+                                                      alignment: Alignment.center,
+                                                      child: Text(
+                                                        'Отметить всех готовыми',
+                                                        style: FlutterFlowTheme.of(context).titleSmall.override(
+                                                          font: GoogleFonts.inter(
+                                                            fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
+                                                            fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                                                          ),
+                                                          color: Color(0xFF070C13),
+                                                          letterSpacing: 0.0,
+                                                          fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
+                                                          fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 8.0),
+                                              child: InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
+                                                onTap: () async {
+                                                  for (final u in containerGameRoundUserRecordList) {
+                                                    if (!u.attended) {
+                                                      await u.reference.update(createGameRoundUserRecordData(attended: true));
+                                                    }
+                                                  }
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(context).accent2,
                                                     borderRadius: BorderRadius.circular(12.0),
                                                   ),
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(14.0),
-                                                    child: Text(
-                                                      'Отметить всех готовыми',
-                                                      textAlign: TextAlign.center,
-                                                      style: FlutterFlowTheme.of(context).bodyMedium,
+                                                    padding: EdgeInsetsDirectional.fromSTEB(12.0, 10.0, 12.0, 10.0),
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.max,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          'Отметить всех присутствующими',
+                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                            font: GoogleFonts.inter(
+                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                            ),
+                                                            letterSpacing: 0.0,
+                                                            fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          width: 24.0,
+                                                          height: 24.0,
+                                                          decoration: BoxDecoration(
+                                                            color: containerGameRoundUserRecordList.isNotEmpty &&
+                                                                    containerGameRoundUserRecordList.every((u) => u.attended)
+                                                                ? FlutterFlowTheme.of(context).success
+                                                                : FlutterFlowTheme.of(context).accent1,
+                                                            borderRadius: BorderRadius.circular(6.0),
+                                                            border: Border.all(
+                                                              color: containerGameRoundUserRecordList.isNotEmpty &&
+                                                                      containerGameRoundUserRecordList.every((u) => u.attended)
+                                                                  ? FlutterFlowTheme.of(context).success
+                                                                  : FlutterFlowTheme.of(context).secondaryText,
+                                                              width: 1.5,
+                                                            ),
+                                                          ),
+                                                          child: containerGameRoundUserRecordList.isNotEmpty &&
+                                                                  containerGameRoundUserRecordList.every((u) => u.attended)
+                                                              ? Icon(
+                                                                  Icons.check_rounded,
+                                                                  color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                  size: 16.0,
+                                                                )
+                                                              : null,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),

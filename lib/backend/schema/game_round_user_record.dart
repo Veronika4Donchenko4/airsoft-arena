@@ -61,6 +61,11 @@ class GameRoundUserRecord extends FirestoreRecord {
   DocumentReference? get roundReference => _roundReference;
   bool hasRoundReference() => _roundReference != null;
 
+  // "attended" field.
+  bool? _attended;
+  bool get attended => _attended ?? false;
+  bool hasAttended() => _attended != null;
+
   void _initializeFields() {
     _game = snapshotData['game'] as DocumentReference?;
     _user = snapshotData['user'] as DocumentReference?;
@@ -71,6 +76,7 @@ class GameRoundUserRecord extends FirestoreRecord {
     _team = snapshotData['team'] as DocumentReference?;
     _isReady = snapshotData['isReady'] as bool?;
     _roundReference = snapshotData['roundReference'] as DocumentReference?;
+    _attended = snapshotData['attended'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -117,6 +123,7 @@ Map<String, dynamic> createGameRoundUserRecordData({
   DocumentReference? team,
   bool? isReady,
   DocumentReference? roundReference,
+  bool? attended,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -129,6 +136,7 @@ Map<String, dynamic> createGameRoundUserRecordData({
       'team': team,
       'isReady': isReady,
       'roundReference': roundReference,
+      'attended': attended,
     }.withoutNulls,
   );
 
@@ -149,7 +157,8 @@ class GameRoundUserRecordDocumentEquality
         e1?.dateTime == e2?.dateTime &&
         e1?.team == e2?.team &&
         e1?.isReady == e2?.isReady &&
-        e1?.roundReference == e2?.roundReference;
+        e1?.roundReference == e2?.roundReference &&
+        e1?.attended == e2?.attended;
   }
 
   @override

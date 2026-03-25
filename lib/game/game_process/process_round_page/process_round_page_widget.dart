@@ -228,12 +228,12 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                             builder: (context, allRoundSnapshot) {
                               final allRoundUsers =
                                   allRoundSnapshot.data ?? [];
-                              final opponentAliveCount = allRoundUsers
+                              final opponentDeadCount = allRoundUsers
                                   .where((r) =>
                                       r.team?.id !=
                                           containerGameRoundUserRecord
                                               ?.team?.id &&
-                                      !r.isDead)
+                                      r.isDead)
                                   .length;
                               return Container(
                             decoration: BoxDecoration(),
@@ -549,7 +549,7 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                                       !containerGameRoundUserRecord!
                                                           .isDead &&
                                                       _model.killsCounter <
-                                                          opponentAliveCount,
+                                                          opponentDeadCount,
                                                   action: () async {
                                                     _model.killsCounter =
                                                         _model.killsCounter + 1;

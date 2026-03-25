@@ -1258,16 +1258,30 @@ class _ResultGameGlubPageWidgetState extends State<ResultGameGlubPageWidget> {
                                                 onTap: () async {
                                                   _model.achivList =
                                                       await queryAchievementRecordOnce();
+                                                  final allRoundUsers =
+                                                      await queryGameRoundUserRecordOnce(
+                                                    queryBuilder: (q) =>
+                                                        q.where('game',
+                                                            isEqualTo:
+                                                                containerGameRecord
+                                                                    ?.reference),
+                                                  );
                                                   while (_model.userCounter <
                                                       containerGameRecord!
                                                           .users.length) {
-                                                    await _model.userLoaded!
-                                                        .elementAtOrNull(
-                                                            _model.userCounter)!
-                                                        .reference
-                                                        .update({
-                                                      ...createUserRecordData(
-                                                        rate: functions.calculateUserTotalRating(
+                                                    final currentUserRef =
+                                                        containerGameRecord!
+                                                            .users
+                                                            .elementAtOrNull(
+                                                                _model
+                                                                    .userCounter)!;
+                                                    final didAttend =
+                                                        allRoundUsers.any((r) =>
+                                                            r.user ==
+                                                                currentUserRef &&
+                                                            r.attended);
+                                                    final baseRate = functions
+                                                        .calculateUserTotalRating(
                                                             _model.userLoaded
                                                                 ?.elementAtOrNull(
                                                                     _model
@@ -1277,7 +1291,20 @@ class _ResultGameGlubPageWidgetState extends State<ResultGameGlubPageWidget> {
                                                                 .elementAtOrNull(
                                                                     _model
                                                                         .userCounter)!
-                                                                .rating),
+                                                                .rating);
+                                                    final finalRate = didAttend
+                                                        ? baseRate
+                                                        : ((baseRate ?? 0.0) -
+                                                                1.0)
+                                                            .clamp(0.0,
+                                                                double.infinity);
+                                                    await _model.userLoaded!
+                                                        .elementAtOrNull(
+                                                            _model.userCounter)!
+                                                        .reference
+                                                        .update({
+                                                      ...createUserRecordData(
+                                                        rate: finalRate,
                                                         kilss: functions.totalKillsDeath(
                                                             _model.userLoaded
                                                                 ?.elementAtOrNull(

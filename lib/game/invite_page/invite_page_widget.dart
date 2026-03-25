@@ -114,6 +114,10 @@ class _InvitePageWidgetState extends State<InvitePageWidget> {
 
                               final containerGameRecord = snapshot.data!;
 
+                              if (containerGameRecord.status != 0) {
+                                return SizedBox.shrink();
+                              }
+
                               return StreamBuilder<TeamRecord>(
                                 stream: TeamRecord.getDocument(
                                     inviteToGameTeamItem.team!),

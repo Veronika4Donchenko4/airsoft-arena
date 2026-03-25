@@ -1,4 +1,6 @@
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
+import '/bottom_sheet/city_search_view/city_search_view_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/components/player_list_liderbord/player_list_liderbord_widget.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'leaderboard_page_model.dart';
 export 'leaderboard_page_model.dart';
 
@@ -89,6 +92,16 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                 );
               }
               List<UserRecord> containerUserRecordList = snapshot.data!;
+
+              if (_model.selectedCity != null &&
+                  _model.selectedCity!.description.isNotEmpty) {
+                containerUserRecordList = containerUserRecordList
+                    .where((u) => u.city.description
+                        .toLowerCase()
+                        .contains(
+                            _model.selectedCity!.description.toLowerCase()))
+                    .toList();
+              }
 
               return Container(
                 decoration: BoxDecoration(),
@@ -1049,6 +1062,136 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                     ].addToStart(SizedBox(height: 8.0)),
                                   ),
                                 ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 16.0, 16.0, 0.0),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  await showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    barrierColor:
+                                        FlutterFlowTheme.of(context).overlay,
+                                    enableDrag: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return WebViewAware(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            FocusScope.of(context).unfocus();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                          },
+                                          child: Padding(
+                                            padding:
+                                                MediaQuery.viewInsetsOf(context),
+                                            child: CitySearchViewWidget(
+                                              onCityTap: (city) async {
+                                                _model.selectedCity = city;
+                                                _model.cityFilterController
+                                                    ?.text = city.description;
+                                                safeSetState(() {});
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => safeSetState(() {}));
+                                },
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    border: Border.all(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12.0, vertical: 10.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Icon(
+                                          FFIcons.kmappin,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          size: 16.0,
+                                        ),
+                                        SizedBox(width: 8.0),
+                                        Expanded(
+                                          child: Text(
+                                            _model.selectedCity != null
+                                                ? _model
+                                                    .selectedCity!.description
+                                                : 'Фильтр по городу',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: _model.selectedCity !=
+                                                          null
+                                                      ? FlutterFlowTheme.of(
+                                                              context)
+                                                          .primaryText
+                                                      : FlutterFlowTheme.of(
+                                                              context)
+                                                          .secondaryText,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                        ),
+                                        if (_model.selectedCity != null)
+                                          GestureDetector(
+                                            onTap: () {
+                                              _model.selectedCity = null;
+                                              _model.cityFilterController
+                                                  ?.clear();
+                                              safeSetState(() {});
+                                            },
+                                            child: Icon(
+                                              Icons.close,
+                                              color: FlutterFlowTheme.of(
+                                                      context)
+                                                  .secondaryText,
+                                              size: 16.0,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                             Container(

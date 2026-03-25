@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/components/player_list_liderbord/player_list_liderbord_widget.dart';
@@ -25,6 +26,10 @@ class LeaderboardPageModel extends FlutterFlowModel<LeaderboardPageWidget> {
       playerListLiderbordModels;
   // Model for navbar component.
   late NavbarModel navbarModel;
+  // City filter state.
+  CityTypeStruct? selectedCity;
+  TextEditingController? cityFilterController;
+  FocusNode? cityFilterFocusNode;
 
   @override
   void initState(BuildContext context) {
@@ -33,6 +38,8 @@ class LeaderboardPageModel extends FlutterFlowModel<LeaderboardPageWidget> {
     playerListLiderbordModels =
         FlutterFlowDynamicModels(() => PlayerListLiderbordModel());
     navbarModel = createModel(context, () => NavbarModel());
+    cityFilterController ??= TextEditingController();
+    cityFilterFocusNode ??= FocusNode();
   }
 
   @override
@@ -40,5 +47,7 @@ class LeaderboardPageModel extends FlutterFlowModel<LeaderboardPageWidget> {
     gameStatusListenerModel.dispose();
     playerListLiderbordModels.dispose();
     navbarModel.dispose();
+    cityFilterController?.dispose();
+    cityFilterFocusNode?.dispose();
   }
 }

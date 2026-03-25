@@ -1261,17 +1261,24 @@ class _ProcessRoundClubPageWidgetState
                                                   while (_model.userCounter <
                                                       containerGameRecord!
                                                           .users.length) {
-                                                    await containerGameRoundUserRecordList
-                                                        .elementAtOrNull(
-                                                            _model.userCounter)!
+                                                    final roundUserRecord =
+                                                        containerGameRoundUserRecordList
+                                                            .elementAtOrNull(
+                                                                _model
+                                                                    .userCounter);
+                                                    if (roundUserRecord ==
+                                                        null) {
+                                                      _model.userCounter =
+                                                          _model.userCounter +
+                                                              1;
+                                                      continue;
+                                                    }
+                                                    await roundUserRecord
                                                         .reference
                                                         .update(
                                                             createGameRoundUserRecordData(
                                                           rating: functions.calculatingRatingRound(
-                                                              containerGameRoundUserRecordList
-                                                                  .elementAtOrNull(
-                                                                      _model
-                                                                          .userCounter)!
+                                                              roundUserRecord
                                                                   .kills,
                                                               getRemoteConfigInt(
                                                                   'coefficientPriorityKills'),
@@ -1281,11 +1288,8 @@ class _ProcessRoundClubPageWidgetState
                                                                   containerGameRoundUserRecordList
                                                                       .toList()) ?? containerTeamRecordList.first.reference,
                                                               functions.getTeamIBelongsReference(
-                                                                  containerGameRoundUserRecordList
-                                                                      .elementAtOrNull(
-                                                                          _model
-                                                                              .userCounter)!
-                                                                      .user!,
+                                                                  roundUserRecord
+                                                                      .user ?? FirebaseFirestore.instance.doc('users/none'),
                                                                   containerTeamRecordList
                                                                       .toList()) ?? FirebaseFirestore.instance.doc('teams/none')),
                                                         ));

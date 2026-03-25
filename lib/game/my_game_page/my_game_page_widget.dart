@@ -62,6 +62,7 @@ class _MyGamePageWidgetState extends State<MyGamePageWidget> {
             await TeamRecord.getDocument(entry.team!).first;
         final game =
             await GameRecord.getDocument(entry.game!).first;
+        if (game.status != 0) continue;
         if (team.usersJob.length < game.playersLimit) return true;
       } catch (_) {}
     }

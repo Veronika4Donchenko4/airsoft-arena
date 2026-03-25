@@ -144,6 +144,10 @@ class _InvitationToTeamWidgetState extends State<InvitationToTeamWidget> {
 
                         final containerGameRecord = snapshot.data!;
 
+                        if (containerGameRecord.status != 0) {
+                          return SizedBox.shrink();
+                        }
+
                         return Container(
                           decoration: BoxDecoration(),
                           child: Padding(
