@@ -154,70 +154,191 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(4.0),
-                                                  child: Container(
-                                                    width: 96.0,
-                                                    height: 24.0,
-                                                    decoration: BoxDecoration(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primary,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          blurRadius: 16.0,
-                                                          color:
-                                                              Color(0x26ADE962),
-                                                          offset: Offset(
-                                                            0.0,
-                                                            2.0,
-                                                          ),
-                                                        )
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Text(
-                                                      'Лидерборд',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            font: GoogleFonts
-                                                                .inter(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                            ),
-                                                            color: FlutterFlowTheme
+                                              // Лидерборд tab
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () {
+                                                  _model.leaderboardTab = 0;
+                                                  safeSetState(() {});
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(4.0),
+                                                    child: Container(
+                                                      width: 80.0,
+                                                      height: 24.0,
+                                                      decoration: BoxDecoration(
+                                                        color: _model
+                                                                    .leaderboardTab ==
+                                                                0
+                                                            ? FlutterFlowTheme
                                                                     .of(context)
-                                                                .primaryBackground,
-                                                            fontSize: 12.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontStyle:
-                                                                FlutterFlowTheme.of(
+                                                                .primary
+                                                            : Colors
+                                                                .transparent,
+                                                        boxShadow: _model
+                                                                    .leaderboardTab ==
+                                                                0
+                                                            ? [
+                                                                BoxShadow(
+                                                                  blurRadius:
+                                                                      16.0,
+                                                                  color: Color(
+                                                                      0x26ADE962),
+                                                                  offset:
+                                                                      Offset(
+                                                                          0.0,
+                                                                          2.0),
+                                                                ),
+                                                              ]
+                                                            : [],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        'Лидерборд',
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .inter(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .fontStyle,
-                                                          ),
+                                                              ),
+                                                              color: _model.leaderboardTab ==
+                                                                      0
+                                                                  ? FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground
+                                                                  : FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                              fontSize: 12.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontStyle: FlutterFlowTheme
+                                                                      .of(
+                                                                          context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
+                                              // Кланы tab
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () {
+                                                  _model.leaderboardTab = 1;
+                                                  safeSetState(() {});
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(4.0),
+                                                    child: Container(
+                                                      width: 80.0,
+                                                      height: 24.0,
+                                                      decoration: BoxDecoration(
+                                                        color: _model
+                                                                    .leaderboardTab ==
+                                                                1
+                                                            ? FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary
+                                                            : Colors
+                                                                .transparent,
+                                                        boxShadow: _model
+                                                                    .leaderboardTab ==
+                                                                1
+                                                            ? [
+                                                                BoxShadow(
+                                                                  blurRadius:
+                                                                      16.0,
+                                                                  color: Color(
+                                                                      0x26ADE962),
+                                                                  offset:
+                                                                      Offset(
+                                                                          0.0,
+                                                                          2.0),
+                                                                ),
+                                                              ]
+                                                            : [],
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        'Кланы',
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .inter(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              color: _model.leaderboardTab ==
+                                                                      1
+                                                                  ? FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground
+                                                                  : FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                              fontSize: 12.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontStyle: FlutterFlowTheme
+                                                                      .of(
+                                                                          context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              // Мой рейтинг tab
                                               InkWell(
                                                 splashColor: Colors.transparent,
                                                 focusColor: Colors.transparent,
@@ -246,7 +367,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                     padding:
                                                         EdgeInsets.all(4.0),
                                                     child: Container(
-                                                      width: 96.0,
+                                                      width: 80.0,
                                                       height: 24.0,
                                                       decoration: BoxDecoration(
                                                         borderRadius:
@@ -258,37 +379,35 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                               0.0, 0.0),
                                                       child: Text(
                                                         'Мой рейтинг',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  font:
-                                                                      GoogleFonts
-                                                                          .inter(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .fontStyle,
-                                                                  ),
-                                                                  color: FlutterFlowTheme.of(
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .inter(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              color: FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondaryText,
+                                                              fontSize: 12.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontStyle: FlutterFlowTheme
+                                                                      .of(
                                                                           context)
-                                                                      .secondaryText,
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
                                                       ),
                                                     ),
                                                   ),
@@ -298,6 +417,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                           ),
                                         ),
                                       ),
+                                      if (_model.leaderboardTab == 0)
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 35.0, 0.0, 0.0),
@@ -1064,6 +1184,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                 ],
                               ),
                             ),
+                            if (_model.leaderboardTab == 0)
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 16.0, 16.0, 0.0),
@@ -1194,6 +1315,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                 ),
                               ),
                             ),
+                            if (_model.leaderboardTab == 0)
                             Container(
                               decoration: BoxDecoration(),
                               child: Padding(
@@ -1311,6 +1433,358 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                   },
                                 ),
                               ),
+                            ),
+                            if (_model.leaderboardTab == 1)
+                            StreamBuilder<List<ClanRecord>>(
+                              stream: queryClanRecord(),
+                              builder: (context, clanSnapshot) {
+                                if (!clanSnapshot.hasData) {
+                                  return Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(40.0),
+                                      child: SizedBox(
+                                        width: 30.0,
+                                        height: 30.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                final clans = clanSnapshot.data!;
+
+                                // Compute total rating for each clan using
+                                // the already-fetched user list.
+                                final clansRated = clans.map((clan) {
+                                  double total = 0.0;
+                                  final cap = containerUserRecordList
+                                      .where(
+                                          (u) => u.reference == clan.captain)
+                                      .firstOrNull;
+                                  total += cap?.rate ?? 0.0;
+                                  for (final memberRef in clan.members) {
+                                    final mem = containerUserRecordList
+                                        .where(
+                                            (u) => u.reference == memberRef)
+                                        .firstOrNull;
+                                    total += mem?.rate ?? 0.0;
+                                  }
+                                  return MapEntry(clan, total);
+                                }).toList()
+                                  ..sort((a, b) =>
+                                      b.value.compareTo(a.value));
+
+                                if (clansRated.isEmpty) {
+                                  return Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 40.0, 16.0, 0.0),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.shield_outlined,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          size: 48.0,
+                                        ),
+                                        SizedBox(height: 12.0),
+                                        Text(
+                                          'Кланов пока нет',
+                                          textAlign: TextAlign.center,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                fontSize: 16.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+
+                                return Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 16.0, 16.0, 16.0),
+                                  child: ListView.separated(
+                                    primary: false,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: clansRated.length,
+                                    separatorBuilder: (_, __) =>
+                                        SizedBox(height: 8.0),
+                                    itemBuilder: (context, index) {
+                                      final clan = clansRated[index].key;
+                                      final totalRating =
+                                          clansRated[index].value;
+                                      return InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () {
+                                          context.pushNamed(
+                                            ClanDetailPageWidget.routeName,
+                                            queryParameters: {
+                                              'clanRef': serializeParam(
+                                                clan.reference,
+                                                ParamType.DocumentReference,
+                                              ),
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.all(14.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                // Rank
+                                                SizedBox(
+                                                  width: 28.0,
+                                                  child: Text(
+                                                    '#${index + 1}',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                          fontSize: 13.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontStyle: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                        ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 6.0),
+                                                // Flag image
+                                                Container(
+                                                  width: 48.0,
+                                                  height: 48.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .accent1,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                  ),
+                                                  child: clan.flagImage
+                                                          .isNotEmpty
+                                                      ? ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                          child: Image.network(
+                                                            clan.flagImage,
+                                                            width:
+                                                                double.infinity,
+                                                            height:
+                                                                double.infinity,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        )
+                                                      : Icon(
+                                                          Icons.shield_outlined,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                          size: 22.0,
+                                                        ),
+                                                ),
+                                                SizedBox(width: 12.0),
+                                                // Name and member count
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        clan.name,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .inter(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 14.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle: FlutterFlowTheme
+                                                                      .of(
+                                                                          context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                      ),
+                                                      SizedBox(height: 4.0),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .people_outline_rounded,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryText,
+                                                            size: 13.0,
+                                                          ),
+                                                          SizedBox(width: 3.0),
+                                                          Text(
+                                                            '${clan.members.length + 1}',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .inter(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryText,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                // Total rating
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(0.0,
+                                                                  0.0, 3.0, 0.0),
+                                                      child: Icon(
+                                                        FFIcons.kmedal,
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryText,
+                                                        size: 12.0,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      totalRating
+                                                          .toStringAsFixed(1),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            font: GoogleFonts
+                                                                .inter(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle: FlutterFlowTheme
+                                                                      .of(
+                                                                          context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                            ),
+                                                            fontSize: 14.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),

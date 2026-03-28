@@ -26,6 +26,8 @@ class LeaderboardPageModel extends FlutterFlowModel<LeaderboardPageWidget> {
       playerListLiderbordModels;
   // Model for navbar component.
   late NavbarModel navbarModel;
+  // Tab selection: 0 = Лидерборд, 1 = Кланы.
+  int leaderboardTab = 0;
   // City filter state.
   CityTypeStruct? selectedCity;
   TextEditingController? cityFilterController;

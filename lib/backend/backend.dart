@@ -22,6 +22,7 @@ import 'schema/game_user_record.dart';
 import 'schema/spore_variant_record.dart';
 import 'schema/achievement_record.dart';
 import 'schema/user_achievements_record.dart';
+import 'schema/clan_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -47,6 +48,7 @@ export 'schema/game_user_record.dart';
 export 'schema/spore_variant_record.dart';
 export 'schema/achievement_record.dart';
 export 'schema/user_achievements_record.dart';
+export 'schema/clan_record.dart';
 
 /// Functions to query UserRecords (as a Stream and as a Future).
 Future<int> queryUserRecordCount({
@@ -672,6 +674,43 @@ Future<List<UserAchievementsRecord>> queryUserAchievementsRecordOnce({
     queryCollectionOnce(
       UserAchievementsRecord.collection,
       UserAchievementsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query ClanRecords (as a Stream and as a Future).
+Future<int> queryClanRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      ClanRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<ClanRecord>> queryClanRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      ClanRecord.collection,
+      ClanRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<ClanRecord>> queryClanRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      ClanRecord.collection,
+      ClanRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

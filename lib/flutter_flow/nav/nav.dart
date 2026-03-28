@@ -156,6 +156,23 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => MyGamesPageWidget(),
         ),
         FFRoute(
+          name: ClansPageWidget.routeName,
+          path: ClansPageWidget.routePath,
+          builder: (context, params) => ClansPageWidget(),
+        ),
+        FFRoute(
+          name: ClanDetailPageWidget.routeName,
+          path: ClanDetailPageWidget.routePath,
+          builder: (context, params) => ClanDetailPageWidget(
+            clanRef: params.getParam(
+              'clanRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Clan'],
+            ),
+          ),
+        ),
+        FFRoute(
           name: EditProfilePageWidget.routeName,
           path: EditProfilePageWidget.routePath,
           builder: (context, params) => EditProfilePageWidget(),

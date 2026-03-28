@@ -67,3 +67,6 @@ export '/leaderboard/player_profile_page/player_profile_page_widget.dart'
 export '/chat/dialog_page/dialog_page_widget.dart' show DialogPageWidget;
 export '/leaderboard/share_user_info/share_user_info_widget.dart'
     show ShareUserInfoWidget;
+export '/clans/clans_page/clans_page_widget.dart' show ClansPageWidget;
+export '/clans/clan_detail_page/clan_detail_page_widget.dart'
+    show ClanDetailPageWidget;
