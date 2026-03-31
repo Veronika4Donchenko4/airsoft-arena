@@ -21,6 +21,7 @@ class CreateEditTeamModel extends FlutterFlowModel<CreateEditTeamWidget> {
   ///  Local state fields for this component.
 
   Color? colorSelected;
+  bool allowFreeJoin = false;
 
   ///  State fields for stateful widgets in this component.
 

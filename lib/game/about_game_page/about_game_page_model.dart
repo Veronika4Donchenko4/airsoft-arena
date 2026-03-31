@@ -44,6 +44,8 @@ class AboutGamePageModel extends FlutterFlowModel<AboutGamePageWidget> {
   late GeneralButtomModel generalButtomModel3;
   // Model for general_buttom component.
   late GeneralButtomModel generalButtomModel4;
+  // Model for general_buttom component.
+  late GeneralButtomModel generalButtomModel5;
 
   @override
   void initState(BuildContext context) {
@@ -55,6 +57,7 @@ class AboutGamePageModel extends FlutterFlowModel<AboutGamePageWidget> {
     generalButtomModel2 = createModel(context, () => GeneralButtomModel());
     generalButtomModel3 = createModel(context, () => GeneralButtomModel());
     generalButtomModel4 = createModel(context, () => GeneralButtomModel());
+    generalButtomModel5 = createModel(context, () => GeneralButtomModel());
   }
 
   @override
@@ -66,5 +69,6 @@ class AboutGamePageModel extends FlutterFlowModel<AboutGamePageWidget> {
     generalButtomModel2.dispose();
     generalButtomModel3.dispose();
     generalButtomModel4.dispose();
+    generalButtomModel5.dispose();
   }
 }

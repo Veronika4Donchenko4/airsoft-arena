@@ -61,6 +61,11 @@ class TeamRecord extends FirestoreRecord {
   DocumentReference? get game => _game;
   bool hasGame() => _game != null;
 
+  // "allowFreeJoin" field.
+  bool? _allowFreeJoin;
+  bool get allowFreeJoin => _allowFreeJoin ?? false;
+  bool hasAllowFreeJoin() => _allowFreeJoin != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _color = getSchemaColor(snapshotData['color']);
@@ -74,6 +79,7 @@ class TeamRecord extends FirestoreRecord {
     _applicationList = getDataList(snapshotData['applicationList']);
     _userCaptain = snapshotData['userCaptain'] as DocumentReference?;
     _game = snapshotData['game'] as DocumentReference?;
+    _allowFreeJoin = snapshotData['allowFreeJoin'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -117,6 +123,7 @@ Map<String, dynamic> createTeamRecordData({
   bool? recruitmentOpen,
   DocumentReference? userCaptain,
   DocumentReference? game,
+  bool? allowFreeJoin,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -127,6 +134,7 @@ Map<String, dynamic> createTeamRecordData({
       'recruitmentOpen': recruitmentOpen,
       'userCaptain': userCaptain,
       'game': game,
+      'allowFreeJoin': allowFreeJoin,
     }.withoutNulls,
   );
 
@@ -147,7 +155,8 @@ class TeamRecordDocumentEquality implements Equality<TeamRecord> {
         listEquality.equals(e1?.usersJob, e2?.usersJob) &&
         listEquality.equals(e1?.applicationList, e2?.applicationList) &&
         e1?.userCaptain == e2?.userCaptain &&
-        e1?.game == e2?.game;
+        e1?.game == e2?.game &&
+        e1?.allowFreeJoin == e2?.allowFreeJoin;
   }
 
   @override
@@ -160,7 +169,8 @@ class TeamRecordDocumentEquality implements Equality<TeamRecord> {
         e?.usersJob,
         e?.applicationList,
         e?.userCaptain,
-        e?.game
+        e?.game,
+        e?.allowFreeJoin
       ]);
 
   @override

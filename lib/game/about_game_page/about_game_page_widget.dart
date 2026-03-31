@@ -2055,7 +2055,9 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                       (containerGameRecord.users.length <=
                                           functions.twoIntProduct(
                                               containerGameRecord.playersLimit,
-                                              containerGameRecord.teamLimit)))
+                                              containerGameRecord.teamLimit)) &&
+                                      (containerGameRecord.allowFreeJoin ==
+                                          false))
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 0.0),
@@ -2076,6 +2078,49 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                 ...mapToFirestore(
                                                   {
                                                     'applicationGameList':
+                                                        FieldValue.arrayUnion([
+                                                      currentUserReference
+                                                    ]),
+                                                  },
+                                                ),
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if ((valueOrDefault(
+                                              currentUserDocument?.type, 0) ==
+                                          0) &&
+                                      (containerGameRecord.users
+                                              .contains(currentUserReference) ==
+                                          false) &&
+                                      (containerGameRecord.users.length <
+                                          functions.twoIntProduct(
+                                              containerGameRecord.playersLimit,
+                                              containerGameRecord.teamLimit)) &&
+                                      (containerGameRecord.allowFreeJoin ==
+                                          true))
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 16.0, 0.0),
+                                      child: AuthUserStreamWidget(
+                                        builder: (context) => wrapWithModel(
+                                          model: _model.generalButtomModel5,
+                                          updateCallback: () =>
+                                              safeSetState(() {}),
+                                          child: GeneralButtomWidget(
+                                            title: 'Вступить',
+                                            isActive: true,
+                                            icon: null,
+                                            ignoreIsActive: false,
+                                            onTap: () async {
+                                              await containerGameRecord
+                                                  .reference
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'users':
                                                         FieldValue.arrayUnion([
                                                       currentUserReference
                                                     ]),

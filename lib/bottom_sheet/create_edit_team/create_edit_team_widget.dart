@@ -54,6 +54,7 @@ class _CreateEditTeamWidgetState extends State<CreateEditTeamWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (widget!.teamDoc != null) {
         _model.colorSelected = widget!.teamDoc?.color;
+        _model.allowFreeJoin = widget!.teamDoc?.allowFreeJoin ?? false;
         safeSetState(() {});
       }
     });
@@ -656,6 +657,58 @@ class _CreateEditTeamWidgetState extends State<CreateEditTeamWidget> {
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () {
+                              safeSetState(() {
+                                _model.allowFreeJoin = !_model.allowFreeJoin;
+                              });
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Checkbox(
+                                  value: _model.allowFreeJoin,
+                                  onChanged: (val) {
+                                    safeSetState(() {
+                                      _model.allowFreeJoin = val!;
+                                    });
+                                  },
+                                  side: BorderSide(
+                                    width: 2,
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                  ),
+                                  activeColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                  checkColor:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                ),
+                                Text(
+                                  'Разрешить вступление без заявки',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight: FontWeight.normal,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        letterSpacing: 0.0,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 8.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -696,6 +749,7 @@ class _CreateEditTeamWidgetState extends State<CreateEditTeamWidget> {
                                               .text,
                                           creator: currentUserReference,
                                           recruitmentOpen: false,
+                                          allowFreeJoin: _model.allowFreeJoin,
                                         ));
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -733,6 +787,7 @@ class _CreateEditTeamWidgetState extends State<CreateEditTeamWidget> {
                                             recruitmentOpen: true,
                                             userCaptain: currentUserReference,
                                             game: widget!.gameRef,
+                                            allowFreeJoin: _model.allowFreeJoin,
                                           ),
                                           ...mapToFirestore(
                                             {
@@ -765,6 +820,7 @@ class _CreateEditTeamWidgetState extends State<CreateEditTeamWidget> {
                                             recruitmentOpen: true,
                                             userCaptain: currentUserReference,
                                             game: widget!.gameRef,
+                                            allowFreeJoin: _model.allowFreeJoin,
                                           ),
                                           ...mapToFirestore(
                                             {

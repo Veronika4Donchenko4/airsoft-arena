@@ -81,6 +81,8 @@ class _CreateGamePageWidgetState extends State<CreateGamePageWidget> {
             : '');
     _model.textFieldDescriptionFocusNode5 ??= FocusNode();
 
+    _model.allowFreeJoin = widget!.gameDocument?.allowFreeJoin ?? false;
+
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -2119,6 +2121,59 @@ class _CreateGamePageWidgetState extends State<CreateGamePageWidget> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 8.0, 16.0, 0.0),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  safeSetState(() {
+                                    _model.allowFreeJoin =
+                                        !_model.allowFreeJoin;
+                                  });
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Checkbox(
+                                      value: _model.allowFreeJoin,
+                                      onChanged: (val) {
+                                        safeSetState(() {
+                                          _model.allowFreeJoin = val!;
+                                        });
+                                      },
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
+                                      activeColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                      checkColor: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                    Text(
+                                      'Разрешить вступление без заявки',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
@@ -2223,6 +2278,8 @@ class _CreateGamePageWidgetState extends State<CreateGamePageWidget> {
                                                     .text,
                                                 creator: currentUserReference,
                                                 status: 0,
+                                                allowFreeJoin:
+                                                    _model.allowFreeJoin,
                                               ));
 
                                               context.pushNamed(
@@ -2332,6 +2389,8 @@ class _CreateGamePageWidgetState extends State<CreateGamePageWidget> {
                                                             _model
                                                                 .datePicked2!),
                                                     status: 0,
+                                                    allowFreeJoin:
+                                                        _model.allowFreeJoin,
                                                   ));
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
@@ -2392,6 +2451,8 @@ class _CreateGamePageWidgetState extends State<CreateGamePageWidget> {
                                                                 _model
                                                                     .datePicked2!),
                                                         status: 0,
+                                                        allowFreeJoin:
+                                                            _model.allowFreeJoin,
                                                       ));
                                                   await showDialog(
                                                     barrierColor:

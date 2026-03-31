@@ -108,6 +108,11 @@ class GameRecord extends FirestoreRecord {
   List<DocumentReference> get teamWinner => _teamWinner ?? const [];
   bool hasTeamWinner() => _teamWinner != null;
 
+  // "allowFreeJoin" field.
+  bool? _allowFreeJoin;
+  bool get allowFreeJoin => _allowFreeJoin ?? false;
+  bool hasAllowFreeJoin() => _allowFreeJoin != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _dateTime = snapshotData['dateTime'] as DateTime?;
@@ -127,6 +132,7 @@ class GameRecord extends FirestoreRecord {
     _sporeAboutGame = getDataList(snapshotData['sporeAboutGame']);
     _gameUsers = getDataList(snapshotData['gameUsers']);
     _teamWinner = getDataList(snapshotData['teamWinner']);
+    _allowFreeJoin = snapshotData['allowFreeJoin'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -173,6 +179,7 @@ Map<String, dynamic> createGameRecordData({
   int? roundsLimit,
   String? conditions,
   DocumentReference? creator,
+  bool? allowFreeJoin,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -186,6 +193,7 @@ Map<String, dynamic> createGameRecordData({
       'roundsLimit': roundsLimit,
       'conditions': conditions,
       'creator': creator,
+      'allowFreeJoin': allowFreeJoin,
     }.withoutNulls,
   );
 
@@ -216,7 +224,8 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
             e1?.teamsAcceptedResults, e2?.teamsAcceptedResults) &&
         listEquality.equals(e1?.sporeAboutGame, e2?.sporeAboutGame) &&
         listEquality.equals(e1?.gameUsers, e2?.gameUsers) &&
-        listEquality.equals(e1?.teamWinner, e2?.teamWinner);
+        listEquality.equals(e1?.teamWinner, e2?.teamWinner) &&
+        e1?.allowFreeJoin == e2?.allowFreeJoin;
   }
 
   @override
@@ -238,7 +247,8 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         e?.teamsAcceptedResults,
         e?.sporeAboutGame,
         e?.gameUsers,
-        e?.teamWinner
+        e?.teamWinner,
+        e?.allowFreeJoin
       ]);
 
   @override

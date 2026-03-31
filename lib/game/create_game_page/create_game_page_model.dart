@@ -27,6 +27,7 @@ class CreateGamePageModel extends FlutterFlowModel<CreateGamePageWidget> {
   ///  Local state fields for this page.
 
   CityTypeStruct? citySselect;
+  bool allowFreeJoin = false;
   void updateCitySselectStruct(Function(CityTypeStruct) updateFn) {
     updateFn(citySselect ??= CityTypeStruct());
   }
