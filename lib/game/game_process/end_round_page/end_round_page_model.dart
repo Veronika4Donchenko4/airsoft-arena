@@ -22,6 +22,7 @@ class EndRoundPageModel extends FlutterFlowModel<EndRoundPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   List<GameRecord>? containerPreviousSnapshot;
+  List<GameRoundRecord>? roundsPreviousSnapshot;
   // Models for team_result_item dynamic component.
   late FlutterFlowDynamicModels<TeamResultItemModel> teamResultItemModels;
   // Model for general_buttom component.

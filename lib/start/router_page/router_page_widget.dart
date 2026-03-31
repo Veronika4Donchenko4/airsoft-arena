@@ -146,7 +146,20 @@ class _RouterPageWidgetState extends State<RouterPageWidget> {
                               3) &&
                           (_model.userActivGame!.roundsRefs.length <
                               _model.userActivGame!.roundsLimit)) {
-                        context.pushNamed(ResultRoundPageWidget.routeName);
+                        context.pushNamed(
+                          ResultRoundPageWidget.routeName,
+                          queryParameters: {
+                            'roundRef': serializeParam(
+                              _model.userGameRound
+                                  ?.sortedList(
+                                      keyOf: (e) => e.createdTime!,
+                                      desc: false)
+                                  ?.lastOrNull
+                                  ?.reference,
+                              ParamType.DocumentReference,
+                            ),
+                          },
+                        );
                       } else {
                         if ((_model.userGameRound
                                     ?.sortedList(

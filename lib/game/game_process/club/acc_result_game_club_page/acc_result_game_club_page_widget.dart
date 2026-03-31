@@ -1335,6 +1335,8 @@ class _AccResultGameClubPageWidgetState
                                                                                                               child: EditPlayerWidget(
                                                                                                                 userJob: playerListItem,
                                                                                                                 gameUser: containerGameUserRecordList.where((e) => e.user == playerListItem.user).toList().firstOrNull!,
+                                                                                                                maxKills: containerGameRoundRecordList.length * containerTeamRecordList.where((t) => t.reference != containerTeamRecord.reference).fold<int>(0, (sum, t) => sum + t.usersJob.length),
+                                                                                                                maxDeaths: containerGameRoundRecordList.length,
                                                                                                               ),
                                                                                                             ),
                                                                                                           ),

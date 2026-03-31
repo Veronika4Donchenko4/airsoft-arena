@@ -18,7 +18,12 @@ import 'result_round_page_model.dart';
 export 'result_round_page_model.dart';
 
 class ResultRoundPageWidget extends StatefulWidget {
-  const ResultRoundPageWidget({super.key});
+  const ResultRoundPageWidget({
+    super.key,
+    this.roundRef,
+  });
+
+  final DocumentReference? roundRef;
 
   static String routeName = 'ResultRoundPage';
   static String routePath = '/resultRoundPage';
@@ -150,6 +155,24 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                           List<GameRoundRecord> containerGameRoundRecordList =
                               snapshot.data!;
 
+                          final _sortedRounds = containerGameRoundRecordList
+                              .sortedList(
+                                  keyOf: (e) => e.createdTime!, desc: false);
+                          final currentRound = widget.roundRef != null
+                              ? (_sortedRounds
+                                      .where((r) =>
+                                          r.reference == widget.roundRef)
+                                      .firstOrNull ??
+                                  _sortedRounds.lastOrNull)
+                              : _sortedRounds.lastOrNull;
+                          final currentRoundNumber = currentRound != null
+                              ? _sortedRounds.indexWhere(
+                                      (r) =>
+                                          r.reference ==
+                                          currentRound.reference) +
+                                  1
+                              : 0;
+
                           return Container(
                             decoration: BoxDecoration(),
                             child: StreamBuilder<List<GameRoundUserRecord>>(
@@ -163,14 +186,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                         )
                                         .where(
                                           'roundReference',
-                                          isEqualTo:
-                                              containerGameRoundRecordList
-                                                  .sortedList(
-                                                      keyOf: (e) =>
-                                                          e.createdTime!,
-                                                      desc: false)
-                                                  .lastOrNull
-                                                  ?.reference,
+                                          isEqualTo: currentRound?.reference,
                                         )
                                         .where(
                                           'user',
@@ -257,12 +273,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      if (containerGameRoundRecordList
-                                                              .sortedList(
-                                                                  keyOf: (e) => e
-                                                                      .createdTime!,
-                                                                  desc: false)
-                                                              .lastOrNull
+                                                      if (currentRound
                                                               ?.teamWinner !=
                                                           containerGameRoundUserRecord
                                                               ?.team)
@@ -329,12 +340,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                             ),
                                                           ),
                                                         ),
-                                                      if (containerGameRoundRecordList
-                                                              .sortedList(
-                                                                  keyOf: (e) => e
-                                                                      .createdTime!,
-                                                                  desc: false)
-                                                              .lastOrNull
+                                                      if (currentRound
                                                               ?.teamWinner ==
                                                           containerGameRoundUserRecord
                                                               ?.team)
@@ -412,22 +418,11 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                     ],
                                                   ),
                                                 ),
-                                                if ((containerGameRoundRecordList
-                                                            .sortedList(
-                                                                keyOf: (e) => e
-                                                                    .createdTime!,
-                                                                desc: false)
-                                                            .lastOrNull
-                                                            ?.endDateTime !=
-                                                        null) &&
-                                                    (containerGameRoundRecordList
-                                                            .sortedList(
-                                                                keyOf: (e) => e
-                                                                    .createdTime!,
-                                                                desc: false)
-                                                            .lastOrNull
+                                                if (currentRound?.endDateTime !=
+                                                        null &&
+                                                    currentRound
                                                             ?.startDateTime !=
-                                                        null))
+                                                        null)
                                                   Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
@@ -499,19 +494,9 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                                     valueOrDefault<
                                                                         String>(
                                                                   functions.datesDifferenceEndRound(
-                                                                      containerGameRoundRecordList
-                                                                          .sortedList(
-                                                                              keyOf: (e) => e
-                                                                                  .createdTime!,
-                                                                              desc:
-                                                                                  false)
-                                                                          .lastOrNull!
+                                                                      currentRound!
                                                                           .startDateTime!,
-                                                                      containerGameRoundRecordList
-                                                                          .sortedList(
-                                                                              keyOf: (e) => e.createdTime!,
-                                                                              desc: false)
-                                                                          .lastOrNull!
+                                                                      currentRound!
                                                                           .endDateTime!),
                                                                   '00:00',
                                                                 ),
@@ -654,7 +639,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                             ),
                                                           ),
                                                           Text(
-                                                            'Раунд ${containerGameRecord?.roundsRefs?.length?.toString()} из ${containerGameRecord?.roundsLimit?.toString()}',
+                                                            'Раунд $currentRoundNumber из ${containerGameRecord?.roundsLimit?.toString()}',
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .bodyMedium
@@ -940,7 +925,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                                               )
                                                                               .where(
                                                                                 'roundReference',
-                                                                                isEqualTo: containerGameRoundRecordList.sortedList(keyOf: (e) => e.createdTime!, desc: false).lastOrNull?.reference,
+                                                                                isEqualTo: currentRound?.reference,
                                                                               ),
                                                                         ),
                                                                         builder:

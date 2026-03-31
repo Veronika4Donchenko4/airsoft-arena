@@ -17,9 +17,11 @@ class EditDeathWidget extends StatefulWidget {
   const EditDeathWidget({
     super.key,
     required this.gameUserDoc,
+    required this.maxDeaths,
   });
 
   final GameUserRecord? gameUserDoc;
+  final int maxDeaths;
 
   @override
   State<EditDeathWidget> createState() => _EditDeathWidgetState();
@@ -245,7 +247,7 @@ class _EditDeathWidgetState extends State<EditDeathWidget> {
                                   updateCallback: () => safeSetState(() {}),
                                   child: PlusMinysBottomWidget(
                                     withPlus: true,
-                                    isActiv: true,
+                                    isActiv: _model.deathCounter < widget.maxDeaths,
                                     action: () async {
                                       _model.deathCounter =
                                           _model.deathCounter + 1;

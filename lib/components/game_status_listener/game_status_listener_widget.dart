@@ -129,9 +129,21 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                             ?.lastOrNull
                             ?.status ==
                         3) &&
-                    (_model.userActivGame!.roundsRefs.length <
+                    ((_model.userGameRound?.length ?? 0) <
                         _model.userActivGame!.roundsLimit)) {
-                  context.pushNamed(ResultRoundPageWidget.routeName);
+                  context.pushNamed(
+                    ResultRoundPageWidget.routeName,
+                    queryParameters: {
+                      'roundRef': serializeParam(
+                        _model.userGameRound
+                            ?.sortedList(
+                                keyOf: (e) => e.createdTime!, desc: false)
+                            ?.lastOrNull
+                            ?.reference,
+                        ParamType.DocumentReference,
+                      ),
+                    },
+                  );
                 } else {
                   if ((_model.userGameRound
                               ?.sortedList(
@@ -139,8 +151,8 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                               ?.lastOrNull
                               ?.status ==
                           5) &&
-                      (_model.userActivGame?.roundsRefs?.length ==
-                          _model.userActivGame?.roundsLimit)) {
+                      ((_model.userGameRound?.length ?? 0) ==
+                          (_model.userActivGame?.roundsLimit ?? 0))) {
                     context.goNamed(
                       ResultGamePageWidget.routeName,
                       extra: <String, dynamic>{
@@ -213,7 +225,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                             ?.lastOrNull
                             ?.status ==
                         3) &&
-                    (_model.clubActivGame!.roundsRefs.length <
+                    ((_model.clubGameRound?.length ?? 0) <
                         _model.clubActivGame!.roundsLimit)) {
                   context.pushNamed(ResultRoundGlubPageWidget.routeName);
                 } else {
@@ -223,8 +235,8 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                               ?.lastOrNull
                               ?.status ==
                           5) &&
-                      (_model.clubActivGame?.roundsRefs?.length ==
-                          _model.clubActivGame?.roundsLimit)) {
+                      ((_model.clubGameRound?.length ?? 0) ==
+                          (_model.clubActivGame?.roundsLimit ?? 0))) {
                     if (_model.clubActivGame?.teamsAcceptedResults?.length ==
                         _model.clubActivGame?.teamLimit) {
                       context.goNamed(
@@ -385,6 +397,17 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                             .firstOrNull!.roundsLimit)) {
                                   context.goNamed(
                                     ResultRoundPageWidget.routeName,
+                                    queryParameters: {
+                                      'roundRef': serializeParam(
+                                        containerGameRoundRecordList
+                                            .sortedList(
+                                                keyOf: (e) => e.createdTime!,
+                                                desc: false)
+                                            .lastOrNull
+                                            ?.reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                    },
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
@@ -561,8 +584,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                             .lastOrNull
                                             ?.status ==
                                         3) &&
-                                    (clubGameContainerGameRecordList
-                                            .firstOrNull!.roundsRefs.length <
+                                    (containerGameRoundRecordList.length <
                                         clubGameContainerGameRecordList
                                             .firstOrNull!.roundsLimit)) {
                                   context.goNamed(
@@ -583,10 +605,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                               .lastOrNull
                                               ?.status ==
                                           5) &&
-                                      (clubGameContainerGameRecordList
-                                              .firstOrNull
-                                              ?.roundsRefs
-                                              ?.length ==
+                                      (containerGameRoundRecordList.length ==
                                           clubGameContainerGameRecordList
                                               .firstOrNull?.roundsLimit)) {
                                     if (clubGameContainerGameRecordList

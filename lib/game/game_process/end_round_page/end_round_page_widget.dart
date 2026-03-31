@@ -161,7 +161,36 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                             'game',
                             isEqualTo: containerGameRecord?.reference,
                           ),
-                        ),
+                        )..listen((snapshot) {
+                            if (_model.roundsPreviousSnapshot != null &&
+                                !const ListEquality(
+                                        GameRoundRecordDocumentEquality())
+                                    .equals(snapshot,
+                                        _model.roundsPreviousSnapshot)) {
+                              () async {
+                                final latestRound = snapshot
+                                    .sortedList(
+                                        keyOf: (e) => e.createdTime!,
+                                        desc: false)
+                                    .lastOrNull;
+                                if (latestRound?.status == 1) {
+                                  context.goNamed(
+                                    ProcessRoundPageWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 0),
+                                      ),
+                                    },
+                                  );
+                                }
+                                safeSetState(() {});
+                              }();
+                            }
+                            _model.roundsPreviousSnapshot = snapshot;
+                          }),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
                           if (!snapshot.hasData) {
@@ -1129,8 +1158,23 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                   ignoreIsActive: false,
                                                   onTap: () async {
                                                     context.goNamed(
-                                                        ResultRoundPageWidget
-                                                            .routeName);
+                                                      ResultRoundPageWidget
+                                                          .routeName,
+                                                      queryParameters: {
+                                                        'roundRef':
+                                                            serializeParam(
+                                                          containerGameRoundRecordList
+                                                              .sortedList(
+                                                                  keyOf: (e) =>
+                                                                      e.createdTime!,
+                                                                  desc: false)
+                                                              .lastOrNull
+                                                              ?.reference,
+                                                          ParamType
+                                                              .DocumentReference,
+                                                        ),
+                                                      },
+                                                    );
                                                   },
                                                 ),
                                               ),

@@ -2,14 +2,12 @@ import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/edit_death/edit_death_widget.dart';
 import '/bottom_sheet/edit_kills/edit_kills_widget.dart';
-import '/bottom_sheet/editing_rating/editing_rating_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:webviewx_plus/webviewx_plus.dart';
 import 'edit_player_model.dart';
 export 'edit_player_model.dart';
 
@@ -18,10 +16,14 @@ class EditPlayerWidget extends StatefulWidget {
     super.key,
     this.userJob,
     required this.gameUser,
+    required this.maxKills,
+    required this.maxDeaths,
   });
 
   final UserJobStruct? userJob;
   final GameUserRecord? gameUser;
+  final int maxKills;
+  final int maxDeaths;
 
   @override
   State<EditPlayerWidget> createState() => _EditPlayerWidgetState();
@@ -515,104 +517,11 @@ class _EditPlayerWidgetState extends State<EditPlayerWidget> {
                             enableDrag: false,
                             context: context,
                             builder: (context) {
-                              return WebViewAware(
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: EditingRatingWidget(
-                                    gameUserDoc: widget!.gameUser!,
-                                  ),
-                                ),
-                              );
-                            },
-                          ).then((value) => safeSetState(() {}));
-
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).accent2,
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                12.0, 12.0, 16.0, 12.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Icon(
-                                  FFIcons.kmedal,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 16.0,
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 0.0, 0.0, 0.0),
-                                    child: Text(
-                                      'Редактировать рейтинг',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            font: GoogleFonts.inter(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .fontStyle,
-                                            ),
-                                            fontSize: 15.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  FFIcons.kcaretRight,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 12.0,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          await showModalBottomSheet(
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            barrierColor: FlutterFlowTheme.of(context).overlay,
-                            enableDrag: false,
-                            context: context,
-                            builder: (context) {
-                              return WebViewAware(
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: EditKillsWidget(
-                                    gameUserDoc: widget!.gameUser!,
-                                  ),
+                              return Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: EditKillsWidget(
+                                  gameUserDoc: widget!.gameUser!,
+                                  maxKills: widget!.maxKills,
                                 ),
                               );
                             },
@@ -699,12 +608,11 @@ class _EditPlayerWidgetState extends State<EditPlayerWidget> {
                             enableDrag: false,
                             context: context,
                             builder: (context) {
-                              return WebViewAware(
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: EditDeathWidget(
-                                    gameUserDoc: widget!.gameUser!,
-                                  ),
+                              return Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: EditDeathWidget(
+                                  gameUserDoc: widget!.gameUser!,
+                                  maxDeaths: widget!.maxDeaths,
                                 ),
                               );
                             },
