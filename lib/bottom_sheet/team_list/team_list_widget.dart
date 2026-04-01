@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+import '/bottom_sheet/choose_job/choose_job_widget.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
 import '/dialog/notification/notification_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -597,53 +598,140 @@ class _TeamListWidgetState extends State<TeamListWidget> {
                                                                       false,
                                                                   onTap:
                                                                       () async {
-                                                                    await containerTeamRecord
-                                                                        .reference
-                                                                        .update({
-                                                                      ...mapToFirestore(
-                                                                        {
-                                                                          'applicationList':
-                                                                              FieldValue.arrayUnion([
-                                                                            currentUserReference
-                                                                          ]),
-                                                                        },
-                                                                      ),
-                                                                    });
-                                                                    await showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (dialogContext) {
-                                                                        return Dialog(
-                                                                          elevation:
-                                                                              0,
-                                                                          insetPadding:
-                                                                              EdgeInsets.zero,
-                                                                          backgroundColor:
-                                                                              Colors.transparent,
-                                                                          alignment:
-                                                                              AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
-                                                                          child:
-                                                                              WebViewAware(
-                                                                            child:
-                                                                                NotificationWidget(
-                                                                              title: 'Продолжить',
-                                                                              icon: Icon(
-                                                                                FFIcons.khourglasssimple,
-                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                size: 30.0,
+                                                                    if (containerTeamRecord
+                                                                            .allowFreeJoin ==
+                                                                        true) {
+                                                                      // Free join: let user pick a job, then add directly to team
+                                                                      final selectedJobRef =
+                                                                          await showModalBottomSheet<DocumentReference>(
+                                                                        isScrollControlled: true,
+                                                                        backgroundColor: Colors.transparent,
+                                                                        barrierColor: FlutterFlowTheme.of(context).overlay,
+                                                                        enableDrag: false,
+                                                                        context: context,
+                                                                        builder: (context) {
+                                                                          return WebViewAware(
+                                                                            child: Padding(
+                                                                              padding: MediaQuery.viewInsetsOf(context),
+                                                                              child: ChooseJobWidget(
+                                                                                userJob: createUserJobStruct(
+                                                                                  user: currentUserReference,
+                                                                                  clearUnsetFields: false,
+                                                                                ),
+                                                                                team: containerTeamRecord,
+                                                                                selectOnly: true,
                                                                               ),
-                                                                              color: FlutterFlowTheme.of(context).warning,
-                                                                              mainTttle: 'Заявка отправлена!',
-                                                                              subTitle: 'Ваша заявка на вступление в команду «${containerTeamRecord.name}» отправлена капитану. Ожидайте ответа.',
-                                                                              action: () async {
-                                                                                Navigator.pop(context);
-                                                                              },
                                                                             ),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                    );
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                      if (selectedJobRef == null) {
+                                                                        return;
+                                                                      }
+                                                                      await containerTeamRecord
+                                                                          .reference
+                                                                          .update({
+                                                                        ...mapToFirestore(
+                                                                          {
+                                                                            'usersJob':
+                                                                                FieldValue.arrayUnion([
+                                                                              getUserJobFirestoreData(
+                                                                                createUserJobStruct(
+                                                                                  user: currentUserReference,
+                                                                                  job: selectedJobRef,
+                                                                                  clearUnsetFields: false,
+                                                                                ),
+                                                                                true,
+                                                                              )
+                                                                            ]),
+                                                                          },
+                                                                        ),
+                                                                      });
+                                                                      await showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (dialogContext) {
+                                                                          return Dialog(
+                                                                            elevation:
+                                                                                0,
+                                                                            insetPadding:
+                                                                                EdgeInsets.zero,
+                                                                            backgroundColor:
+                                                                                Colors.transparent,
+                                                                            alignment:
+                                                                                AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                            child:
+                                                                                WebViewAware(
+                                                                              child:
+                                                                                  NotificationWidget(
+                                                                                title: 'Продолжить',
+                                                                                icon: Icon(
+                                                                                  FFIcons.kchecksquare,
+                                                                                  color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                  size: 30.0,
+                                                                                ),
+                                                                                color: FlutterFlowTheme.of(context).success,
+                                                                                mainTttle: 'Вы в команде!',
+                                                                                subTitle: 'Вы успешно присоединились к команде «${containerTeamRecord.name}».',
+                                                                                action: () async {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                    } else {
+                                                                      // Request to join: add to application list
+                                                                      await containerTeamRecord
+                                                                          .reference
+                                                                          .update({
+                                                                        ...mapToFirestore(
+                                                                          {
+                                                                            'applicationList':
+                                                                                FieldValue.arrayUnion([
+                                                                              currentUserReference
+                                                                            ]),
+                                                                          },
+                                                                        ),
+                                                                      });
+                                                                      await showDialog(
+                                                                        context:
+                                                                            context,
+                                                                        builder:
+                                                                            (dialogContext) {
+                                                                          return Dialog(
+                                                                            elevation:
+                                                                                0,
+                                                                            insetPadding:
+                                                                                EdgeInsets.zero,
+                                                                            backgroundColor:
+                                                                                Colors.transparent,
+                                                                            alignment:
+                                                                                AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                            child:
+                                                                                WebViewAware(
+                                                                              child:
+                                                                                  NotificationWidget(
+                                                                                title: 'Продолжить',
+                                                                                icon: Icon(
+                                                                                  FFIcons.khourglasssimple,
+                                                                                  color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                  size: 30.0,
+                                                                                ),
+                                                                                color: FlutterFlowTheme.of(context).warning,
+                                                                                mainTttle: 'Заявка отправлена!',
+                                                                                subTitle: 'Ваша заявка на вступление в команду «${containerTeamRecord.name}» отправлена капитану. Ожидайте ответа.',
+                                                                                action: () async {
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      );
+                                                                    }
 
                                                                     Navigator.pop(
                                                                         context);

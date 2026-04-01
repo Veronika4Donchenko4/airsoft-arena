@@ -17,10 +17,12 @@ class ChooseJobWidget extends StatefulWidget {
     super.key,
     required this.userJob,
     required this.team,
+    this.selectOnly = false,
   });
 
   final UserJobStruct? userJob;
   final TeamRecord? team;
+  final bool selectOnly;
 
   @override
   State<ChooseJobWidget> createState() => _ChooseJobWidgetState();
@@ -154,6 +156,11 @@ class _ChooseJobWidgetState extends State<ChooseJobWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
+                                    if (widget!.selectOnly) {
+                                      Navigator.pop(
+                                          context, jobListItem.reference);
+                                      return;
+                                    }
                                     await widget!.team!.reference.update({
                                       ...mapToFirestore(
                                         {
