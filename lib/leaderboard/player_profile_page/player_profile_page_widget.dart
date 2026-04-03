@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/achievement_item/achievement_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -29,6 +30,7 @@ class PlayerProfilePageWidget extends StatefulWidget {
 
 class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
   late PlayerProfilePageModel _model;
+  int _achievementTabIndex = 0;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -875,26 +877,109 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                       // Achievements section
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 16.0, 0.0, 0.0),
-                        child: Text(
-                          'Достижения:',
-                          textAlign: TextAlign.start,
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                font: GoogleFonts.inter(
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
+                            16.0, 16.0, 16.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Достижения:',
+                              textAlign: TextAlign.start,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    fontSize: 13.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _achievementTabIndex = 0;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 4.0, 8.0, 4.0),
+                                    child: Text(
+                                      'Получено',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 13.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                            color: _achievementTabIndex == 0
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .secondaryText,
+                                          ),
+                                    ),
+                                  ),
                                 ),
-                                fontSize: 13.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .fontStyle,
-                              ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _achievementTabIndex = 1;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 4.0, 0.0, 4.0),
+                                    child: Text(
+                                      'Прогресс',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            font: GoogleFonts.inter(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                            fontSize: 13.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                            color: _achievementTabIndex == 1
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .secondaryText,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                       Align(
@@ -956,6 +1041,63 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                           staggeredViewAchievementRecordList =
                                           snapshot.data!;
 
+                                      final filteredAchievements =
+                                          staggeredViewAchievementRecordList
+                                              .where((achievement) {
+                                        final hasRecord =
+                                            containerUserAchievementsRecordList
+                                                .where((e) =>
+                                                    e.achievement ==
+                                                    achievement.reference)
+                                                .isNotEmpty;
+                                        bool progressMet = false;
+                                        if (!hasRecord) {
+                                          switch (achievement.type) {
+                                            case 0:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument
+                                                          ?.kilss,
+                                                      0) >=
+                                                  achievement.maxKills;
+                                              break;
+                                            case 1:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument
+                                                          ?.gameCount,
+                                                      0) >=
+                                                  achievement.gameCount;
+                                              break;
+                                            case 2:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument?.rate,
+                                                      0.0) >=
+                                                  achievement.rate;
+                                              break;
+                                            case 3:
+                                              progressMet = functions
+                                                      .calculateMaxWinSeries(
+                                                          (currentUserDocument
+                                                                      ?.seriesNoLosess
+                                                                      ?.toList() ??
+                                                                  [])
+                                                              .toList()) >=
+                                                  achievement.winSeries;
+                                              break;
+                                            case 4:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument?.win,
+                                                      0) >=
+                                                  achievement.winsCount;
+                                              break;
+                                          }
+                                        }
+                                        final isCompleted =
+                                            hasRecord || progressMet;
+                                        return _achievementTabIndex == 0
+                                            ? isCompleted
+                                            : !isCompleted;
+                                      }).toList();
+
                                       return MasonryGridView.builder(
                                         gridDelegate:
                                             SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -963,16 +1105,14 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                         ),
                                         crossAxisSpacing: 9.0,
                                         mainAxisSpacing: 4.0,
-                                        itemCount:
-                                            staggeredViewAchievementRecordList
-                                                .length,
+                                        itemCount: filteredAchievements.length,
                                         shrinkWrap: true,
                                         physics:
                                             NeverScrollableScrollPhysics(),
                                         itemBuilder:
                                             (context, staggeredViewIndex) {
                                           final staggeredViewAchievementRecord =
-                                              staggeredViewAchievementRecordList[
+                                              filteredAchievements[
                                                   staggeredViewIndex];
                                           return wrapWithModel(
                                             model: _model.achievementItemModels
