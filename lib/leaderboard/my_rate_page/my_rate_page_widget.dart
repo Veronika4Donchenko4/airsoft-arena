@@ -1262,6 +1262,7 @@ class _MyRatePageWidgetState extends State<MyRatePageWidget> {
                                                   staggeredViewAchievementRecord,
                                               userAchievments:
                                                   containerUserAchievementsRecordList,
+                                              userDoc: currentUserDocument,
                                             ),
                                           );
                                         },

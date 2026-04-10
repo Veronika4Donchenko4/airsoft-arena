@@ -545,6 +545,7 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                           endDateTime: DateTime.now(),
                                                         ));
 
+                                                    if (!mounted) return;
                                                     context.goNamed(
                                                         ResultRoundGlubPageWidget
                                                             .routeName);
@@ -716,6 +717,7 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                           .toList(),
                                                     );
 
+                                                    if (!mounted) return;
                                                     context.goNamed(
                                                         AccResultGameClubPageWidget
                                                             .routeName);

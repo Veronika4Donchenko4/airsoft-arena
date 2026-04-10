@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'game_status_listener_widget.dart' show GameStatusListenerWidget;
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +26,15 @@ class GameStatusListenerModel
   List<GameRoundRecord>? clubGameRound;
   List<GameRoundRecord>? containerPreviousSnapshot1;
   List<GameRoundRecord>? containerPreviousSnapshot2;
+  StreamSubscription<List<GameRoundRecord>>? userGameRoundSubscription;
+  StreamSubscription<List<GameRoundRecord>>? clubGameRoundSubscription;
 
   @override
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {}
+  void dispose() {
+    userGameRoundSubscription?.cancel();
+    clubGameRoundSubscription?.cancel();
+  }
 }

@@ -86,6 +86,7 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                         _model.containerPreviousSnapshot)) {
                   () async {
                     if (containerGameRecord?.reference == null) {
+                      if (!mounted) return;
                       context.goNamed(
                         GamesPageWidget.routeName,
                         extra: <String, dynamic>{
@@ -1314,6 +1315,7 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                                               isActive: true,
                                               ignoreIsActive: false,
                                               onTap: () async {
+                                                if (!mounted) return;
                                                 context.goNamed(
                                                     GamesPageWidget.routeName);
                                               },

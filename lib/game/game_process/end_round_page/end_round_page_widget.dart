@@ -85,6 +85,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                   () async {
                     if (containerGameRecord?.teamsAcceptedResults?.length ==
                         containerGameRecord?.teamLimit) {
+                      if (!mounted) return;
                       context.goNamed(
                         ResultGamePageWidget.routeName,
                         extra: <String, dynamic>{
@@ -174,6 +175,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                         desc: false)
                                     .lastOrNull;
                                 if (latestRound?.status == 1) {
+                                  if (!mounted) return;
                                   context.goNamed(
                                     ProcessRoundPageWidget.routeName,
                                     extra: <String, dynamic>{
@@ -1157,6 +1159,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                   isActive: true,
                                                   ignoreIsActive: false,
                                                   onTap: () async {
+                                                    if (!mounted) return;
                                                     context.goNamed(
                                                       ResultRoundPageWidget
                                                           .routeName,
@@ -1211,6 +1214,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                               ?.teamLimit),
                                                   ignoreIsActive: false,
                                                   onTap: () async {
+                                                    if (!mounted) return;
                                                     context.goNamed(
                                                         ResultGamePageWidget
                                                             .routeName);
@@ -1653,6 +1657,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                               ignoreIsActive:
                                                                   false,
                                                               onTap: () async {
+                                                                if (!mounted) return;
                                                                 context.goNamed(
                                                                     ResultGamePageWidget
                                                                         .routeName);

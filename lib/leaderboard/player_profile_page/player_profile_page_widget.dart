@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/achievement_item/achievement_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -1055,28 +1054,27 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                           switch (achievement.type) {
                                             case 0:
                                               progressMet = valueOrDefault(
-                                                      currentUserDocument
-                                                          ?.kilss,
+                                                      widget.userDoc?.kilss,
                                                       0) >=
                                                   achievement.maxKills;
                                               break;
                                             case 1:
                                               progressMet = valueOrDefault(
-                                                      currentUserDocument
+                                                      widget.userDoc
                                                           ?.gameCount,
                                                       0) >=
                                                   achievement.gameCount;
                                               break;
                                             case 2:
                                               progressMet = valueOrDefault(
-                                                      currentUserDocument?.rate,
+                                                      widget.userDoc?.rate,
                                                       0.0) >=
                                                   achievement.rate;
                                               break;
                                             case 3:
                                               progressMet = functions
                                                       .calculateMaxWinSeries(
-                                                          (currentUserDocument
+                                                          (widget.userDoc
                                                                       ?.seriesNoLosess
                                                                       ?.toList() ??
                                                                   [])
@@ -1085,7 +1083,7 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                               break;
                                             case 4:
                                               progressMet = valueOrDefault(
-                                                      currentUserDocument?.win,
+                                                      widget.userDoc?.win,
                                                       0) >=
                                                   achievement.winsCount;
                                               break;
@@ -1097,6 +1095,53 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                             ? isCompleted
                                             : !isCompleted;
                                       }).toList();
+
+                                      if (filteredAchievements.isEmpty) {
+                                        return Padding(
+                                          padding: EdgeInsets.all(20.0),
+                                          child: Center(
+                                            child: Text(
+                                              _achievementTabIndex == 0
+                                                  ? 'У ${widget.userDoc.displayName} ещё нет достижений, но всё впереди! Посмотрите «Прогресс», чтобы узнать к чему стремится игрок.'
+                                                  : 'Невероятно! ${widget.userDoc.displayName} закрыл все достижения. Смотрите вкладку «Получено».',
+                                              textAlign: TextAlign.center,
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.inter(
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryText,
+                                                    fontSize: 13.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          ),
+                                        );
+                                      }
 
                                       return MasonryGridView.builder(
                                         gridDelegate:
@@ -1131,6 +1176,7 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                                   staggeredViewAchievementRecord,
                                               userAchievments:
                                                   containerUserAchievementsRecordList,
+                                              userDoc: widget.userDoc,
                                             ),
                                           );
                                         },

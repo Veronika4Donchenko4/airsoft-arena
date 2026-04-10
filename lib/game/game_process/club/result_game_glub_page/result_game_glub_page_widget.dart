@@ -1418,6 +1418,7 @@ class _ResultGameGlubPageWidgetState extends State<ResultGameGlubPageWidget> {
                                                       const Duration(
                                                           milliseconds: 1000));
 
+                                                  if (!mounted) return;
                                                   context.goNamed(
                                                     GamesClubPageWidget
                                                         .routeName,

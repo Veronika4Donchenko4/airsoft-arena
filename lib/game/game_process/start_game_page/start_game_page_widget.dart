@@ -147,6 +147,7 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                         .lastOrNull
                                         ?.status ==
                                     1) {
+                                  if (!mounted) return;
                                   context.goNamed(
                                     ProcessRoundPageWidget.routeName,
                                     extra: <String, dynamic>{

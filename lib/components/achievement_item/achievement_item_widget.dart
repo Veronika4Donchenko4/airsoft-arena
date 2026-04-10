@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -16,10 +15,12 @@ class AchievementItemWidget extends StatefulWidget {
     super.key,
     this.achivDoc,
     required this.userAchievments,
+    this.userDoc,
   });
 
   final AchievementRecord? achivDoc;
   final List<UserAchievementsRecord>? userAchievments;
+  final UserRecord? userDoc;
 
   @override
   State<AchievementItemWidget> createState() => _AchievementItemWidgetState();
@@ -77,26 +78,26 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                AuthUserStreamWidget(
+                Builder(
                   builder: (context) {
                     double perc = widget!.achivDoc?.type == 0
                         ? functions.setProgressBarINT(
-                        valueOrDefault(currentUserDocument?.kilss, 0),
+                        valueOrDefault(widget!.userDoc?.kilss, 0),
                         widget!.achivDoc!.maxKills)
                         : (widget!.achivDoc?.type == 1
                         ? functions.setProgressBarINT(
                         valueOrDefault(
-                            currentUserDocument?.gameCount, 0),
+                            widget!.userDoc?.gameCount, 0),
                         widget!.achivDoc!.gameCount)
                         : (widget!.achivDoc?.type == 2
                         ? functions.setProgressBarDouble(
                         valueOrDefault(
-                            currentUserDocument?.rate, 0.0),
+                            widget!.userDoc?.rate, 0.0),
                         widget!.achivDoc!.rate)
                         : (widget!.achivDoc?.type == 3
                         ? functions.setProgressBarINT(
                         functions.calculateMaxWinSeries(
-                            (currentUserDocument?.seriesNoLosess
+                            (widget!.userDoc?.seriesNoLosess
                                 ?.toList() ??
                                 [])
                                 .toList()),
@@ -104,7 +105,7 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                         : (widget!.achivDoc?.type == 4
                         ? functions.setProgressBarINT(
                         valueOrDefault(
-                            currentUserDocument?.win, 0),
+                            widget!.userDoc?.win, 0),
                         widget!.achivDoc!.winsCount)
                         : 0.0))));
 
@@ -112,7 +113,6 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                       perc = 1;
                     }
 
-                    print("asd___${perc}");
                     return CircularPercentIndicator(
                       percent: perc,
                       radius: 32.5,
@@ -205,27 +205,25 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                           ),
                     ),
                   ),
-                  AuthUserStreamWidget(
-                    builder: (context) => Text(
-                      valueOrDefault<String>(
-                        '${widget!.achivDoc?.type == 0 ? valueOrDefault(currentUserDocument?.kilss, 0).toString() : (widget!.achivDoc?.type == 1 ? valueOrDefault(currentUserDocument?.gameCount, 0).toString() : (widget!.achivDoc?.type == 2 ? valueOrDefault(currentUserDocument?.rate, 0.0).toString() : (widget!.achivDoc?.type == 3 ? functions.calculateMaxWinSeries((currentUserDocument?.seriesNoLosess?.toList() ?? []).toList()).toString() : (widget!.achivDoc?.type == 4 ? valueOrDefault(currentUserDocument?.kilss, 0).toString() : ''))))}/${widget!.achivDoc?.type == 0 ? widget!.achivDoc?.maxKills?.toString() : (widget!.achivDoc?.type == 1 ? widget!.achivDoc?.gameCount?.toString() : (widget!.achivDoc?.type == 2 ? widget!.achivDoc?.rate?.toString() : (widget!.achivDoc?.type == 3 ? widget!.achivDoc?.winSeries?.toString() : (widget!.achivDoc?.type == 4 ? widget!.achivDoc?.winsCount?.toString() : ''))))}',
-                        '0',
-                      ),
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                            fontSize: 11.0,
-                            letterSpacing: 0.0,
+                  Text(
+                    valueOrDefault<String>(
+                      '${widget!.achivDoc?.type == 0 ? valueOrDefault(widget!.userDoc?.kilss, 0).toString() : (widget!.achivDoc?.type == 1 ? valueOrDefault(widget!.userDoc?.gameCount, 0).toString() : (widget!.achivDoc?.type == 2 ? valueOrDefault(widget!.userDoc?.rate, 0.0).toString() : (widget!.achivDoc?.type == 3 ? functions.calculateMaxWinSeries((widget!.userDoc?.seriesNoLosess?.toList() ?? []).toList()).toString() : (widget!.achivDoc?.type == 4 ? valueOrDefault(widget!.userDoc?.kilss, 0).toString() : ''))))}/${widget!.achivDoc?.type == 0 ? widget!.achivDoc?.maxKills?.toString() : (widget!.achivDoc?.type == 1 ? widget!.achivDoc?.gameCount?.toString() : (widget!.achivDoc?.type == 2 ? widget!.achivDoc?.rate?.toString() : (widget!.achivDoc?.type == 3 ? widget!.achivDoc?.winSeries?.toString() : (widget!.achivDoc?.type == 4 ? widget!.achivDoc?.winsCount?.toString() : ''))))}',
+                      '0',
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.inter(
                             fontWeight: FontWeight.w600,
                             fontStyle: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .fontStyle,
                           ),
-                    ),
+                          fontSize: 11.0,
+                          letterSpacing: 0.0,
+                          fontWeight: FontWeight.w600,
+                          fontStyle: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontStyle,
+                        ),
                   ),
                 ],
               ),

@@ -10,6 +10,7 @@ import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -136,7 +137,39 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                             'game',
                             isEqualTo: containerGameRecord?.reference,
                           ),
-                        ),
+                        )..listen((snapshot) {
+                            if (_model.roundsPreviousSnapshot != null &&
+                                !const ListEquality(
+                                        GameRoundRecordDocumentEquality())
+                                    .equals(snapshot,
+                                        _model.roundsPreviousSnapshot)) {
+                              () async {
+                                final latestRound = snapshot
+                                    .sortedList(
+                                        keyOf: (e) => e.createdTime!,
+                                        desc: false)
+                                    .lastOrNull;
+                                if (latestRound != null &&
+                                    (latestRound.status == 0 ||
+                                        latestRound.status == 1)) {
+                                  if (!mounted) return;
+                                  context.goNamed(
+                                    ProcessRoundPageWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.fade,
+                                        duration: Duration(milliseconds: 0),
+                                      ),
+                                    },
+                                  );
+                                }
+                                safeSetState(() {});
+                              }();
+                            }
+                            _model.roundsPreviousSnapshot = snapshot;
+                          }),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
                           if (!snapshot.hasData) {
@@ -1250,6 +1283,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                 isActive: true,
                                                 ignoreIsActive: false,
                                                 onTap: () async {
+                                                  if (!mounted) return;
                                                   context.goNamed(
                                                       StartGamePageWidget
                                                           .routeName);

@@ -80,6 +80,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                   ?.lastOrNull
                   ?.status ==
               0) {
+            if (!mounted) return;
             context.goNamed(
               StartGamePageWidget.routeName,
               extra: <String, dynamic>{
@@ -96,6 +97,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                     ?.lastOrNull
                     ?.status ==
                 1) {
+              if (!mounted) return;
               context.goNamed(
                 ProcessRoundPageWidget.routeName,
                 extra: <String, dynamic>{
@@ -112,6 +114,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                       ?.lastOrNull
                       ?.status ==
                   2) {
+                if (!mounted) return;
                 context.goNamed(
                   EndRoundPageWidget.routeName,
                   extra: <String, dynamic>{
@@ -131,6 +134,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                         3) &&
                     ((_model.userGameRound?.length ?? 0) <
                         _model.userActivGame!.roundsLimit)) {
+                  if (!mounted) return;
                   context.pushNamed(
                     ResultRoundPageWidget.routeName,
                     queryParameters: {
@@ -153,6 +157,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                           5) &&
                       ((_model.userGameRound?.length ?? 0) ==
                           (_model.userActivGame?.roundsLimit ?? 0))) {
+                    if (!mounted) return;
                     context.goNamed(
                       ResultGamePageWidget.routeName,
                       extra: <String, dynamic>{
@@ -176,6 +181,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                   ?.lastOrNull
                   ?.status ==
               0) {
+            if (!mounted) return;
             context.goNamed(
               StartGameClubPageWidget.routeName,
               extra: <String, dynamic>{
@@ -192,6 +198,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                     ?.lastOrNull
                     ?.status ==
                 1) {
+              if (!mounted) return;
               context.goNamed(
                 ProcessRoundClubPageWidget.routeName,
                 extra: <String, dynamic>{
@@ -208,6 +215,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                       ?.lastOrNull
                       ?.status ==
                   2) {
+                if (!mounted) return;
                 context.goNamed(
                   EndRoundClubPageWidget.routeName,
                   extra: <String, dynamic>{
@@ -227,6 +235,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                         3) &&
                     ((_model.clubGameRound?.length ?? 0) <
                         _model.clubActivGame!.roundsLimit)) {
+                  if (!mounted) return;
                   context.pushNamed(ResultRoundGlubPageWidget.routeName);
                 } else {
                   if ((_model.clubGameRound
@@ -239,6 +248,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                           (_model.clubActivGame?.roundsLimit ?? 0))) {
                     if (_model.clubActivGame?.teamsAcceptedResults?.length ==
                         _model.clubActivGame?.teamLimit) {
+                      if (!mounted) return;
                       context.goNamed(
                         ResultGameGlubPageWidget.routeName,
                         extra: <String, dynamic>{
@@ -250,6 +260,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                         },
                       );
                     } else {
+                      if (!mounted) return;
                       context.goNamed(
                         AccResultGameClubPageWidget.routeName,
                         extra: <String, dynamic>{
@@ -338,6 +349,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                   .lastOrNull
                                   ?.status ==
                               0) {
+                            if (!mounted) return;
                             context.goNamed(
                               StartPageWidget.routeName,
                               extra: <String, dynamic>{
@@ -356,6 +368,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                     .lastOrNull
                                     ?.status ==
                                 1) {
+                              if (!mounted) return;
                               context.goNamed(
                                 ProcessRoundPageWidget.routeName,
                                 extra: <String, dynamic>{
@@ -374,6 +387,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                       .lastOrNull
                                       ?.status ==
                                   2) {
+                                if (!mounted) return;
                                 context.goNamed(
                                   EndRoundPageWidget.routeName,
                                   extra: <String, dynamic>{
@@ -395,6 +409,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                     (containerGameRoundRecordList.length <
                                         userGameContainerGameRecordList
                                             .firstOrNull!.roundsLimit)) {
+                                  if (!mounted) return;
                                   context.goNamed(
                                     ResultRoundPageWidget.routeName,
                                     queryParameters: {
@@ -427,6 +442,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                       (containerGameRoundRecordList.length ==
                                           userGameContainerGameRecordList
                                               .firstOrNull?.roundsLimit)) {
+                                    if (!mounted) return;
                                     context.goNamed(
                                       ResultGamePageWidget.routeName,
                                       extra: <String, dynamic>{
@@ -530,6 +546,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                   .lastOrNull
                                   ?.status ==
                               0) {
+                            if (!mounted) return;
                             context.goNamed(
                               StartGameClubPageWidget.routeName,
                               extra: <String, dynamic>{
@@ -548,6 +565,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                     .lastOrNull
                                     ?.status ==
                                 1) {
+                              if (!mounted) return;
                               context.goNamed(
                                 ProcessRoundClubPageWidget.routeName,
                                 extra: <String, dynamic>{
@@ -566,6 +584,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                       .lastOrNull
                                       ?.status ==
                                   2) {
+                                if (!mounted) return;
                                 context.goNamed(
                                   EndRoundClubPageWidget.routeName,
                                   extra: <String, dynamic>{
@@ -587,6 +606,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                     (containerGameRoundRecordList.length <
                                         clubGameContainerGameRecordList
                                             .firstOrNull!.roundsLimit)) {
+                                  if (!mounted) return;
                                   context.goNamed(
                                     ResultRoundGlubPageWidget.routeName,
                                     extra: <String, dynamic>{
@@ -614,6 +634,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                             ?.length ==
                                         clubGameContainerGameRecordList
                                             .firstOrNull?.teamLimit) {
+                                      if (!mounted) return;
                                       context.goNamed(
                                         ResultGameGlubPageWidget.routeName,
                                         extra: <String, dynamic>{
@@ -626,6 +647,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                         },
                                       );
                                     } else {
+                                      if (!mounted) return;
                                       context.goNamed(
                                         AccResultGameClubPageWidget.routeName,
                                         extra: <String, dynamic>{

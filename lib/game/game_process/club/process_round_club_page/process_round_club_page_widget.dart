@@ -1297,6 +1297,7 @@ class _ProcessRoundClubPageWidgetState
                                                         _model.userCounter + 1;
                                                   }
 
+                                                  if (!mounted) return;
                                                   context.goNamed(
                                                       EndRoundClubPageWidget
                                                           .routeName);

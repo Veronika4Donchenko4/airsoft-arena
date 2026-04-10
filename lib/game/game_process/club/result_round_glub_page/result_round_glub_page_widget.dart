@@ -1337,6 +1337,7 @@ class _ResultRoundGlubPageWidgetState extends State<ResultRoundGlubPageWidget> {
                                                     ),
                                                   });
 
+                                                  if (!mounted) return;
                                                   context.goNamed(
                                                       StartGameClubPageWidget
                                                           .routeName);

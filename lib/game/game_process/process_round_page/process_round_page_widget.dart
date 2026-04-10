@@ -113,12 +113,59 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                               .equals(containerGameRoundRecordList,
                                   _model.containerPreviousSnapshot)) {
                         () async {
+                          // Auto-detect round winner
+                          try {
+                            final currentRound = containerGameRoundRecordList
+                                .sortedList(
+                                    keyOf: (e) => e.createdTime!, desc: false)
+                                .lastOrNull;
+                            if (currentRound != null &&
+                                currentRound.status != 2) {
+                              final roundUsers =
+                                  await queryGameRoundUserRecordOnce(
+                                queryBuilder: (q) => q.where(
+                                  'roundReference',
+                                  isEqualTo: currentRound.reference,
+                                ),
+                              );
+                              final teamPlayers =
+                                  <DocumentReference, List<GameRoundUserRecord>>{};
+                              for (final player in roundUsers) {
+                                if (player.team != null) {
+                                  teamPlayers
+                                      .putIfAbsent(player.team!, () => [])
+                                      .add(player);
+                                }
+                              }
+                              if (teamPlayers.length == 2) {
+                                final allDeadTeams = teamPlayers.entries
+                                    .where((e) =>
+                                        e.value.every((p) => p.isDead))
+                                    .toList();
+                                final aliveTeams = teamPlayers.entries
+                                    .where((e) =>
+                                        e.value.any((p) => !p.isDead))
+                                    .toList();
+                                if (allDeadTeams.length == 1 &&
+                                    aliveTeams.length == 1) {
+                                  await currentRound.reference.update(
+                                      createGameRoundRecordData(
+                                    teamWinner: aliveTeams.first.key,
+                                    status: 2,
+                                    endDateTime: getCurrentTimestamp,
+                                  ));
+                                }
+                              }
+                            }
+                          } catch (_) {}
+
                           if (containerGameRoundRecordList
                                   .sortedList(
                                       keyOf: (e) => e.createdTime!, desc: false)
                                   .lastOrNull
                                   ?.status ==
                               2) {
+                            if (!mounted) return;
                             context.goNamed(
                               EndRoundPageWidget.routeName,
                               extra: <String, dynamic>{

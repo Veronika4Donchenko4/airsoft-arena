@@ -1172,6 +1172,7 @@ class _StartGameClubPageWidgetState extends State<StartGameClubPageWidget> {
                                                               getCurrentTimestamp,
                                                         ));
 
+                                                    if (!mounted) return;
                                                     context.goNamed(
                                                       ProcessRoundClubPageWidget
                                                           .routeName,

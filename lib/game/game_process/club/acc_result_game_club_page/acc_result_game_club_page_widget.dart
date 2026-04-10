@@ -1435,6 +1435,7 @@ class _AccResultGameClubPageWidgetState
                                                     ),
                                                   });
 
+                                                  if (!mounted) return;
                                                   context.goNamed(
                                                       ResultGameGlubPageWidget
                                                           .routeName);
@@ -1471,6 +1472,7 @@ class _AccResultGameClubPageWidgetState
                                                   ),
                                                 });
 
+                                                if (!mounted) return;
                                                 context.goNamed(
                                                     ResultGameGlubPageWidget
                                                         .routeName);
