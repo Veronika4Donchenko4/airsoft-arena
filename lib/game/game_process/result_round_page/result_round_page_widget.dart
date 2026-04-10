@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
+import '/bottom_sheet/edit_round_kills/edit_round_kills_widget.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
 import '/components/switch_item/switch_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'result_round_page_model.dart';
 export 'result_round_page_model.dart';
 
@@ -1238,6 +1240,44 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                                                         ],
                                                                                       ),
                                                                                     ),
+                                                                                    if (currentRound?.teamWinner == containerTeamRecord.reference &&
+                                                                                        containerTeamRecord.userCaptain == currentUserReference)
+                                                                                      InkWell(
+                                                                                        splashColor: Colors.transparent,
+                                                                                        focusColor: Colors.transparent,
+                                                                                        hoverColor: Colors.transparent,
+                                                                                        highlightColor: Colors.transparent,
+                                                                                        onTap: () async {
+                                                                                          final playerRoundUser = containerGameRoundUserRecordList.where((e) => e.user == userListItem.user).toList().firstOrNull;
+                                                                                          if (playerRoundUser == null) return;
+                                                                                          await showModalBottomSheet(
+                                                                                            isScrollControlled: true,
+                                                                                            backgroundColor: Colors.transparent,
+                                                                                            barrierColor: FlutterFlowTheme.of(context).overlay,
+                                                                                            enableDrag: false,
+                                                                                            context: context,
+                                                                                            builder: (context) {
+                                                                                              return WebViewAware(
+                                                                                                child: Padding(
+                                                                                                  padding: MediaQuery.viewInsetsOf(context),
+                                                                                                  child: EditRoundKillsWidget(
+                                                                                                    gameRoundUserDoc: playerRoundUser,
+                                                                                                    maxKills: containerTeamRecordList.where((t) => t.reference != containerTeamRecord.reference).fold<int>(0, (sum, t) => sum + t.usersJob.length),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              );
+                                                                                            },
+                                                                                          ).then((value) => safeSetState(() {}));
+                                                                                        },
+                                                                                        child: Padding(
+                                                                                          padding: EdgeInsetsDirectional.fromSTEB(4.0, 0.0, 0.0, 0.0),
+                                                                                          child: Icon(
+                                                                                            Icons.more_horiz,
+                                                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                                                            size: 20.0,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
                                                                                   ],
                                                                                 ),
                                                                                 Container(
