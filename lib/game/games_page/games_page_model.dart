@@ -17,12 +17,21 @@ import 'package:provider/provider.dart';
 class GamesPageModel extends FlutterFlowModel<GamesPageWidget> {
   ///  State fields for stateful widgets in this page.
 
+  // Tab toggle: 0 = games, 1 = clubs
+  int selectedTab = 0;
+
   // Models for game_item dynamic component.
   late FlutterFlowDynamicModels<GameItemModel> gameItemModels;
   // Model for gameStatusListener component.
   late GameStatusListenerModel gameStatusListenerModel;
   // Model for navbar component.
   late NavbarModel navbarModel;
+
+  // Club search controllers.
+  FocusNode? clubSearchFocusNode;
+  TextEditingController? clubSearchController;
+  FocusNode? clubCityFocusNode;
+  TextEditingController? clubCityController;
 
   @override
   void initState(BuildContext context) {
@@ -37,5 +46,9 @@ class GamesPageModel extends FlutterFlowModel<GamesPageWidget> {
     gameItemModels.dispose();
     gameStatusListenerModel.dispose();
     navbarModel.dispose();
+    clubSearchFocusNode?.dispose();
+    clubSearchController?.dispose();
+    clubCityFocusNode?.dispose();
+    clubCityController?.dispose();
   }
 }
