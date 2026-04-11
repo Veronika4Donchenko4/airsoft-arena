@@ -142,7 +142,7 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                               () async {
                                 if (containerGameRoundRecordList
                                         .sortedList(
-                                            keyOf: (e) => e.createdTime!,
+                                            keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                             desc: false)
                                         .lastOrNull
                                         ?.status ==
@@ -204,7 +204,7 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                               containerGameRoundRecordList
                                                   .sortedList(
                                                       keyOf: (e) =>
-                                                          e.createdTime!,
+                                                          e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                       desc: false)
                                                   .lastOrNull
                                                   ?.reference,
@@ -260,7 +260,7 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                                     containerGameRoundRecordList
                                                         .sortedList(
                                                             keyOf: (e) =>
-                                                                e.createdTime!,
+                                                                e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                             desc: false)
                                                         .lastOrNull
                                                         ?.reference,

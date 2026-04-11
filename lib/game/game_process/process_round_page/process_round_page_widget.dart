@@ -30,6 +30,10 @@ class ProcessRoundPageWidget extends StatefulWidget {
 
 class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
   late ProcessRoundPageModel _model;
+  bool _showWinOverlay = false;
+  bool _isNavigatingAfterOverlay = false;
+  bool _autoWinTriggered = false;
+  bool _isWinnerOverlay = false;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -58,9 +62,11 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: SafeArea(
-          top: true,
-          child: StreamBuilder<List<GameRecord>>(
+        body: Stack(
+          children: [
+            SafeArea(
+              top: true,
+              child: StreamBuilder<List<GameRecord>>(
             stream: queryGameRecord(
               queryBuilder: (gameRecord) => gameRecord
                   .where(
@@ -117,7 +123,7 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                           try {
                             final currentRound = containerGameRoundRecordList
                                 .sortedList(
-                                    keyOf: (e) => e.createdTime!, desc: false)
+                                    keyOf: (e) => e.createdTime ?? DateTime(0), desc: false)
                                 .lastOrNull;
                             if (currentRound != null &&
                                 currentRound.status != 2) {
@@ -148,34 +154,116 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                     .toList();
                                 if (allDeadTeams.length == 1 &&
                                     aliveTeams.length == 1) {
+                                  // Determine if current user won
+                                  final myRoundUser = roundUsers
+                                      .where((p) =>
+                                          p.user == currentUserReference)
+                                      .firstOrNull;
+                                  final isWinner = myRoundUser?.team ==
+                                      aliveTeams.first.key;
+                                  final winnerTeamRef =
+                                      aliveTeams.first.key;
+
+                                  _isWinnerOverlay = isWinner;
+
+                                  // Winner gets 5s to adjust kills before overlay
+                                  if (isWinner) {
+                                    await Future.delayed(
+                                        Duration(seconds: 5));
+                                  }
+
+                                  if (mounted) {
+                                    setState(() {
+                                      _showWinOverlay = true;
+                                    });
+                                  }
+
+                                  await Future.delayed(
+                                      Duration(seconds: 2));
+
+                                  // Update Firestore after overlay
+                                  _isNavigatingAfterOverlay = true;
                                   await currentRound.reference.update(
                                       createGameRoundRecordData(
-                                    teamWinner: aliveTeams.first.key,
+                                    teamWinner: winnerTeamRef,
                                     status: 2,
                                     endDateTime: getCurrentTimestamp,
                                   ));
+
+                                  if (!mounted) return;
+                                  context.goNamed(
+                                    EndRoundPageWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType:
+                                            PageTransitionType.fade,
+                                        duration:
+                                            Duration(milliseconds: 0),
+                                      ),
+                                    },
+                                  );
+                                  return;
                                 }
                               }
                             }
-                          } catch (_) {}
+                          } catch (e) {
+                            debugPrint('Auto-win detection error: $e');
+                          }
 
-                          if (containerGameRoundRecordList
-                                  .sortedList(
-                                      keyOf: (e) => e.createdTime!, desc: false)
-                                  .lastOrNull
-                                  ?.status ==
-                              2) {
-                            if (!mounted) return;
-                            context.goNamed(
-                              EndRoundPageWidget.routeName,
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                  duration: Duration(milliseconds: 0),
-                                ),
-                              },
-                            );
+                          try {
+                            final lastRoundForStatus = containerGameRoundRecordList
+                                    .sortedList(
+                                        keyOf: (e) => e.createdTime ?? DateTime(0), desc: false)
+                                    .lastOrNull;
+                            if (lastRoundForStatus?.status == 2) {
+                              // Skip if overlay is active or we're navigating from overlay
+                              if (_showWinOverlay || _isNavigatingAfterOverlay) return;
+
+                              // Show overlay if teamWinner is set (club ended round with a winner)
+                              if (lastRoundForStatus?.teamWinner != null) {
+                                _isNavigatingAfterOverlay = true;
+                                try {
+                                  final roundUsers =
+                                      await queryGameRoundUserRecordOnce(
+                                    queryBuilder: (q) => q.where(
+                                      'roundReference',
+                                      isEqualTo: lastRoundForStatus?.reference,
+                                    ),
+                                  );
+                                  final myRoundUser = roundUsers
+                                      .where((p) => p.user == currentUserReference)
+                                      .firstOrNull;
+                                  final isWinner = myRoundUser?.team ==
+                                      lastRoundForStatus?.teamWinner;
+
+                                  _isWinnerOverlay = isWinner;
+
+                                  if (mounted) {
+                                    setState(() {
+                                      _showWinOverlay = true;
+                                    });
+                                  }
+                                  await Future.delayed(Duration(seconds: 2));
+                                } catch (e) {
+                                  debugPrint('Status==2 overlay error: $e');
+                                }
+                              }
+
+                              if (!mounted) return;
+                              context.goNamed(
+                                EndRoundPageWidget.routeName,
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                    duration: Duration(milliseconds: 0),
+                                  ),
+                                },
+                              );
+                            }
+                          } catch (e) {
+                            debugPrint('Status check error: $e');
                           }
 
                           safeSetState(() {});
@@ -219,7 +307,7 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                     'roundReference',
                                     isEqualTo: containerGameRoundRecordList
                                         .sortedList(
-                                            keyOf: (e) => e.createdTime!,
+                                            keyOf: (e) => e.createdTime ?? DateTime(0),
                                             desc: false)
                                         .lastOrNull
                                         ?.reference,
@@ -266,12 +354,104 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                         containerGameRoundRecordList
                                             .sortedList(
                                                 keyOf: (e) =>
-                                                    e.createdTime!,
+                                                    e.createdTime ?? DateTime(0),
                                                 desc: false)
                                             .lastOrNull
                                             ?.reference,
                                   ),
-                            ),
+                            )..listen((allPlayers) async {
+                                if (_autoWinTriggered ||
+                                    _showWinOverlay ||
+                                    _isNavigatingAfterOverlay) return;
+                                try {
+                                  final currentRound =
+                                      containerGameRoundRecordList
+                                          .sortedList(
+                                              keyOf: (e) => e.createdTime ?? DateTime(0),
+                                              desc: false)
+                                          .lastOrNull;
+                                  if (currentRound == null ||
+                                      currentRound.status == 2) return;
+
+                                  final teamPlayers =
+                                      <DocumentReference,
+                                          List<GameRoundUserRecord>>{};
+                                  for (final player in allPlayers) {
+                                    if (player.team != null) {
+                                      teamPlayers
+                                          .putIfAbsent(
+                                              player.team!, () => [])
+                                          .add(player);
+                                    }
+                                  }
+                                  if (teamPlayers.length != 2) return;
+
+                                  final allDeadTeams = teamPlayers.entries
+                                      .where((e) =>
+                                          e.value.every((p) => p.isDead))
+                                      .toList();
+                                  final aliveTeams = teamPlayers.entries
+                                      .where((e) =>
+                                          e.value.any((p) => !p.isDead))
+                                      .toList();
+
+                                  if (allDeadTeams.length == 1 &&
+                                      aliveTeams.length == 1) {
+                                    _autoWinTriggered = true;
+                                    final myRoundUser = allPlayers
+                                        .where((p) =>
+                                            p.user ==
+                                            currentUserReference)
+                                        .firstOrNull;
+                                    final isWinner = myRoundUser?.team ==
+                                        aliveTeams.first.key;
+                                    final winnerTeamRef =
+                                        aliveTeams.first.key;
+
+                                    _isWinnerOverlay = isWinner;
+
+                                    // Winner gets 5s to adjust kills before overlay
+                                    if (isWinner) {
+                                      await Future.delayed(
+                                          Duration(seconds: 5));
+                                    }
+
+                                    if (mounted) {
+                                      setState(() {
+                                        _showWinOverlay = true;
+                                      });
+                                    }
+
+                                    await Future.delayed(
+                                        Duration(seconds: 2));
+
+                                    _isNavigatingAfterOverlay = true;
+                                    await currentRound.reference.update(
+                                        createGameRoundRecordData(
+                                      teamWinner: winnerTeamRef,
+                                      status: 2,
+                                      endDateTime: getCurrentTimestamp,
+                                    ));
+
+                                    if (!mounted) return;
+                                    context.goNamed(
+                                      EndRoundPageWidget.routeName,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey:
+                                            TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                          duration: Duration(
+                                              milliseconds: 0),
+                                        ),
+                                      },
+                                    );
+                                  }
+                                } catch (e) {
+                                  debugPrint('Auto-win listener error: $e');
+                                }
+                              }),
                             builder: (context, allRoundSnapshot) {
                               final allRoundUsers =
                                   allRoundSnapshot.data ?? [];
@@ -418,7 +598,7 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
                                                           containerGameRoundRecordList
                                                               .sortedList(
                                                                   keyOf: (e) =>
-                                                                      e.createdTime!,
+                                                                      e.createdTime ?? DateTime(0),
                                                                   desc: false)
                                                               .lastOrNull!
                                                               .startDateTime!,
@@ -736,6 +916,47 @@ class _ProcessRoundPageWidgetState extends State<ProcessRoundPageWidget> {
               );
             },
           ),
+        ),
+            if (_showWinOverlay)
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.black.withOpacity(0.85),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      _isWinnerOverlay
+                          ? FFIcons.ktrophy
+                          : FFIcons.kskull,
+                      color: _isWinnerOverlay
+                          ? FlutterFlowTheme.of(context).success
+                          : FlutterFlowTheme.of(context).error,
+                      size: 48.0,
+                    ),
+                    SizedBox(width: 12.0),
+                    Text(
+                      _isWinnerOverlay ? 'ПОБЕДА' : 'ПОРАЖЕНИЕ',
+                      style: FlutterFlowTheme.of(context)
+                          .bodyMedium
+                          .override(
+                            font: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            color: _isWinnerOverlay
+                                ? FlutterFlowTheme.of(context).success
+                                : FlutterFlowTheme.of(context).error,
+                            fontSize: 36.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
         ),
       ),
     );
