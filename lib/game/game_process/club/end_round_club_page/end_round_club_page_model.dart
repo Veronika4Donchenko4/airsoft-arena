@@ -43,8 +43,6 @@ class EndRoundClubPageModel extends FlutterFlowModel<EndRoundClubPageWidget> {
   late GeneralButtomModel generalButtomModel1;
   // Model for general_buttom component.
   late GeneralButtomModel generalButtomModel2;
-  // Model for general_buttom component.
-  late GeneralButtomModel generalButtomModel3;
   // Stores action output result for [Backend Call - Create Document] action in general_buttom widget.
   GameUserRecord? gameUserSaved;
   // Stores action output result for [Custom Action - calculateGameWinners] action in general_buttom widget.
@@ -58,7 +56,6 @@ class EndRoundClubPageModel extends FlutterFlowModel<EndRoundClubPageWidget> {
         FlutterFlowDynamicModels(() => TeamResultItemModel());
     generalButtomModel1 = createModel(context, () => GeneralButtomModel());
     generalButtomModel2 = createModel(context, () => GeneralButtomModel());
-    generalButtomModel3 = createModel(context, () => GeneralButtomModel());
   }
 
   @override
@@ -66,6 +63,5 @@ class EndRoundClubPageModel extends FlutterFlowModel<EndRoundClubPageWidget> {
     teamResultItemModels.dispose();
     generalButtomModel1.dispose();
     generalButtomModel2.dispose();
-    generalButtomModel3.dispose();
   }
 }

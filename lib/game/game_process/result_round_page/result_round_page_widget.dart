@@ -7,7 +7,6 @@ import '/components/switch_item/switch_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:async';
 import 'dart:ui';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
@@ -38,8 +37,6 @@ class ResultRoundPageWidget extends StatefulWidget {
 
 class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
   late ResultRoundPageModel _model;
-  bool _navigatingToGameResult = false;
-  StreamSubscription<List<GameRecord>>? _earlyEndSub;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -48,39 +45,11 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
     super.initState();
     _model = createModel(context, () => ResultRoundPageModel());
 
-    _earlyEndSub = queryGameRecord(
-      queryBuilder: (gameRecord) => gameRecord
-          .where('status', isEqualTo: 3)
-          .where('users', arrayContains: currentUserReference),
-      singleRecord: true,
-    ).listen((snapshot) {
-      try {
-        if (_navigatingToGameResult) return;
-        if (snapshot.isNotEmpty) {
-          _navigatingToGameResult = true;
-          if (!mounted) return;
-          context.goNamed(
-            ResultGamePageWidget.routeName,
-            extra: <String, dynamic>{
-              kTransitionInfoKey: TransitionInfo(
-                hasTransition: true,
-                transitionType: PageTransitionType.fade,
-                duration: Duration(milliseconds: 0),
-              ),
-            },
-          );
-        }
-      } catch (e) {
-        debugPrint('Early end listener error: $e');
-      }
-    });
-
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
   void dispose() {
-    _earlyEndSub?.cancel();
     _model.dispose();
 
     super.dispose();
