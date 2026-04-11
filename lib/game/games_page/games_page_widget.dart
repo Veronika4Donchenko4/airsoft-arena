@@ -2,12 +2,14 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/game_item/game_item_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
+import '/game/club_profile_page/club_profile_page_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/components/zero_item/zero_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:ui';
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -553,7 +555,32 @@ class _GamesPageWidgetState extends State<GamesPageWidget> {
                                       padding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               16.0, 0.0, 16.0, 0.0),
-                                      child: Container(
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                            ClubProfilePageWidget.routeName,
+                                            queryParameters: {
+                                              'clubDoc': serializeParam(
+                                                club,
+                                                ParamType.Document,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              'clubDoc': club,
+                                              kTransitionInfoKey:
+                                                  TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType.fade,
+                                              ),
+                                            },
+                                          );
+                                        },
+                                        child: Container(
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(
                                                   context)
@@ -720,6 +747,7 @@ class _GamesPageWidgetState extends State<GamesPageWidget> {
                                             ),
                                           ],
                                         ),
+                                      ),
                                       ),
                                     );
                                   },

@@ -378,6 +378,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
+          name: ClubProfilePageWidget.routeName,
+          path: ClubProfilePageWidget.routePath,
+          asyncParams: {
+            'clubDoc': getDoc(['User'], UserRecord.fromSnapshot),
+          },
+          builder: (context, params) => ClubProfilePageWidget(
+            clubDoc: params.getParam(
+              'clubDoc',
+              ParamType.Document,
+            )!,
+          ),
+        ),
+        FFRoute(
           name: DialogPageWidget.routeName,
           path: DialogPageWidget.routePath,
           builder: (context, params) => DialogPageWidget(

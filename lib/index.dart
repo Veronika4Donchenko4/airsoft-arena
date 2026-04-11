@@ -70,3 +70,5 @@ export '/leaderboard/share_user_info/share_user_info_widget.dart'
 export '/clans/clans_page/clans_page_widget.dart' show ClansPageWidget;
 export '/clans/clan_detail_page/clan_detail_page_widget.dart'
     show ClanDetailPageWidget;
+export '/game/club_profile_page/club_profile_page_widget.dart'
+    show ClubProfilePageWidget;
