@@ -71,7 +71,7 @@ class _AccResultGameClubPageWidgetState
               queryBuilder: (gameRecord) => gameRecord
                   .where(
                     'status',
-                    isEqualTo: 2,
+                    whereIn: [2, 3],
                   )
                   .where(
                     'creator',

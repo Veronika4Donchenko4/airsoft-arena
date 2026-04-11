@@ -861,6 +861,7 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                     },
                                                   );
                                                   if (confirmed != true) return;
+                                                  final router = GoRouter.of(context);
 
                                                   // Save game statistics (same as "Перейти к окончанию игры")
                                                   while (
@@ -967,12 +968,10 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                         .toList(),
                                                   );
 
+                                                  // Save stats without changing status (to avoid grey screen)
                                                   await containerGameRecord!
                                                       .reference
                                                       .update({
-                                                    ...createGameRecordData(
-                                                      status: 3,
-                                                    ),
                                                     ...mapToFirestore(
                                                       {
                                                         'gameUsers': _model
@@ -1012,10 +1011,23 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                         .toList(),
                                                   );
 
-                                                  if (!mounted) return;
-                                                  context.goNamed(
-                                                      AccResultGameClubPageWidget
-                                                          .routeName);
+                                                  // Set status: 3 after all saves, then navigate immediately
+                                                  // This triggers player redirect via game_status_listener
+                                                  await containerGameRecord!
+                                                      .reference
+                                                      .update(createGameRecordData(
+                                                    status: 3,
+                                                  ));
+
+                                                  try {
+                                                    if (mounted) {
+                                                      router.goNamed(
+                                                          AccResultGameClubPageWidget
+                                                              .routeName);
+                                                    }
+                                                  } catch (e) {
+                                                    debugPrint('Navigation error: $e');
+                                                  }
 
                                                   safeSetState(() {});
                                                 },
