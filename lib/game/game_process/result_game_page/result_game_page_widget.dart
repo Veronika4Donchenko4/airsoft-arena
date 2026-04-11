@@ -347,19 +347,19 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                                                                 containerGameRoundRecordList
                                                                     .sortedList(
                                                                         keyOf: (e) => e
-                                                                            .createdTime!,
+                                                                            .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                         desc:
                                                                             false)
-                                                                    .firstOrNull!
-                                                                    .startDateTime!,
+                                                                    .firstOrNull
+                                                                    ?.startDateTime ?? DateTime.now(),
                                                                 containerGameRoundRecordList
                                                                     .sortedList(
                                                                         keyOf: (e) => e
-                                                                            .createdTime!,
+                                                                            .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                         desc:
                                                                             false)
-                                                                    .lastOrNull!
-                                                                    .endDateTime!),
+                                                                    .lastOrNull
+                                                                    ?.endDateTime ?? DateTime.now()),
                                                             '00:00',
                                                           ),
                                                           style: TextStyle(),
