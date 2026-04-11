@@ -726,6 +726,362 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                   },
                                                 ),
                                               ),
+                                            if (containerGameRecord!
+                                                        .roundsRefs.length <=
+                                                    containerGameRecord!
+                                                        .roundsLimit &&
+                                                currentUserReference ==
+                                                    containerGameRecord
+                                                        ?.creator)
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 8.0, 0.0, 0.0),
+                                                child: wrapWithModel(
+                                                  model: _model
+                                                      .generalButtomModel3,
+                                                  updateCallback: () =>
+                                                      safeSetState(() {}),
+                                                  child: GeneralButtomWidget(
+                                                    title: '+1 раунд',
+                                                    isActive: false,
+                                                    ignoreIsActive: true,
+                                                    onTap: () async {
+                                                      await containerGameRecord!
+                                                          .reference
+                                                          .update(
+                                                              createGameRecordData(
+                                                        roundsLimit:
+                                                            containerGameRecord!
+                                                                    .roundsLimit +
+                                                                1,
+                                                      ));
+                                                      if (!mounted) return;
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'Раунд добавлен',
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .primaryText,
+                                                              fontSize: 13.0,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  1550),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .success,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            if (currentUserReference ==
+                                                    containerGameRecord
+                                                        ?.creator)
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 8.0, 0.0, 0.0),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    final confirmed =
+                                                        await showDialog<bool>(
+                                                      context: context,
+                                                      builder: (dialogContext) {
+                                                        return AlertDialog(
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .secondaryBackground,
+                                                          title: Text(
+                                                            'Завершить игру',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .headlineSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                          ),
+                                                          content: Text(
+                                                            'Вы уверены? Игра будет завершена досрочно.',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .inter(),
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                          ),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      dialogContext,
+                                                                      false),
+                                                              child: Text(
+                                                                'Отмена',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .inter(),
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      dialogContext,
+                                                                      true),
+                                                              child: Text(
+                                                                'Завершить',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .inter(),
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .error,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                    if (confirmed != true)
+                                                      return;
+
+                                                    // Save game statistics for each user
+                                                    while (
+                                                        _model.userSaveCounter <
+                                                            containerGameRecord!
+                                                                .users.length) {
+                                                      var gameUserRecordReference =
+                                                          GameUserRecord
+                                                              .collection
+                                                              .doc();
+                                                      await gameUserRecordReference
+                                                          .set(
+                                                              createGameUserRecordData(
+                                                        game:
+                                                            containerGameRecord
+                                                                ?.reference,
+                                                        user: containerGameRecord
+                                                            ?.users
+                                                            ?.elementAtOrNull(_model
+                                                                .userSaveCounter),
+                                                        kills: functions.calculateGameUserKills(
+                                                            containerGameRoundUserRecordList
+                                                                .where((e) =>
+                                                                    e.user ==
+                                                                    (containerGameRecord
+                                                                        ?.users
+                                                                        ?.elementAtOrNull(
+                                                                            _model.userSaveCounter)))
+                                                                .toList()),
+                                                        rating: functions.calculateGameUserRating(
+                                                            containerGameRoundUserRecordList
+                                                                .where((e) =>
+                                                                    e.user ==
+                                                                    (containerGameRecord
+                                                                        ?.users
+                                                                        ?.elementAtOrNull(
+                                                                            _model.userSaveCounter)))
+                                                                .toList()),
+                                                        team: functions.getTeamIBelongsReference(
+                                                            containerGameRecord!
+                                                                .users
+                                                                .elementAtOrNull(
+                                                                    _model
+                                                                        .userSaveCounter)!,
+                                                            containerTeamRecordList
+                                                                .toList()),
+                                                        deth: functions.calculateGameUserDeaths(
+                                                            containerGameRoundUserRecordList
+                                                                .where((e) =>
+                                                                    e.user ==
+                                                                    (containerGameRecord
+                                                                        ?.users
+                                                                        ?.elementAtOrNull(
+                                                                            _model.userSaveCounter)))
+                                                                .toList()),
+                                                      ));
+                                                      _model.gameUserSaved =
+                                                          GameUserRecord
+                                                              .getDocumentFromData(
+                                                                  createGameUserRecordData(
+                                                                    game: containerGameRecord
+                                                                        ?.reference,
+                                                                    user: containerGameRecord
+                                                                        ?.users
+                                                                        ?.elementAtOrNull(
+                                                                            _model.userSaveCounter),
+                                                                    kills: functions.calculateGameUserKills(containerGameRoundUserRecordList
+                                                                        .where((e) =>
+                                                                            e.user ==
+                                                                            (containerGameRecord?.users?.elementAtOrNull(_model.userSaveCounter)))
+                                                                        .toList()),
+                                                                    rating: functions.calculateGameUserRating(containerGameRoundUserRecordList
+                                                                        .where((e) =>
+                                                                            e.user ==
+                                                                            (containerGameRecord?.users?.elementAtOrNull(_model.userSaveCounter)))
+                                                                        .toList()),
+                                                                    team: functions.getTeamIBelongsReference(
+                                                                        containerGameRecord!
+                                                                            .users
+                                                                            .elementAtOrNull(_model
+                                                                                .userSaveCounter)!,
+                                                                        containerTeamRecordList
+                                                                            .toList()),
+                                                                    deth: functions.calculateGameUserDeaths(containerGameRoundUserRecordList
+                                                                        .where((e) =>
+                                                                            e.user ==
+                                                                            (containerGameRecord?.users?.elementAtOrNull(_model.userSaveCounter)))
+                                                                        .toList()),
+                                                                  ),
+                                                                  gameUserRecordReference);
+                                                      _model
+                                                          .addToSaveGameUserList(
+                                                              _model
+                                                                  .gameUserSaved!
+                                                                  .reference);
+                                                      _model.userSaveCounter =
+                                                          _model.userSaveCounter +
+                                                              1;
+                                                    }
+                                                    _model.gameTeamsWinners =
+                                                        await actions
+                                                            .calculateGameWinners(
+                                                      containerGameRoundRecordList
+                                                          .toList(),
+                                                    );
+
+                                                    await containerGameRecord!
+                                                        .reference
+                                                        .update({
+                                                      ...createGameRecordData(
+                                                        status: 3,
+                                                      ),
+                                                      ...mapToFirestore(
+                                                        {
+                                                          'gameUsers': _model
+                                                              .saveGameUserList,
+                                                          'teamWinner': _model
+                                                              .gameTeamsWinners,
+                                                        },
+                                                      ),
+                                                    });
+
+                                                    await containerGameRoundRecordList
+                                                        .sortedList(
+                                                            keyOf: (e) =>
+                                                                e.createdTime!,
+                                                            desc: false)
+                                                        .lastOrNull!
+                                                        .reference
+                                                        .update(
+                                                            createGameRoundRecordData(
+                                                          status: 5,
+                                                        ));
+                                                    _model.gameRoundUserLoaded =
+                                                        await queryGameRoundUserRecordOnce(
+                                                      queryBuilder:
+                                                          (gameRoundUserRecord) =>
+                                                              gameRoundUserRecord
+                                                                  .where(
+                                                        'game',
+                                                        isEqualTo:
+                                                            containerGameRecord
+                                                                ?.reference,
+                                                      ),
+                                                    );
+                                                    await actions
+                                                        .setGameResults(
+                                                      _model
+                                                          .gameRoundUserLoaded!
+                                                          .toList(),
+                                                    );
+
+                                                    if (!mounted) return;
+                                                    context.goNamed(
+                                                        AccResultGameClubPageWidget
+                                                            .routeName);
+
+                                                    safeSetState(() {});
+                                                  },
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 48.0,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.0),
+                                                      border: Border.all(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .error,
+                                                        width: 2.0,
+                                                      ),
+                                                    ),
+                                                    alignment:
+                                                        Alignment.center,
+                                                    child: Text(
+                                                      'Закончить игру досрочно',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .titleSmall
+                                                          .override(
+                                                            font: GoogleFonts
+                                                                .inter(
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                            ),
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .error,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontWeight,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                           ].divide(SizedBox(height: 8.0)),
                                         ),
                                       ),

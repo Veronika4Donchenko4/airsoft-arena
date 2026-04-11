@@ -49,6 +49,19 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
             ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
+      // Also check for early-ended games (status 3)
+      _model.userActivGame ??= await queryGameRecordOnce(
+        queryBuilder: (gameRecord) => gameRecord
+            .where(
+              'status',
+              isEqualTo: 3,
+            )
+            .where(
+              'users',
+              arrayContains: currentUserReference,
+            ),
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
       _model.userGameRound = await queryGameRoundRecordOnce(
         queryBuilder: (gameRoundRecord) => gameRoundRecord.where(
           'game',
@@ -67,6 +80,19 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
             ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
+      // Also check for early-ended games (status 3)
+      _model.clubActivGame ??= await queryGameRecordOnce(
+        queryBuilder: (gameRecord) => gameRecord
+            .where(
+              'status',
+              isEqualTo: 3,
+            )
+            .where(
+              'creator',
+              isEqualTo: currentUserReference,
+            ),
+        singleRecord: true,
+      ).then((s) => s.firstOrNull);
       _model.clubGameRound = await queryGameRoundRecordOnce(
         queryBuilder: (gameRoundRecord) => gameRoundRecord.where(
           'game',
@@ -75,7 +101,19 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
       );
       if (valueOrDefault(currentUserDocument?.type, 0) == 0) {
         if (_model.userActivGame?.reference != null) {
-          if (_model.userGameRound
+          if (_model.userActivGame?.status == 3) {
+            if (!mounted) return;
+            context.goNamed(
+              ResultGamePageWidget.routeName,
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 0),
+                ),
+              },
+            );
+          } else if (_model.userGameRound
                   ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
                   ?.lastOrNull
                   ?.status ==
@@ -176,7 +214,19 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
         }
       } else {
         if (_model.clubActivGame?.reference != null) {
-          if (_model.clubGameRound
+          if (_model.clubActivGame?.status == 3) {
+            if (!mounted) return;
+            context.goNamed(
+              AccResultGameClubPageWidget.routeName,
+              extra: <String, dynamic>{
+                kTransitionInfoKey: TransitionInfo(
+                  hasTransition: true,
+                  transitionType: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 0),
+                ),
+              },
+            );
+          } else if (_model.clubGameRound
                   ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
                   ?.lastOrNull
                   ?.status ==
@@ -295,6 +345,70 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        // Player: detect early game end (status == 3)
+        StreamBuilder<List<GameRecord>>(
+          stream: queryGameRecord(
+            queryBuilder: (gameRecord) => gameRecord
+                .where(
+                  'users',
+                  arrayContains: currentUserReference,
+                )
+                .where(
+                  'status',
+                  isEqualTo: 3,
+                ),
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted) return;
+                context.goNamed(
+                  ResultGamePageWidget.routeName,
+                  extra: <String, dynamic>{
+                    kTransitionInfoKey: TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 0),
+                    ),
+                  },
+                );
+              });
+            }
+            return Container();
+          },
+        ),
+        // Club: detect early game end (status == 3)
+        StreamBuilder<List<GameRecord>>(
+          stream: queryGameRecord(
+            queryBuilder: (gameRecord) => gameRecord
+                .where(
+                  'creator',
+                  isEqualTo: currentUserReference,
+                )
+                .where(
+                  'status',
+                  isEqualTo: 3,
+                ),
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (!mounted) return;
+                context.goNamed(
+                  AccResultGameClubPageWidget.routeName,
+                  extra: <String, dynamic>{
+                    kTransitionInfoKey: TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                      duration: Duration(milliseconds: 0),
+                    ),
+                  },
+                );
+              });
+            }
+            return Container();
+          },
+        ),
         StreamBuilder<List<GameRecord>>(
           stream: queryGameRecord(
             queryBuilder: (gameRecord) => gameRecord

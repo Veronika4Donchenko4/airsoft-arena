@@ -448,6 +448,7 @@ extension NavigationExtensions on BuildContext {
   void safePop() {
     // If there is only one route on the stack, navigate to the initial
     // page instead of popping.
+    if (this is Element && !(this as Element).mounted) return;
     if (canPop()) {
       pop();
     } else {

@@ -71,6 +71,7 @@ class _AppliListTeamPageWidgetState extends State<AppliListTeamPageWidget> {
                     !TeamRecordDocumentEquality().equals(containerTeamRecord,
                         _model.containerPreviousSnapshot)) {
                   if (containerTeamRecord.applicationList.length == 0) {
+                    if (!mounted) return;
                     context.safePop();
                   }
 
