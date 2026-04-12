@@ -123,6 +123,11 @@ class GameRecord extends FirestoreRecord {
   DocumentReference? get orderedFromClub => _orderedFromClub;
   bool hasOrderedFromClub() => _orderedFromClub != null;
 
+  // "requestedBy" field.
+  DocumentReference? _requestedBy;
+  DocumentReference? get requestedBy => _requestedBy;
+  bool hasRequestedBy() => _requestedBy != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _dateTime = snapshotData['dateTime'] as DateTime?;
@@ -145,6 +150,7 @@ class GameRecord extends FirestoreRecord {
     _allowFreeJoin = snapshotData['allowFreeJoin'] as bool?;
     _password = snapshotData['password'] as String?;
     _orderedFromClub = snapshotData['orderedFromClub'] as DocumentReference?;
+    _requestedBy = snapshotData['requestedBy'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -194,6 +200,7 @@ Map<String, dynamic> createGameRecordData({
   bool? allowFreeJoin,
   String? password,
   DocumentReference? orderedFromClub,
+  DocumentReference? requestedBy,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -210,6 +217,7 @@ Map<String, dynamic> createGameRecordData({
       'allowFreeJoin': allowFreeJoin,
       'password': password,
       'orderedFromClub': orderedFromClub,
+      'requestedBy': requestedBy,
     }.withoutNulls,
   );
 
@@ -243,7 +251,8 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         listEquality.equals(e1?.teamWinner, e2?.teamWinner) &&
         e1?.allowFreeJoin == e2?.allowFreeJoin &&
         e1?.password == e2?.password &&
-        e1?.orderedFromClub == e2?.orderedFromClub;
+        e1?.orderedFromClub == e2?.orderedFromClub &&
+        e1?.requestedBy == e2?.requestedBy;
   }
 
   @override
@@ -268,7 +277,8 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         e?.teamWinner,
         e?.allowFreeJoin,
         e?.password,
-        e?.orderedFromClub
+        e?.orderedFromClub,
+        e?.requestedBy
       ]);
 
   @override

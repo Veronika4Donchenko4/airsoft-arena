@@ -349,7 +349,8 @@ class _OrderGamePageWidgetState extends State<OrderGamePageWidget> {
                                                         floatingLabelBehavior:
                                                             FloatingLabelBehavior.always,
                                                         labelText:
-                                                            'Место проведения игры',
+                                                            'Место проведения',
+                                                        hintText: null,
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -367,20 +368,10 @@ class _OrderGamePageWidgetState extends State<OrderGamePageWidget> {
                                                                         .bodyMedium
                                                                         .fontStyle,
                                                                   ),
-                                                                  color: (_model.textFieldCityFocusNode?.hasFocus ??
-                                                                              false) ==
-                                                                          true
-                                                                      ? FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText
-                                                                      : FlutterFlowTheme.of(
+                                                                  color: FlutterFlowTheme.of(
                                                                               context)
                                                                           .secondaryText,
-                                                                  fontSize:
-                                                                      (_model.textFieldCityFocusNode?.hasFocus ?? false) ==
-                                                                              true
-                                                                          ? 12.0
-                                                                          : 15.0,
+                                                                  fontSize: 12.0,
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight: FlutterFlowTheme.of(
@@ -2279,6 +2270,8 @@ class _OrderGamePageWidgetState extends State<OrderGamePageWidget> {
                                                   _model.allowFreeJoin,
                                               orderedFromClub:
                                                   widget.clubDoc.reference,
+                                              requestedBy:
+                                                  currentUserReference,
                                               password: _model
                                                   .textFieldPasswordController!
                                                   .text,
