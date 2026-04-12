@@ -213,6 +213,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
+          name: OrderGamePageWidget.routeName,
+          path: OrderGamePageWidget.routePath,
+          asyncParams: {
+            'clubDoc': getDoc(['User'], UserRecord.fromSnapshot),
+          },
+          builder: (context, params) => OrderGamePageWidget(
+            clubDoc: params.getParam(
+              'clubDoc',
+              ParamType.Document,
+            )!,
+          ),
+        ),
+        FFRoute(
           name: GamePlacePageWidget.routeName,
           path: GamePlacePageWidget.routePath,
           builder: (context, params) => GamePlacePageWidget(),

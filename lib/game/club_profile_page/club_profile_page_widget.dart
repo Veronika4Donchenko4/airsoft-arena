@@ -2,8 +2,10 @@ import '/backend/backend.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/game/order_game_page/order_game_page_widget.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'club_profile_page_model.dart';
 export 'club_profile_page_model.dart';
@@ -471,18 +473,21 @@ class _ClubProfilePageWidgetState extends State<ClubProfilePageWidget> {
                     title: 'Заказать игру',
                     isActive: true,
                     onTap: () async {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Скоро будет доступно',
-                            style: TextStyle(
-                              color: FlutterFlowTheme.of(context).primaryText,
-                            ),
+                      context.pushNamed(
+                        OrderGamePageWidget.routeName,
+                        queryParameters: {
+                          'clubDoc': serializeParam(
+                            widget.clubDoc,
+                            ParamType.Document,
                           ),
-                          duration: Duration(milliseconds: 2000),
-                          backgroundColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
+                        }.withoutNulls,
+                        extra: <String, dynamic>{
+                          'clubDoc': widget.clubDoc,
+                          kTransitionInfoKey: TransitionInfo(
+                            hasTransition: true,
+                            transitionType: PageTransitionType.fade,
+                          ),
+                        },
                       );
                     },
                   ),

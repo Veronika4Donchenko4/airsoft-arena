@@ -113,6 +113,16 @@ class GameRecord extends FirestoreRecord {
   bool get allowFreeJoin => _allowFreeJoin ?? false;
   bool hasAllowFreeJoin() => _allowFreeJoin != null;
 
+  // "password" field.
+  String? _password;
+  String get password => _password ?? '';
+  bool hasPassword() => _password != null;
+
+  // "orderedFromClub" field.
+  DocumentReference? _orderedFromClub;
+  DocumentReference? get orderedFromClub => _orderedFromClub;
+  bool hasOrderedFromClub() => _orderedFromClub != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _dateTime = snapshotData['dateTime'] as DateTime?;
@@ -133,6 +143,8 @@ class GameRecord extends FirestoreRecord {
     _gameUsers = getDataList(snapshotData['gameUsers']);
     _teamWinner = getDataList(snapshotData['teamWinner']);
     _allowFreeJoin = snapshotData['allowFreeJoin'] as bool?;
+    _password = snapshotData['password'] as String?;
+    _orderedFromClub = snapshotData['orderedFromClub'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -180,6 +192,8 @@ Map<String, dynamic> createGameRecordData({
   String? conditions,
   DocumentReference? creator,
   bool? allowFreeJoin,
+  String? password,
+  DocumentReference? orderedFromClub,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -194,6 +208,8 @@ Map<String, dynamic> createGameRecordData({
       'conditions': conditions,
       'creator': creator,
       'allowFreeJoin': allowFreeJoin,
+      'password': password,
+      'orderedFromClub': orderedFromClub,
     }.withoutNulls,
   );
 
@@ -225,7 +241,9 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         listEquality.equals(e1?.sporeAboutGame, e2?.sporeAboutGame) &&
         listEquality.equals(e1?.gameUsers, e2?.gameUsers) &&
         listEquality.equals(e1?.teamWinner, e2?.teamWinner) &&
-        e1?.allowFreeJoin == e2?.allowFreeJoin;
+        e1?.allowFreeJoin == e2?.allowFreeJoin &&
+        e1?.password == e2?.password &&
+        e1?.orderedFromClub == e2?.orderedFromClub;
   }
 
   @override
@@ -248,7 +266,9 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         e?.sporeAboutGame,
         e?.gameUsers,
         e?.teamWinner,
-        e?.allowFreeJoin
+        e?.allowFreeJoin,
+        e?.password,
+        e?.orderedFromClub
       ]);
 
   @override
