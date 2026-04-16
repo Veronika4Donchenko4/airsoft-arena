@@ -131,6 +131,36 @@ class _GameItemWidgetState extends State<GameItemWidget> {
                           ),
                         ),
                       ),
+                      if (widget.game?.orderedFromClub != null)
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 6.0, vertical: 3.0),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF31C455).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(6.0),
+                            border: Border.all(
+                                color: Color(0xFF31C455), width: 1.0),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check_circle_outline,
+                                color: Color(0xFF31C455),
+                                size: 10.0,
+                              ),
+                              SizedBox(width: 3.0),
+                              Text(
+                                'Заказ',
+                                style: TextStyle(
+                                  color: Color(0xFF31C455),
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                   Padding(
@@ -292,6 +322,83 @@ class _GameItemWidgetState extends State<GameItemWidget> {
                       ].divide(SizedBox(width: 8.0)),
                     ),
                   ),
+                  if (widget.game?.requestedBy != null)
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
+                      child: StreamBuilder<UserRecord>(
+                        stream:
+                            UserRecord.getDocument(widget.game!.requestedBy!),
+                        builder: (context, requesterSnapshot) {
+                          if (!requesterSnapshot.hasData) {
+                            return SizedBox.shrink();
+                          }
+                          final requesterDoc = requesterSnapshot.data!;
+                          return Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                width: 20.0,
+                                height: 20.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).accent1,
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: (requesterDoc.photoUrl != null &&
+                                        requesterDoc.photoUrl != '')
+                                    ? ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(4.0),
+                                        child: Image.network(
+                                          requesterDoc.photoUrl,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : Icon(
+                                        Icons.person,
+                                        size: 12.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                      ),
+                              ),
+                              SizedBox(width: 6.0),
+                              Expanded(
+                                child: Text(
+                                  'Заказал: ${requesterDoc.displayName}',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.inter(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryText,
+                                        fontSize: 12.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight:
+                                            FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
                   if ((widget!.game?.status == 1) &&
                       (valueOrDefault(currentUserDocument?.type, 0) == 1))
                     Padding(
