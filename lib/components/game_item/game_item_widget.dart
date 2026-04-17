@@ -319,86 +319,52 @@ class _GameItemWidgetState extends State<GameItemWidget> {
                                         .fontStyle,
                                   ),
                         ),
-                      ].divide(SizedBox(width: 8.0)),
+                        if (widget.game?.requestedBy != null)
+                          StreamBuilder<UserRecord>(
+                            stream: UserRecord.getDocument(widget.game!.requestedBy!),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) return SizedBox.shrink();
+                              final requester = snapshot.data!;
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    width: 32.0,
+                                    height: 32.0,
+                                    decoration: BoxDecoration(
+                                      color: FlutterFlowTheme.of(context).accent1,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Stack(
+                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      children: [
+                                        Icon(FFIcons.kimages, color: FlutterFlowTheme.of(context).secondaryText, size: 15.0),
+                                        if (requester.photoUrl != null && requester.photoUrl != '')
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(8.0),
+                                            child: Image.network(requester.photoUrl, width: 32, height: 32, fit: BoxFit.cover),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    requester.displayName.isNotEmpty ? requester.displayName : requester.name,
+                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                      font: GoogleFonts.inter(
+                                        fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                      ),
+                                      fontSize: 15.0,
+                                      letterSpacing: 0.0,
+                                    ),
+                                  ),
+                                ].divide(SizedBox(width: 8.0)),
+                              );
+                            },
+                          ),
+                      ].divide(SizedBox(width: 16.0)),
                     ),
                   ),
-                  if (widget.game?.requestedBy != null)
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
-                      child: StreamBuilder<UserRecord>(
-                        stream:
-                            UserRecord.getDocument(widget.game!.requestedBy!),
-                        builder: (context, requesterSnapshot) {
-                          if (!requesterSnapshot.hasData) {
-                            return SizedBox.shrink();
-                          }
-                          final requesterDoc = requesterSnapshot.data!;
-                          return Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                width: 20.0,
-                                height: 20.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).accent1,
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: (requesterDoc.photoUrl != null &&
-                                        requesterDoc.photoUrl != '')
-                                    ? ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(4.0),
-                                        child: Image.network(
-                                          requesterDoc.photoUrl,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                    : Icon(
-                                        Icons.person,
-                                        size: 12.0,
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                      ),
-                              ),
-                              SizedBox(width: 6.0),
-                              Expanded(
-                                child: Text(
-                                  'Заказал: ${requesterDoc.displayName}',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        font: GoogleFonts.inter(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
-                                        fontSize: 12.0,
-                                        letterSpacing: 0.0,
-                                        fontWeight:
-                                            FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .fontStyle,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
                   if ((widget!.game?.status == 1) &&
                       (valueOrDefault(currentUserDocument?.type, 0) == 1))
                     Padding(

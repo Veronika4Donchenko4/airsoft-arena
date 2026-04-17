@@ -360,114 +360,170 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                   child: Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.spaceBetween,
                                                     children: [
-                                                      Container(
-                                                        width: 32.0,
-                                                        height: 32.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .accent1,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        child: Stack(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  0.0, 0.0),
-                                                          children: [
-                                                            Icon(
-                                                              FFIcons.kimages,
+                                                      Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          Container(
+                                                            width: 32.0,
+                                                            height: 32.0,
+                                                            decoration:
+                                                                BoxDecoration(
                                                               color: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .secondaryText,
-                                                              size: 15.0,
+                                                                  .accent1,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
                                                             ),
-                                                            if (containerUserRecord
-                                                                        .photoUrl !=
-                                                                    null &&
-                                                                containerUserRecord
-                                                                        .photoUrl !=
-                                                                    '')
-                                                              Container(
-                                                                width: 32.0,
-                                                                height: 32.0,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .accent1,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
+                                                            child: Stack(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      0.0, 0.0),
+                                                              children: [
+                                                                Icon(
+                                                                  FFIcons.kimages,
+                                                                  color: FlutterFlowTheme
+                                                                          .of(context)
+                                                                      .secondaryText,
+                                                                  size: 15.0,
                                                                 ),
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                  child: Image
-                                                                      .network(
+                                                                if (containerUserRecord
+                                                                            .photoUrl !=
+                                                                        null &&
                                                                     containerUserRecord
-                                                                        .photoUrl,
-                                                                    width: double
-                                                                        .infinity,
-                                                                    height: double
-                                                                        .infinity,
-                                                                    fit: BoxFit
-                                                                        .cover,
+                                                                            .photoUrl !=
+                                                                        '')
+                                                                  Container(
+                                                                    width: 32.0,
+                                                                    height: 32.0,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .accent1,
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  8.0),
+                                                                    ),
+                                                                    child:
+                                                                        ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .circular(
+                                                                                  8.0),
+                                                                      child: Image
+                                                                          .network(
+                                                                        containerUserRecord
+                                                                            .photoUrl,
+                                                                        width: double
+                                                                            .infinity,
+                                                                        height: double
+                                                                            .infinity,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              ),
-                                                          ],
-                                                        ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        8.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Text(
+                                                              containerUserRecord
+                                                                  .clubName,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font:
+                                                                        GoogleFonts
+                                                                            .inter(
+                                                                      fontWeight: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontWeight,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    fontSize: 15.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    8.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Text(
-                                                          containerUserRecord
-                                                              .clubName,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                font:
-                                                                    GoogleFonts
-                                                                        .inter(
-                                                                  fontWeight: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontWeight,
-                                                                  fontStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .fontStyle,
-                                                                ),
-                                                                fontSize: 15.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontWeight,
-                                                                fontStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .fontStyle,
+                                                      if (containerGameRecord.requestedBy != null)
+                                                        StreamBuilder<UserRecord>(
+                                                          stream: UserRecord.getDocument(containerGameRecord.requestedBy!),
+                                                          builder: (context, snapshot) {
+                                                            if (!snapshot.hasData) return SizedBox.shrink();
+                                                            final requester = snapshot.data!;
+                                                            return Padding(
+                                                              padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
+                                                              child: Row(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: [
+                                                                  Container(
+                                                                    width: 32.0,
+                                                                    height: 32.0,
+                                                                    decoration: BoxDecoration(
+                                                                      color: FlutterFlowTheme.of(context).accent1,
+                                                                      borderRadius: BorderRadius.circular(8.0),
+                                                                    ),
+                                                                    child: Stack(
+                                                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                                                      children: [
+                                                                        Icon(FFIcons.kimages, color: FlutterFlowTheme.of(context).secondaryText, size: 15.0),
+                                                                        if (requester.photoUrl != null && requester.photoUrl != '')
+                                                                          ClipRRect(
+                                                                            borderRadius: BorderRadius.circular(8.0),
+                                                                            child: Image.network(requester.photoUrl, width: 32, height: 32, fit: BoxFit.cover),
+                                                                          ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 0.0, 0.0),
+                                                                    child: Text(
+                                                                      'Заказал: ${requester.displayName.isNotEmpty ? requester.displayName : requester.name}',
+                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                        font: GoogleFonts.inter(
+                                                                          fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                        ),
+                                                                        fontSize: 15.0,
+                                                                        letterSpacing: 0.0,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
+                                                            );
+                                                          },
                                                         ),
-                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -2066,26 +2122,68 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                           model: _model.generalButtomModel2,
                                           updateCallback: () =>
                                               safeSetState(() {}),
-                                          child: GeneralButtomWidget(
-                                            title: 'Подать заявку',
-                                            isActive: true,
-                                            icon: null,
-                                            ignoreIsActive: false,
-                                            onTap: () async {
-                                              await containerGameRecord
-                                                  .reference
-                                                  .update({
-                                                ...mapToFirestore(
-                                                  {
-                                                    'applicationGameList':
-                                                        FieldValue.arrayUnion([
-                                                      currentUserReference
-                                                    ]),
-                                                  },
-                                                ),
-                                              });
-                                            },
-                                          ),
+                                          child: containerGameRecord.password != null && containerGameRecord.password!.isNotEmpty
+                                            ? GeneralButtomWidget(
+                                                title: 'Вступить с паролем',
+                                                isActive: true,
+                                                icon: null,
+                                                ignoreIsActive: false,
+                                                onTap: () async {
+                                                  final passwordController = TextEditingController();
+                                                  final confirmed = await showDialog<bool>(
+                                                    context: context,
+                                                    builder: (ctx) => AlertDialog(
+                                                      backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+                                                      title: Text('Введите пароль', style: FlutterFlowTheme.of(context).titleSmall),
+                                                      content: TextField(
+                                                        controller: passwordController,
+                                                        obscureText: true,
+                                                        style: FlutterFlowTheme.of(context).bodyMedium,
+                                                        decoration: InputDecoration(
+                                                          hintText: 'Пароль',
+                                                          hintStyle: TextStyle(color: FlutterFlowTheme.of(context).secondaryText),
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () => Navigator.pop(ctx, false),
+                                                          child: Text('Отмена', style: TextStyle(color: FlutterFlowTheme.of(context).secondaryText)),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () => Navigator.pop(ctx, true),
+                                                          child: Text('Вступить', style: TextStyle(color: FlutterFlowTheme.of(context).primary)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                  if (confirmed == true) {
+                                                    if (passwordController.text == containerGameRecord.password) {
+                                                      await containerGameRecord.reference.update({
+                                                        ...mapToFirestore({'applicationGameList': FieldValue.arrayUnion([currentUserReference])}),
+                                                      });
+                                                    } else {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text('Неверный пароль', style: TextStyle(color: FlutterFlowTheme.of(context).primaryText)),
+                                                          backgroundColor: FlutterFlowTheme.of(context).error,
+                                                          duration: Duration(milliseconds: 1500),
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                },
+                                              )
+                                            : GeneralButtomWidget(
+                                                title: 'Подать заявку',
+                                                isActive: true,
+                                                icon: null,
+                                                ignoreIsActive: false,
+                                                onTap: () async {
+                                                  await containerGameRecord.reference.update({
+                                                    ...mapToFirestore({'applicationGameList': FieldValue.arrayUnion([currentUserReference])}),
+                                                  });
+                                                },
+                                              ),
                                         ),
                                       ),
                                     ),
