@@ -113,6 +113,11 @@ class GameRecord extends FirestoreRecord {
   bool get allowFreeJoin => _allowFreeJoin ?? false;
   bool hasAllowFreeJoin() => _allowFreeJoin != null;
 
+  // "isPending" field.
+  bool? _isPending;
+  bool get isPending => _isPending ?? false;
+  bool hasIsPending() => _isPending != null;
+
   // "password" field.
   String? _password;
   String get password => _password ?? '';
@@ -148,6 +153,7 @@ class GameRecord extends FirestoreRecord {
     _gameUsers = getDataList(snapshotData['gameUsers']);
     _teamWinner = getDataList(snapshotData['teamWinner']);
     _allowFreeJoin = snapshotData['allowFreeJoin'] as bool?;
+    _isPending = snapshotData['isPending'] as bool?;
     _password = snapshotData['password'] as String?;
     _orderedFromClub = snapshotData['orderedFromClub'] as DocumentReference?;
     _requestedBy = snapshotData['requestedBy'] as DocumentReference?;
@@ -198,6 +204,7 @@ Map<String, dynamic> createGameRecordData({
   String? conditions,
   DocumentReference? creator,
   bool? allowFreeJoin,
+  bool? isPending,
   String? password,
   DocumentReference? orderedFromClub,
   DocumentReference? requestedBy,
@@ -215,6 +222,7 @@ Map<String, dynamic> createGameRecordData({
       'conditions': conditions,
       'creator': creator,
       'allowFreeJoin': allowFreeJoin,
+      'isPending': isPending,
       'password': password,
       'orderedFromClub': orderedFromClub,
       'requestedBy': requestedBy,
@@ -250,6 +258,7 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         listEquality.equals(e1?.gameUsers, e2?.gameUsers) &&
         listEquality.equals(e1?.teamWinner, e2?.teamWinner) &&
         e1?.allowFreeJoin == e2?.allowFreeJoin &&
+        e1?.isPending == e2?.isPending &&
         e1?.password == e2?.password &&
         e1?.orderedFromClub == e2?.orderedFromClub &&
         e1?.requestedBy == e2?.requestedBy;
@@ -276,6 +285,7 @@ class GameRecordDocumentEquality implements Equality<GameRecord> {
         e?.gameUsers,
         e?.teamWinner,
         e?.allowFreeJoin,
+        e?.isPending,
         e?.password,
         e?.orderedFromClub,
         e?.requestedBy

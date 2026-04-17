@@ -2272,6 +2272,7 @@ class _OrderGamePageWidgetState extends State<OrderGamePageWidget> {
                                                   widget.clubDoc.reference,
                                               requestedBy:
                                                   currentUserReference,
+                                              isPending: true,
                                               password: _model
                                                   .textFieldPasswordController!
                                                   .text,

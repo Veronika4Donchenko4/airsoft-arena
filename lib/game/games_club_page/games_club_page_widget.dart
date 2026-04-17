@@ -115,7 +115,7 @@ class _GamesClubPageWidgetState extends State<GamesClubPageWidget> {
                                             .where('orderedFromClub',
                                                 isEqualTo:
                                                     currentUserReference)
-                                            .where('status', isEqualTo: 0),
+                                            .where('isPending', isEqualTo: true),
                                       ),
                                       builder: (context, ordersSnapshot) {
                                         if (!ordersSnapshot.hasData ||
@@ -263,14 +263,14 @@ class _GamesClubPageWidgetState extends State<GamesClubPageWidget> {
                                                                     ),
                                                               ),
                                                             ),
-                                                          if (order.creator !=
+                                                          if (order.requestedBy !=
                                                               null)
                                                             StreamBuilder<
                                                                 UserRecord>(
                                                               stream: UserRecord
                                                                   .getDocument(
                                                                       order
-                                                                          .creator!),
+                                                                          .requestedBy!),
                                                               builder: (context,
                                                                   userSnapshot) {
                                                                 if (!userSnapshot
@@ -337,7 +337,8 @@ class _GamesClubPageWidgetState extends State<GamesClubPageWidget> {
                                                                         await order
                                                                             .reference
                                                                             .update(createGameRecordData(
-                                                                                status: 1,
+                                                                                status: 0,
+                                                                                isPending: false,
                                                                                 creator: currentUserReference,
                                                                             ));
                                                                         ScaffoldMessenger.of(context)
@@ -356,6 +357,7 @@ class _GamesClubPageWidgetState extends State<GamesClubPageWidget> {
                                                                                 FlutterFlowTheme.of(context).success,
                                                                           ),
                                                                         );
+                                                                        safeSetState(() {});
                                                                       },
                                                                       child:
                                                                           Container(
