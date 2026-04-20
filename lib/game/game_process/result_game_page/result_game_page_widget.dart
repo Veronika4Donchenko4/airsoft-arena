@@ -223,6 +223,115 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                                                                 .fontStyle,
                                                       ),
                                             ),
+                                            StreamBuilder<List<GameUserRecord>>(
+                                              stream: queryGameUserRecord(
+                                                queryBuilder: (gameUserRecord) => gameUserRecord.where(
+                                                  'game',
+                                                  isEqualTo: containerGameRecord?.reference,
+                                                ),
+                                              ),
+                                              builder: (context, snapshot) {
+                                                if (!snapshot.hasData || snapshot.data!.isEmpty) return SizedBox.shrink();
+                                                final allUsers = snapshot.data!;
+                                                final sorted = [...allUsers]..sort((a, b) => b.kills.compareTo(a.kills));
+                                                final top3 = sorted.take(3).toList();
+                                                final medals = ['🥇', '🥈', '🥉'];
+
+                                                return Padding(
+                                                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 8.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Лучшие игроки',
+                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                          font: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                                                          fontSize: 16.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 8.0),
+                                                      ...top3.asMap().entries.map((entry) {
+                                                        final index = entry.key;
+                                                        final gameUser = entry.value;
+                                                        return Padding(
+                                                          padding: EdgeInsets.only(bottom: 8.0),
+                                                          child: StreamBuilder<UserRecord>(
+                                                            stream: UserRecord.getDocument(gameUser.user!),
+                                                            builder: (context, userSnapshot) {
+                                                              if (!userSnapshot.hasData) return SizedBox.shrink();
+                                                              final user = userSnapshot.data!;
+                                                              return Container(
+                                                                padding: EdgeInsets.all(12.0),
+                                                                decoration: BoxDecoration(
+                                                                  color: FlutterFlowTheme.of(context).accent2,
+                                                                  borderRadius: BorderRadius.circular(12.0),
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Text(medals[index], style: TextStyle(fontSize: 24.0)),
+                                                                    SizedBox(width: 12.0),
+                                                                    Container(
+                                                                      width: 36.0,
+                                                                      height: 36.0,
+                                                                      decoration: BoxDecoration(
+                                                                        color: FlutterFlowTheme.of(context).accent1,
+                                                                        borderRadius: BorderRadius.circular(8.0),
+                                                                      ),
+                                                                      child: user.photoUrl.isNotEmpty
+                                                                        ? ClipRRect(
+                                                                            borderRadius: BorderRadius.circular(8.0),
+                                                                            child: Image.network(user.photoUrl, fit: BoxFit.cover),
+                                                                          )
+                                                                        : Icon(Icons.person, color: FlutterFlowTheme.of(context).secondaryText, size: 20.0),
+                                                                    ),
+                                                                    SizedBox(width: 12.0),
+                                                                    Expanded(
+                                                                      child: Text(
+                                                                        user.displayName.isNotEmpty ? user.displayName : user.name,
+                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                          font: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                                                                          fontSize: 14.0,
+                                                                          letterSpacing: 0.0,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                                      children: [
+                                                                        Text(
+                                                                          '${gameUser.kills} kills',
+                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                            font: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                            fontSize: 14.0,
+                                                                            letterSpacing: 0.0,
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          '${gameUser.deth} deaths',
+                                                                          style: FlutterFlowTheme.of(context).bodySmall.override(
+                                                                            font: GoogleFonts.inter(),
+                                                                            color: FlutterFlowTheme.of(context).secondaryText,
+                                                                            fontSize: 12.0,
+                                                                            letterSpacing: 0.0,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 8.0, 0.0, 0.0),
