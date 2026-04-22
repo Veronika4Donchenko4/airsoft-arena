@@ -1323,10 +1323,26 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                                                 isActive: true,
                                                 ignoreIsActive: false,
                                                 onTap: () async {
+                                                  final rounds = await queryGameRoundRecordOnce(
+                                                    queryBuilder: (q) => q
+                                                        .where('game', isEqualTo: containerGameRecord?.reference)
+                                                        .where('status', isEqualTo: 0),
+                                                  );
                                                   if (!mounted) return;
-                                                  context.goNamed(
-                                                      StartGamePageWidget
-                                                          .routeName);
+                                                  if (rounds.isNotEmpty) {
+                                                    context.goNamed(StartGamePageWidget.routeName);
+                                                  } else {
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          'Дождитесь начала раунда от клуба',
+                                                          style: TextStyle(color: FlutterFlowTheme.of(context).primaryText),
+                                                        ),
+                                                        duration: Duration(milliseconds: 2000),
+                                                        backgroundColor: FlutterFlowTheme.of(context).accent2,
+                                                      ),
+                                                    );
+                                                  }
                                                 },
                                               ),
                                             ),

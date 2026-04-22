@@ -29,6 +29,7 @@ class StartGamePageWidget extends StatefulWidget {
 
 class _StartGamePageWidgetState extends State<StartGamePageWidget> {
   late StartGamePageModel _model;
+  Key _rebuildKey = UniqueKey();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -36,6 +37,14 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => StartGamePageModel());
+
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) {
+        setState(() {
+          _rebuildKey = UniqueKey();
+        });
+      }
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -49,7 +58,25 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    if (currentUserReference == null) {
+      return Scaffold(
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        body: Center(
+          child: SizedBox(
+            width: 30.0,
+            height: 30.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                FlutterFlowTheme.of(context).primary,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    return KeyedSubtree(
+      key: _rebuildKey,
+      child: GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -122,6 +149,20 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                     }
                     List<TeamRecord> containerTeamRecordList = snapshot.data!;
 
+                    if (containerTeamRecordList.isEmpty) {
+                      return Center(
+                        child: SizedBox(
+                          width: 30.0,
+                          height: 30.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
                     return Container(
                       decoration: BoxDecoration(),
                       child: StreamBuilder<List<GameRoundRecord>>(
@@ -183,6 +224,20 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                           List<GameRoundRecord> containerGameRoundRecordList =
                               snapshot.data!;
 
+                          if (containerGameRoundRecordList.isEmpty) {
+                            return Center(
+                              child: SizedBox(
+                                width: 30.0,
+                                height: 30.0,
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    FlutterFlowTheme.of(context).primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+
                           return Container(
                             decoration: BoxDecoration(),
                             child: StreamBuilder<List<GameRoundUserRecord>>(
@@ -230,9 +285,19 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                 List<GameRoundUserRecord>
                                     containerGameRoundUserRecordList =
                                     snapshot.data!;
-                                // Return an empty Container when the item does not exist.
                                 if (snapshot.data!.isEmpty) {
-                                  return Container();
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 30.0,
+                                      height: 30.0,
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          FlutterFlowTheme.of(context).primary,
+                                        ),
+                                      ),
+                                    ),
+                                  );
                                 }
                                 final containerGameRoundUserRecord =
                                     containerGameRoundUserRecordList.isNotEmpty
@@ -635,9 +700,8 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                                                   ),
                                                             ),
                                                           ),
-                                                          StreamBuilder<
-                                                              TeamRecord>(
-                                                            stream: TeamRecord.getDocument(containerTeamRecordList
+                                                          Builder(builder: (context) {
+                                                            final myTeamRef = containerTeamRecordList
                                                                 .where((e) =>
                                                                     e.reference ==
                                                                     functions.getTeamIBelongsReference(
@@ -645,8 +709,11 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                                                         containerTeamRecordList
                                                                             .toList()))
                                                                 .toList()
-                                                                .firstOrNull!
-                                                                .reference),
+                                                                .firstOrNull?.reference;
+                                                            if (myTeamRef == null) return SizedBox.shrink();
+                                                            return StreamBuilder<
+                                                              TeamRecord>(
+                                                            stream: TeamRecord.getDocument(myTeamRef),
                                                             builder: (context,
                                                                 snapshot) {
                                                               // Customize what your widget looks like when it's loading.
@@ -781,6 +848,7 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                                                               (context, userJobListIndex) {
                                                                             final userJobListItem =
                                                                                 userJobList[userJobListIndex];
+                                                                            if (userJobListItem.user == null) return SizedBox.shrink();
                                                                             return StreamBuilder<UserRecord>(
                                                                               stream: UserRecord.getDocument(userJobListItem.user!),
                                                                               builder: (context, snapshot) {
@@ -807,7 +875,8 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                                                                   child: Column(
                                                                                     mainAxisSize: MainAxisSize.min,
                                                                                     children: [
-                                                                                      StreamBuilder<JobRecord>(
+                                                                                      if (userJobListItem.job == null) SizedBox.shrink()
+                                                                                      else StreamBuilder<JobRecord>(
                                                                                         stream: JobRecord.getDocument(userJobListItem.job!),
                                                                                         builder: (context, snapshot) {
                                                                                           // Customize what your widget looks like when it's loading.
@@ -993,7 +1062,8 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
                                                                 ),
                                                               );
                                                             },
-                                                          ),
+                                                          );
+                                                          }),
                                                         ],
                                                       ),
                                                     ),
@@ -1148,6 +1218,7 @@ class _StartGamePageWidgetState extends State<StartGamePageWidget> {
           ),
         ),
       ),
+    ),
     );
   }
 }
