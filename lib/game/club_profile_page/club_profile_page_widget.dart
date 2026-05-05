@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -150,15 +151,23 @@ class _ClubProfilePageWidgetState extends State<ClubProfilePageWidget> {
                                                 size: 40.0,
                                               ),
                                               if (widget.clubDoc.photoUrl != '')
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.network(
-                                                    widget.clubDoc.photoUrl,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.cover,
+                                                GestureDetector(
+                                                  onTap: () => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) => FullscreenImageViewer(imageUrl: widget.clubDoc.photoUrl),
+                                                    ),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      widget.clubDoc.photoUrl,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                             ],

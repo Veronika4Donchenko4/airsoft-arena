@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -198,10 +199,18 @@ class _NewAchievementWidgetState extends State<NewAchievementWidget> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                               ),
-                                              child: Image.network(
-                                                containerAchievementRecord
-                                                    .image,
-                                                fit: BoxFit.cover,
+                                              child: GestureDetector(
+                                                onTap: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) => FullscreenImageViewer(imageUrl: containerAchievementRecord.image),
+                                                  ),
+                                                ),
+                                                child: Image.network(
+                                                  containerAchievementRecord
+                                                      .image,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                           ),

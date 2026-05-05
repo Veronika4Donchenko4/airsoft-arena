@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/bottom_sheet/create_clan/create_clan_widget.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/clans/clan_detail_page/clan_detail_page_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -413,14 +414,22 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                                             BorderRadius.circular(10.0),
                                       ),
                                       child: clan.flagImage.isNotEmpty
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              child: Image.network(
-                                                clan.flagImage,
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                fit: BoxFit.cover,
+                                          ? GestureDetector(
+                                              onTap: () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) => FullscreenImageViewer(imageUrl: clan.flagImage),
+                                                ),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.network(
+                                                  clan.flagImage,
+                                                  width: double.infinity,
+                                                  height: double.infinity,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             )
                                           : Icon(

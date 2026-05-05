@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/achievement_item/achievement_item_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -153,15 +154,23 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                               if (widget.userDoc.photoUrl !=
                                                       null &&
                                                   widget.userDoc.photoUrl != '')
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.network(
-                                                    widget.userDoc.photoUrl,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.cover,
+                                                GestureDetector(
+                                                  onTap: () => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) => FullscreenImageViewer(imageUrl: widget.userDoc.photoUrl),
+                                                    ),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      widget.userDoc.photoUrl,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                             ],
@@ -1040,9 +1049,9 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                           staggeredViewAchievementRecordList =
                                           snapshot.data!;
 
-                                      final filteredAchievements =
+                                      final allAchievements =
                                           staggeredViewAchievementRecordList
-                                              .where((achievement) {
+                                              .map((achievement) {
                                         final hasRecord =
                                             containerUserAchievementsRecordList
                                                 .where((e) =>
@@ -1089,12 +1098,40 @@ class _PlayerProfilePageWidgetState extends State<PlayerProfilePageWidget> {
                                               break;
                                           }
                                         }
-                                        final isCompleted =
-                                            hasRecord || progressMet;
-                                        return _achievementTabIndex == 0
-                                            ? isCompleted
-                                            : !isCompleted;
+                                        return (achievement: achievement, isCompleted: hasRecord || progressMet);
                                       }).toList();
+
+                                      List<AchievementRecord> filteredAchievements;
+                                      if (_achievementTabIndex == 0) {
+                                        filteredAchievements = allAchievements
+                                            .where((e) => e.isCompleted)
+                                            .map((e) => e.achievement)
+                                            .toList();
+                                      } else {
+                                        final incomplete = allAchievements
+                                            .where((e) => !e.isCompleted)
+                                            .map((e) => e.achievement)
+                                            .toList();
+                                        final grouped = <int, List<AchievementRecord>>{};
+                                        for (final a in incomplete) {
+                                          grouped.putIfAbsent(a.type, () => []).add(a);
+                                        }
+                                        for (final entry in grouped.entries) {
+                                          entry.value.sort((a, b) {
+                                            switch (entry.key) {
+                                              case 0: return a.maxKills.compareTo(b.maxKills);
+                                              case 1: return a.gameCount.compareTo(b.gameCount);
+                                              case 2: return a.rate.compareTo(b.rate);
+                                              case 3: return a.winSeries.compareTo(b.winSeries);
+                                              case 4: return a.winsCount.compareTo(b.winsCount);
+                                              default: return 0;
+                                            }
+                                          });
+                                        }
+                                        filteredAchievements = grouped.values
+                                            .map((list) => list.first)
+                                            .toList();
+                                      }
 
                                       if (filteredAchievements.isEmpty) {
                                         return Padding(

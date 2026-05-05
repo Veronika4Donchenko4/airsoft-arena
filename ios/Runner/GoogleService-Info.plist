@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDgS1uwaDSxgiHoHe04eI1Uq6xABin-Ais</string>
+	<string>AIzaSyDfWlf54DQjDzdC_f33uFHiEjy5e1dCWdg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>254149259649</string>
+	<string>521026531859</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.romanovdev.airsoftarena</string>
 	<key>PROJECT_ID</key>
-	<string>airsoft-romanov</string>
+	<string>airsoft-arena-ae65a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>airsoft-romanov.firebasestorage.app</string>
+	<string>airsoft-arena-ae65a.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:254149259649:ios:b6e3343c47166dfa66f880</string>
+	<string>1:521026531859:ios:46a64d49d7c739821e45e6</string>
 </dict>
 </plist>

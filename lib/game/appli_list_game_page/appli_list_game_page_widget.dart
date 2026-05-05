@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/app_bar/app_bar_widget.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -216,19 +217,27 @@ class _AppliListGamePageWidgetState extends State<AppliListGamePageWidget> {
                                                                   .circular(
                                                                       8.0),
                                                         ),
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                          child: Image.network(
-                                                            rowUserRecord
-                                                                .photoUrl,
-                                                            width:
-                                                                double.infinity,
-                                                            height:
-                                                                double.infinity,
-                                                            fit: BoxFit.cover,
+                                                        child: GestureDetector(
+                                                          onTap: () => Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) => FullscreenImageViewer(imageUrl: rowUserRecord.photoUrl),
+                                                            ),
+                                                          ),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child: Image.network(
+                                                              rowUserRecord
+                                                                  .photoUrl,
+                                                              width:
+                                                                  double.infinity,
+                                                              height:
+                                                                  double.infinity,
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                           ),
                                                         ),
                                                       ),

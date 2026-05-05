@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/one_player/one_player_widget.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
@@ -280,9 +281,17 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                                                                         borderRadius: BorderRadius.circular(8.0),
                                                                       ),
                                                                       child: user.photoUrl.isNotEmpty
-                                                                        ? ClipRRect(
-                                                                            borderRadius: BorderRadius.circular(8.0),
-                                                                            child: Image.network(user.photoUrl, fit: BoxFit.cover),
+                                                                        ? GestureDetector(
+                                                                            onTap: () => Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (_) => FullscreenImageViewer(imageUrl: user.photoUrl),
+                                                                              ),
+                                                                            ),
+                                                                            child: ClipRRect(
+                                                                              borderRadius: BorderRadius.circular(8.0),
+                                                                              child: Image.network(user.photoUrl, fit: BoxFit.cover),
+                                                                            ),
                                                                           )
                                                                         : Icon(Icons.person, color: FlutterFlowTheme.of(context).secondaryText, size: 20.0),
                                                                     ),
@@ -1174,13 +1183,21 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                                                                                                           color: FlutterFlowTheme.of(context).accent1,
                                                                                                           borderRadius: BorderRadius.circular(12.0),
                                                                                                         ),
-                                                                                                        child: ClipRRect(
-                                                                                                          borderRadius: BorderRadius.circular(8.0),
-                                                                                                          child: Image.network(
-                                                                                                            containerUserRecord.photoUrl,
-                                                                                                            width: double.infinity,
-                                                                                                            height: double.infinity,
-                                                                                                            fit: BoxFit.cover,
+                                                                                                        child: GestureDetector(
+                                                                                                          onTap: () => Navigator.push(
+                                                                                                            context,
+                                                                                                            MaterialPageRoute(
+                                                                                                              builder: (_) => FullscreenImageViewer(imageUrl: containerUserRecord.photoUrl),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                          child: ClipRRect(
+                                                                                                            borderRadius: BorderRadius.circular(8.0),
+                                                                                                            child: Image.network(
+                                                                                                              containerUserRecord.photoUrl,
+                                                                                                              width: double.infinity,
+                                                                                                              height: double.infinity,
+                                                                                                              fit: BoxFit.cover,
+                                                                                                            ),
                                                                                                           ),
                                                                                                         ),
                                                                                                       ),

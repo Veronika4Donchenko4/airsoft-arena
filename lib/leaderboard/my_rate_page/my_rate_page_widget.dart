@@ -1229,6 +1229,87 @@ class _MyRatePageWidgetState extends State<MyRatePageWidget> {
                                           staggeredViewAchievementRecordList =
                                           snapshot.data!;
 
+                                      final allAchievements =
+                                          staggeredViewAchievementRecordList
+                                              .map((achievement) {
+                                        final hasRecord =
+                                            containerUserAchievementsRecordList
+                                                .where((e) =>
+                                                    e.achievement ==
+                                                    achievement.reference)
+                                                .isNotEmpty;
+                                        bool progressMet = false;
+                                        if (!hasRecord) {
+                                          switch (achievement.type) {
+                                            case 0:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument?.kilss,
+                                                      0) >=
+                                                  achievement.maxKills;
+                                              break;
+                                            case 1:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument
+                                                          ?.gameCount,
+                                                      0) >=
+                                                  achievement.gameCount;
+                                              break;
+                                            case 2:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument?.rate,
+                                                      0.0) >=
+                                                  achievement.rate;
+                                              break;
+                                            case 3:
+                                              progressMet = functions
+                                                      .calculateMaxWinSeries(
+                                                          (currentUserDocument
+                                                                      ?.seriesNoLosess
+                                                                      ?.toList() ??
+                                                                  [])
+                                                              .toList()) >=
+                                                  achievement.winSeries;
+                                              break;
+                                            case 4:
+                                              progressMet = valueOrDefault(
+                                                      currentUserDocument?.win,
+                                                      0) >=
+                                                  achievement.winsCount;
+                                              break;
+                                          }
+                                        }
+                                        return (achievement: achievement, isCompleted: hasRecord || progressMet);
+                                      }).toList();
+
+                                      final completed = allAchievements
+                                          .where((e) => e.isCompleted)
+                                          .map((e) => e.achievement)
+                                          .toList();
+                                      final incomplete = allAchievements
+                                          .where((e) => !e.isCompleted)
+                                          .map((e) => e.achievement)
+                                          .toList();
+                                      final grouped = <int, List<AchievementRecord>>{};
+                                      for (final a in incomplete) {
+                                        grouped.putIfAbsent(a.type, () => []).add(a);
+                                      }
+                                      for (final entry in grouped.entries) {
+                                        entry.value.sort((a, b) {
+                                          switch (entry.key) {
+                                            case 0: return a.maxKills.compareTo(b.maxKills);
+                                            case 1: return a.gameCount.compareTo(b.gameCount);
+                                            case 2: return a.rate.compareTo(b.rate);
+                                            case 3: return a.winSeries.compareTo(b.winSeries);
+                                            case 4: return a.winsCount.compareTo(b.winsCount);
+                                            default: return 0;
+                                          }
+                                        });
+                                      }
+                                      final nextGoals = grouped.values
+                                          .map((list) => list.first)
+                                          .toList();
+                                      final displayList = [...completed, ...nextGoals];
+
                                       return MasonryGridView.builder(
                                         gridDelegate:
                                             SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -1236,14 +1317,12 @@ class _MyRatePageWidgetState extends State<MyRatePageWidget> {
                                         ),
                                         crossAxisSpacing: 9.0,
                                         mainAxisSpacing: 4.0,
-                                        itemCount:
-                                            staggeredViewAchievementRecordList
-                                                .length,
+                                        itemCount: displayList.length,
                                         shrinkWrap: true,
                                         itemBuilder:
                                             (context, staggeredViewIndex) {
                                           final staggeredViewAchievementRecord =
-                                              staggeredViewAchievementRecordList[
+                                              displayList[
                                                   staggeredViewIndex];
                                           return wrapWithModel(
                                             model: _model.achievementItemModels

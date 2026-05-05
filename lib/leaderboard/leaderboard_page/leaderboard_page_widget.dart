@@ -1,6 +1,7 @@
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/city_search_view/city_search_view_widget.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/components/player_list_liderbord/player_list_liderbord_widget.dart';
@@ -1614,18 +1615,26 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                   ),
                                                   child: clan.flagImage
                                                           .isNotEmpty
-                                                      ? ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                          child: Image.network(
-                                                            clan.flagImage,
-                                                            width:
-                                                                double.infinity,
-                                                            height:
-                                                                double.infinity,
-                                                            fit: BoxFit.cover,
+                                                      ? GestureDetector(
+                                                          onTap: () => Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (_) => FullscreenImageViewer(imageUrl: clan.flagImage),
+                                                            ),
+                                                          ),
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10.0),
+                                                            child: Image.network(
+                                                              clan.flagImage,
+                                                              width:
+                                                                  double.infinity,
+                                                              height:
+                                                                  double.infinity,
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                           ),
                                                         )
                                                       : Icon(

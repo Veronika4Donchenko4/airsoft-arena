@@ -2,6 +2,7 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/create_edit_team/create_edit_team_widget.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/bottom_sheet/team_list/team_list_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/components/general_buttom/general_buttom_widget.dart';
@@ -498,9 +499,17 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                       children: [
                                                                         Icon(FFIcons.kimages, color: FlutterFlowTheme.of(context).secondaryText, size: 15.0),
                                                                         if (requester.photoUrl != null && requester.photoUrl != '')
-                                                                          ClipRRect(
-                                                                            borderRadius: BorderRadius.circular(8.0),
-                                                                            child: Image.network(requester.photoUrl, width: 32, height: 32, fit: BoxFit.cover),
+                                                                          GestureDetector(
+                                                                            onTap: () => Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(
+                                                                                builder: (_) => FullscreenImageViewer(imageUrl: requester.photoUrl),
+                                                                              ),
+                                                                            ),
+                                                                            child: ClipRRect(
+                                                                              borderRadius: BorderRadius.circular(8.0),
+                                                                              child: Image.network(requester.photoUrl, width: 32, height: 32, fit: BoxFit.cover),
+                                                                            ),
                                                                           ),
                                                                       ],
                                                                     ),

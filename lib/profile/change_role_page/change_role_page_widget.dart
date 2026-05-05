@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/city_search_view/city_search_view_widget.dart';
 import '/components/app_bar/app_bar_widget.dart';
@@ -177,13 +178,21 @@ class _ChangeRolePageWidgetState extends State<ChangeRolePageWidget> {
                                           FlutterFlowTheme.of(context).accent2,
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12.0),
-                                      child: Image.network(
-                                        currentUserPhoto,
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                        fit: BoxFit.cover,
+                                    child: GestureDetector(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => FullscreenImageViewer(imageUrl: currentUserPhoto),
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12.0),
+                                        child: Image.network(
+                                          currentUserPhoto,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),

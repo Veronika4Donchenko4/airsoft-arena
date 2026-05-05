@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
@@ -73,46 +74,56 @@ class _AchievementItemSmollWidgetState
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image.network(
-                    widget!.achivDoc!.image,
-                    fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FullscreenImageViewer(imageUrl: widget!.achivDoc!.image),
+                      ),
+                    ),
+                    child: Image.network(
+                      widget!.achivDoc!.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                AuthUserStreamWidget(
-                  builder: (context) => CircularPercentIndicator(
-                    percent: widget!.achivDoc?.type == 0
-                        ? functions.setProgressBarINT(
-                            valueOrDefault(currentUserDocument?.kilss, 0),
-                            widget!.achivDoc!.maxKills)
-                        : (widget!.achivDoc?.type == 1
-                            ? functions.setProgressBarINT(
-                                valueOrDefault(
-                                    currentUserDocument?.gameCount, 0),
-                                widget!.achivDoc!.gameCount)
-                            : (widget!.achivDoc?.type == 2
-                                ? functions.setProgressBarDouble(
-                                    valueOrDefault(
-                                        currentUserDocument?.rate, 0.0),
-                                    widget!.achivDoc!.rate)
-                                : (widget!.achivDoc?.type == 3
-                                    ? functions.setProgressBarINT(
-                                        functions.calculateMaxWinSeries(
-                                            (currentUserDocument?.seriesNoLosess
-                                                        ?.toList() ??
-                                                    [])
-                                                .toList()),
-                                        widget!.achivDoc!.winSeries)
-                                    : (widget!.achivDoc?.type == 4
-                                        ? functions.setProgressBarINT(
-                                            valueOrDefault(
-                                                currentUserDocument?.win, 0),
-                                            widget!.achivDoc!.winsCount)
-                                        : 0.0)))),
-                    radius: 21.5,
-                    lineWidth: 2.0,
-                    animation: true,
-                    animateFromLastPercent: true,
-                    progressColor: FlutterFlowTheme.of(context).primary,
+                IgnorePointer(
+                  child: AuthUserStreamWidget(
+                    builder: (context) => CircularPercentIndicator(
+                      percent: widget!.achivDoc?.type == 0
+                          ? functions.setProgressBarINT(
+                              valueOrDefault(currentUserDocument?.kilss, 0),
+                              widget!.achivDoc!.maxKills)
+                          : (widget!.achivDoc?.type == 1
+                              ? functions.setProgressBarINT(
+                                  valueOrDefault(
+                                      currentUserDocument?.gameCount, 0),
+                                  widget!.achivDoc!.gameCount)
+                              : (widget!.achivDoc?.type == 2
+                                  ? functions.setProgressBarDouble(
+                                      valueOrDefault(
+                                          currentUserDocument?.rate, 0.0),
+                                      widget!.achivDoc!.rate)
+                                  : (widget!.achivDoc?.type == 3
+                                      ? functions.setProgressBarINT(
+                                          functions.calculateMaxWinSeries(
+                                              (currentUserDocument?.seriesNoLosess
+                                                          ?.toList() ??
+                                                      [])
+                                                  .toList()),
+                                          widget!.achivDoc!.winSeries)
+                                      : (widget!.achivDoc?.type == 4
+                                          ? functions.setProgressBarINT(
+                                              valueOrDefault(
+                                                  currentUserDocument?.win, 0),
+                                              widget!.achivDoc!.winsCount)
+                                          : 0.0)))),
+                      radius: 21.5,
+                      lineWidth: 2.0,
+                      animation: true,
+                      animateFromLastPercent: true,
+                      progressColor: FlutterFlowTheme.of(context).primary,
+                    ),
                   ),
                 ),
               ],

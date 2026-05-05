@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
@@ -284,13 +285,21 @@ class _GameItemWidgetState extends State<GameItemWidget> {
                                     color: FlutterFlowTheme.of(context).accent1,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      containerUserRecord.photoUrl,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
+                                  child: GestureDetector(
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => FullscreenImageViewer(imageUrl: containerUserRecord.photoUrl),
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        containerUserRecord.photoUrl,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -340,9 +349,17 @@ class _GameItemWidgetState extends State<GameItemWidget> {
                                       children: [
                                         Icon(FFIcons.kimages, color: FlutterFlowTheme.of(context).secondaryText, size: 15.0),
                                         if (requester.photoUrl != null && requester.photoUrl != '')
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            child: Image.network(requester.photoUrl, width: 32, height: 32, fit: BoxFit.cover),
+                                          GestureDetector(
+                                            onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) => FullscreenImageViewer(imageUrl: requester.photoUrl),
+                                              ),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              child: Image.network(requester.photoUrl, width: 32, height: 32, fit: BoxFit.cover),
+                                            ),
                                           ),
                                       ],
                                     ),

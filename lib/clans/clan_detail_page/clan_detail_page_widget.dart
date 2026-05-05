@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/player_list_liderbord/player_list_liderbord_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -410,14 +411,22 @@ class _ClanDetailPageWidgetState extends State<ClanDetailPageWidget> {
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                                 child: clan.flagImage.isNotEmpty
-                                    ? ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        child: Image.network(
-                                          clan.flagImage,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                          fit: BoxFit.cover,
+                                    ? GestureDetector(
+                                        onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => FullscreenImageViewer(imageUrl: clan.flagImage),
+                                          ),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                          child: Image.network(
+                                            clan.flagImage,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       )
                                     : Icon(
@@ -488,14 +497,22 @@ class _ClanDetailPageWidgetState extends State<ClanDetailPageWidget> {
                                           ),
                                     ),
                                     SizedBox(height: 8.0),
-                                    ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(12.0),
-                                      child: Image.network(
-                                        clan.formImage,
-                                        width: 110.0,
-                                        height: 110.0,
-                                        fit: BoxFit.cover,
+                                    GestureDetector(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => FullscreenImageViewer(imageUrl: clan.formImage),
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        child: Image.network(
+                                          clan.formImage,
+                                          width: 110.0,
+                                          height: 110.0,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ],

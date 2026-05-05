@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:ui';
@@ -53,6 +54,7 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 185.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).accent2,
         borderRadius: BorderRadius.circular(12.0),
@@ -73,9 +75,17 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image.network(
-                    widget!.achivDoc!.image,
-                    fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => FullscreenImageViewer(imageUrl: widget!.achivDoc!.image),
+                      ),
+                    ),
+                    child: Image.network(
+                      widget!.achivDoc!.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Builder(
@@ -113,13 +123,15 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                       perc = 1;
                     }
 
-                    return CircularPercentIndicator(
-                      percent: perc,
-                      radius: 32.5,
-                      lineWidth: 3.0,
-                      animation: true,
-                      animateFromLastPercent: true,
-                      progressColor: FlutterFlowTheme.of(context).primary,
+                    return IgnorePointer(
+                      child: CircularPercentIndicator(
+                        percent: perc,
+                        radius: 32.5,
+                        lineWidth: 3.0,
+                        animation: true,
+                        animateFromLastPercent: true,
+                        progressColor: FlutterFlowTheme.of(context).primary,
+                      ),
                     );
                   },
                 ),
@@ -132,6 +144,8 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                   widget!.achivDoc?.name,
                   'Название',
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
@@ -155,6 +169,7 @@ class _AchievementItemWidgetState extends State<AchievementItemWidget> {
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.inter(
                         fontWeight:

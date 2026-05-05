@@ -1,6 +1,7 @@
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/choose_job/choose_job_widget.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/dialog/delete_user_from_team/delete_user_from_team_widget.dart';
 import '/dialog/pass_capitan_job/pass_capitan_job_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -174,14 +175,22 @@ class _ActionWithPlayerWidgetState extends State<ActionWithPlayerWidget> {
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                               ),
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                                child: Image.network(
-                                                  containerUserRecord.photoUrl,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
-                                                  fit: BoxFit.cover,
+                                              child: GestureDetector(
+                                                onTap: () => Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) => FullscreenImageViewer(imageUrl: containerUserRecord.photoUrl),
+                                                  ),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8.0),
+                                                  child: Image.network(
+                                                    containerUserRecord.photoUrl,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                             ),

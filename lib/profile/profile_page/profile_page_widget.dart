@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/bottom_sheet/subscription/subscription_widget.dart';
+import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/components/navbar/navbar_widget.dart';
 import '/dialog/exit_dialog/exit_dialog_widget.dart';
@@ -145,15 +146,23 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                             if (currentUserPhoto != null &&
                                                 currentUserPhoto != '')
                                               AuthUserStreamWidget(
-                                                builder: (context) => ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                  child: Image.network(
-                                                    currentUserPhoto,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    fit: BoxFit.cover,
+                                                builder: (context) => GestureDetector(
+                                                  onTap: () => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (_) => FullscreenImageViewer(imageUrl: currentUserPhoto),
+                                                    ),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
+                                                    child: Image.network(
+                                                      currentUserPhoto,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
