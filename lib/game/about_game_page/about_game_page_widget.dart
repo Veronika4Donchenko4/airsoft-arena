@@ -60,6 +60,63 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
     super.dispose();
   }
 
+  bool _checkSafetyAccepted() {
+    if (currentUserDocument?.rulesAccepted != true ||
+        currentUserDocument?.safetyAccepted != true) {
+      showDialog(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          backgroundColor:
+              FlutterFlowTheme.of(context).secondaryBackground,
+          title: Text(
+            'Требуется подтверждение',
+            style: FlutterFlowTheme.of(context)
+                .headlineSmall
+                .override(
+                  font: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                  letterSpacing: 0.0,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          content: Text(
+            'Перед вступлением в игру подтвердите ознакомление с правилами и техникой безопасности',
+            style: FlutterFlowTheme.of(context)
+                .bodyMedium
+                .override(
+                  font: GoogleFonts.inter(),
+                  letterSpacing: 0.0,
+                ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                'Отмена',
+                style: TextStyle(
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                context.pushNamed(EditProfilePageWidget.routeName);
+              },
+              child: Text(
+                'Перейти в профиль',
+                style: TextStyle(
+                  color: FlutterFlowTheme.of(context).primary,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -2138,6 +2195,7 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                 icon: null,
                                                 ignoreIsActive: false,
                                                 onTap: () async {
+                                                  if (!_checkSafetyAccepted()) return;
                                                   final passwordController = TextEditingController();
                                                   final confirmed = await showDialog<bool>(
                                                     context: context,
@@ -2188,6 +2246,7 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                 icon: null,
                                                 ignoreIsActive: false,
                                                 onTap: () async {
+                                                  if (!_checkSafetyAccepted()) return;
                                                   await containerGameRecord.reference.update({
                                                     ...mapToFirestore({'applicationGameList': FieldValue.arrayUnion([currentUserReference])}),
                                                   });
@@ -2222,6 +2281,7 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                             icon: null,
                                             ignoreIsActive: false,
                                             onTap: () async {
+                                              if (!_checkSafetyAccepted()) return;
                                               await containerGameRecord
                                                   .reference
                                                   .update({

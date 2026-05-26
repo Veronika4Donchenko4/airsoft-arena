@@ -21,6 +21,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'edit_profile_page_model.dart';
 export 'edit_profile_page_model.dart';
@@ -1114,6 +1115,171 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                                           ],
                                         ),
                                       ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            AuthUserStreamWidget(
+                              builder: (context) => Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 16.0, 16.0, 0.0),
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                    border: Border.all(
+                                      color: FlutterFlowTheme.of(context).accent1,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Правила и безопасность',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                font: GoogleFonts.inter(
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                fontSize: 15.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                        ),
+                                        SizedBox(height: 12.0),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 24.0,
+                                              height: 24.0,
+                                              child: Checkbox(
+                                                value: currentUserDocument?.rulesAccepted ?? false,
+                                                onChanged: (val) async {
+                                                  await currentUserReference!.update(
+                                                    createUserRecordData(rulesAccepted: val),
+                                                  );
+                                                },
+                                                side: BorderSide(
+                                                  width: 2,
+                                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                                ),
+                                                activeColor: FlutterFlowTheme.of(context).primary,
+                                                checkColor: FlutterFlowTheme.of(context).primaryText,
+                                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(4.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 8.0),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Я ознакомлен с правилами игры в страйкбол',
+                                                    style: FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts.inter(),
+                                                          fontSize: 13.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                  SizedBox(height: 2.0),
+                                                  GestureDetector(
+                                                    onTap: () => launchUrl(
+                                                      Uri.parse('https://airsoftgames.kz/index.php?topic=3.0'),
+                                                      mode: LaunchMode.externalApplication,
+                                                    ),
+                                                    child: Text(
+                                                      'Открыть правила',
+                                                      style: FlutterFlowTheme.of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            font: GoogleFonts.inter(),
+                                                            color: FlutterFlowTheme.of(context).primary,
+                                                            fontSize: 13.0,
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 12.0),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 24.0,
+                                              height: 24.0,
+                                              child: Checkbox(
+                                                value: currentUserDocument?.safetyAccepted ?? false,
+                                                onChanged: (val) async {
+                                                  await currentUserReference!.update(
+                                                    createUserRecordData(safetyAccepted: val),
+                                                  );
+                                                },
+                                                side: BorderSide(
+                                                  width: 2,
+                                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                                ),
+                                                activeColor: FlutterFlowTheme.of(context).primary,
+                                                checkColor: FlutterFlowTheme.of(context).primaryText,
+                                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(4.0),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 8.0),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Я ознакомлен с техникой безопасности',
+                                                    style: FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts.inter(),
+                                                          fontSize: 13.0,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                  SizedBox(height: 2.0),
+                                                  GestureDetector(
+                                                    onTap: () => launchUrl(
+                                                      Uri.parse('https://airsoftgames.kz/index.php?topic=3.0'),
+                                                      mode: LaunchMode.externalApplication,
+                                                    ),
+                                                    child: Text(
+                                                      'Открыть инструкцию',
+                                                      style: FlutterFlowTheme.of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            font: GoogleFonts.inter(),
+                                                            color: FlutterFlowTheme.of(context).primary,
+                                                            fontSize: 13.0,
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

@@ -142,6 +142,16 @@ class UserRecord extends FirestoreRecord {
   int get adminStatus => _adminStatus ?? 0;
   bool hasAdminStatus() => _adminStatus != null;
 
+  // "rulesAccepted" field.
+  bool? _rulesAccepted;
+  bool get rulesAccepted => _rulesAccepted ?? false;
+  bool hasRulesAccepted() => _rulesAccepted != null;
+
+  // "safetyAccepted" field.
+  bool? _safetyAccepted;
+  bool get safetyAccepted => _safetyAccepted ?? false;
+  bool hasSafetyAccepted() => _safetyAccepted != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -173,6 +183,8 @@ class UserRecord extends FirestoreRecord {
     _seriesNoLosess = getDataList(snapshotData['seriesNoLosess']);
     _adminName = snapshotData['adminName'] as String?;
     _adminStatus = castToType<int>(snapshotData['adminStatus']);
+    _rulesAccepted = snapshotData['rulesAccepted'] as bool?;
+    _safetyAccepted = snapshotData['safetyAccepted'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -232,6 +244,8 @@ Map<String, dynamic> createUserRecordData({
   int? gameCount,
   String? adminName,
   int? adminStatus,
+  bool? rulesAccepted,
+  bool? safetyAccepted,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -258,6 +272,8 @@ Map<String, dynamic> createUserRecordData({
       'gameCount': gameCount,
       'adminName': adminName,
       'adminStatus': adminStatus,
+      'rulesAccepted': rulesAccepted,
+      'safetyAccepted': safetyAccepted,
     }.withoutNulls,
   );
 
@@ -297,7 +313,9 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e1?.gameCount == e2?.gameCount &&
         listEquality.equals(e1?.seriesNoLosess, e2?.seriesNoLosess) &&
         e1?.adminName == e2?.adminName &&
-        e1?.adminStatus == e2?.adminStatus;
+        e1?.adminStatus == e2?.adminStatus &&
+        e1?.rulesAccepted == e2?.rulesAccepted &&
+        e1?.safetyAccepted == e2?.safetyAccepted;
   }
 
   @override
@@ -326,7 +344,9 @@ class UserRecordDocumentEquality implements Equality<UserRecord> {
         e?.gameCount,
         e?.seriesNoLosess,
         e?.adminName,
-        e?.adminStatus
+        e?.adminStatus,
+        e?.rulesAccepted,
+        e?.safetyAccepted
       ]);
 
   @override
