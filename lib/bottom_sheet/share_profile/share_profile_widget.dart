@@ -129,11 +129,17 @@ class _ShareProfileWidgetState extends State<ShareProfileWidget> {
                           ),
                           ignoreIsActive: false,
                           onTap: () async {
-                            await Share.share(
-                              'Посмотри мой рейтинг в Airsoft Arena: ${'https://airsoft-romanov.web.app/shareUserInfo/${currentUserUid}'}',
-                              sharePositionOrigin:
-                                  getWidgetBoundingBox(context),
-                            );
+                            try {
+                              final rating = (currentUserDocument?.rate ?? 0.0)
+                                  .toStringAsFixed(1);
+                              await Share.share(
+                                'Я играю в Airsoft Arena! Мой рейтинг: $rating.\n\nAndroid: https://play.google.com/store/apps/details?id=com.romanovdev.airsoftarena\n\niOS: https://apps.apple.com/app/id6763568277',
+                                sharePositionOrigin:
+                                    getWidgetBoundingBox(context),
+                              );
+                            } catch (e) {
+                              debugPrint('Share error: $e');
+                            }
                           },
                         ),
                       ),
