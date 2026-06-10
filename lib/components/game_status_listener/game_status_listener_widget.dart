@@ -349,12 +349,16 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                   .lastOrNull
                                   ?.status ==
                               0) {
-                            await Future.delayed(const Duration(milliseconds: 1000));
                             if (!mounted) return;
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              StartGamePageWidget.routePath,
-                              (route) => false,
+                            context.goNamed(
+                              StartGamePageWidget.routeName,
+                              extra: <String, dynamic>{
+                                kTransitionInfoKey: TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
+                                  duration: Duration(milliseconds: 0),
+                                ),
+                              },
                             );
                           } else {
                             if (containerGameRoundRecordList

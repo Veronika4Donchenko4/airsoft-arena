@@ -21,6 +21,8 @@ class ResultRoundPageModel extends FlutterFlowModel<ResultRoundPageWidget> {
 
   DocumentReference? teamSelected;
 
+  List<GameRecord>? containerPreviousSnapshot;
+
   List<GameRoundRecord>? roundsPreviousSnapshot;
 
   ///  State fields for stateful widgets in this page.

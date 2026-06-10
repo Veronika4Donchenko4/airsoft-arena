@@ -80,7 +80,39 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                     arrayContains: currentUserReference,
                   ),
               singleRecord: true,
-            ),
+            )..listen((snapshot) {
+                List<GameRecord> containerGameRecordList = snapshot;
+                final containerGameRecord =
+                    containerGameRecordList.isNotEmpty
+                        ? containerGameRecordList.first
+                        : null;
+                if (_model.containerPreviousSnapshot != null &&
+                    !const ListEquality(GameRecordDocumentEquality())
+                        .equals(
+                            containerGameRecordList,
+                            _model.containerPreviousSnapshot)) {
+                  () async {
+                    if (containerGameRecord
+                            ?.teamsAcceptedResults?.length ==
+                        containerGameRecord?.teamLimit) {
+                      if (!mounted) return;
+                      context.goNamed(
+                        ResultGamePageWidget.routeName,
+                        extra: <String, dynamic>{
+                          kTransitionInfoKey: TransitionInfo(
+                            hasTransition: true,
+                            transitionType: PageTransitionType.fade,
+                            duration: Duration(milliseconds: 0),
+                          ),
+                        },
+                      );
+                    }
+
+                    safeSetState(() {});
+                  }();
+                }
+                _model.containerPreviousSnapshot = snapshot;
+              }),
             builder: (context, snapshot) {
               // Customize what your widget looks like when it's loading.
               if (!snapshot.hasData) {
