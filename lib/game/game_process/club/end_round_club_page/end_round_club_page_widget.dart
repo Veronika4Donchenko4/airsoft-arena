@@ -1011,14 +1011,6 @@ class _EndRoundClubPageWidgetState extends State<EndRoundClubPageWidget> {
                                                         .toList(),
                                                   );
 
-                                                  // Set status: 3 after all saves, then navigate immediately
-                                                  // This triggers player redirect via game_status_listener
-                                                  await containerGameRecord!
-                                                      .reference
-                                                      .update(createGameRecordData(
-                                                    status: 3,
-                                                  ));
-
                                                   try {
                                                     if (mounted) {
                                                       router.goNamed(
