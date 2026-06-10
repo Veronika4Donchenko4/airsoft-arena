@@ -171,7 +171,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                               () async {
                                 final latestRound = snapshot
                                     .sortedList(
-                                        keyOf: (e) => e.createdTime!,
+                                        keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                         desc: false)
                                     .lastOrNull;
                                 if (latestRound?.status == 1) {
@@ -232,7 +232,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                               containerGameRoundRecordList
                                                   .sortedList(
                                                       keyOf: (e) =>
-                                                          e.createdTime!,
+                                                          e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                       desc: false)
                                                   .lastOrNull
                                                   ?.reference,
@@ -461,7 +461,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                     if (containerGameRoundRecordList
                                                             .sortedList(
                                                                 keyOf: (e) => e
-                                                                    .createdTime!,
+                                                                    .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                 desc: false)
                                                             .lastOrNull
                                                             ?.teamWinner !=
@@ -535,7 +535,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                     if (containerGameRoundRecordList
                                                             .sortedList(
                                                                 keyOf: (e) => e
-                                                                    .createdTime!,
+                                                                    .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                 desc: false)
                                                             .lastOrNull
                                                             ?.teamWinner ==
@@ -876,7 +876,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                                     containerGameRoundRecordList
                                                                         .sortedList(
                                                                             keyOf: (e) =>
-                                                                                e.createdTime!,
+                                                                                e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                             desc: false)
                                                                         .lastOrNull
                                                                         ?.teamWinner
@@ -892,7 +892,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                               if ((containerGameRoundRecordList
                                                           .sortedList(
                                                               keyOf: (e) => e
-                                                                  .createdTime!,
+                                                                  .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                               desc: false)
                                                           .lastOrNull
                                                           ?.endDateTime !=
@@ -900,7 +900,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                   (containerGameRoundRecordList
                                                           .sortedList(
                                                               keyOf: (e) => e
-                                                                  .createdTime!,
+                                                                  .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                               desc: false)
                                                           .lastOrNull
                                                           ?.startDateTime !=
@@ -982,7 +982,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                                     containerGameRoundRecordList
                                                                         .sortedList(
                                                                             keyOf: (e) => e
-                                                                                .createdTime!,
+                                                                                .createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                             desc:
                                                                                 false)
                                                                         .lastOrNull!
@@ -990,7 +990,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                                     containerGameRoundRecordList
                                                                         .sortedList(
                                                                             keyOf: (e) =>
-                                                                                e.createdTime!,
+                                                                                e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                             desc: false)
                                                                         .lastOrNull!
                                                                         .endDateTime!),
@@ -1169,7 +1169,7 @@ class _EndRoundPageWidgetState extends State<EndRoundPageWidget> {
                                                           containerGameRoundRecordList
                                                               .sortedList(
                                                                   keyOf: (e) =>
-                                                                      e.createdTime!,
+                                                                      e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                                   desc: false)
                                                               .lastOrNull
                                                               ?.reference,

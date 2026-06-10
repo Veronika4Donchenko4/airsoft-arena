@@ -149,7 +149,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
                               () async {
                                 final latestRound = snapshot
                                     .sortedList(
-                                        keyOf: (e) => e.createdTime!,
+                                        keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                         desc: false)
                                     .lastOrNull;
                                 if (latestRound != null &&
@@ -193,7 +193,7 @@ class _ResultRoundPageWidgetState extends State<ResultRoundPageWidget> {
 
                           final _sortedRounds = containerGameRoundRecordList
                               .sortedList(
-                                  keyOf: (e) => e.createdTime!, desc: false);
+                                  keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false);
                           final currentRound = widget.roundRef != null
                               ? (_sortedRounds
                                       .where((r) =>

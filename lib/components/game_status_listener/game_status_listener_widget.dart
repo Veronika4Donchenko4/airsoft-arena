@@ -76,7 +76,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
       if (valueOrDefault(currentUserDocument?.type, 0) == 0) {
         if (_model.userActivGame?.reference != null) {
           if (_model.userGameRound
-                  ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
+                  ?.sortedList(keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                   ?.lastOrNull
                   ?.status ==
               0) {
@@ -93,7 +93,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
             );
           } else {
             if (_model.userGameRound
-                    ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
+                    ?.sortedList(keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                     ?.lastOrNull
                     ?.status ==
                 1) {
@@ -110,7 +110,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
               );
             } else {
               if (_model.userGameRound
-                      ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
+                      ?.sortedList(keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                       ?.lastOrNull
                       ?.status ==
                   2) {
@@ -128,7 +128,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
               } else {
                 if ((_model.userGameRound
                             ?.sortedList(
-                                keyOf: (e) => e.createdTime!, desc: false)
+                                keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                             ?.lastOrNull
                             ?.status ==
                         3) &&
@@ -141,7 +141,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                       'roundRef': serializeParam(
                         _model.userGameRound
                             ?.sortedList(
-                                keyOf: (e) => e.createdTime!, desc: false)
+                                keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                             ?.lastOrNull
                             ?.reference,
                         ParamType.DocumentReference,
@@ -151,7 +151,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                 } else {
                   if ((_model.userGameRound
                               ?.sortedList(
-                                  keyOf: (e) => e.createdTime!, desc: false)
+                                  keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                               ?.lastOrNull
                               ?.status ==
                           5) &&
@@ -177,7 +177,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
       } else {
         if (_model.clubActivGame?.reference != null) {
           if (_model.clubGameRound
-                  ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
+                  ?.sortedList(keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                   ?.lastOrNull
                   ?.status ==
               0) {
@@ -194,7 +194,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
             );
           } else {
             if (_model.clubGameRound
-                    ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
+                    ?.sortedList(keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                     ?.lastOrNull
                     ?.status ==
                 1) {
@@ -211,7 +211,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
               );
             } else {
               if (_model.clubGameRound
-                      ?.sortedList(keyOf: (e) => e.createdTime!, desc: false)
+                      ?.sortedList(keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                       ?.lastOrNull
                       ?.status ==
                   2) {
@@ -229,7 +229,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
               } else {
                 if ((_model.clubGameRound
                             ?.sortedList(
-                                keyOf: (e) => e.createdTime!, desc: false)
+                                keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                             ?.lastOrNull
                             ?.status ==
                         3) &&
@@ -240,7 +240,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                 } else {
                   if ((_model.clubGameRound
                               ?.sortedList(
-                                  keyOf: (e) => e.createdTime!, desc: false)
+                                  keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                               ?.lastOrNull
                               ?.status ==
                           5) &&
@@ -345,7 +345,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                             null) {
                           if (containerGameRoundRecordList
                                   .sortedList(
-                                      keyOf: (e) => e.createdTime!, desc: false)
+                                      keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                                   .lastOrNull
                                   ?.status ==
                               0) {
@@ -359,7 +359,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                           } else {
                             if (containerGameRoundRecordList
                                     .sortedList(
-                                        keyOf: (e) => e.createdTime!,
+                                        keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                         desc: false)
                                     .lastOrNull
                                     ?.status ==
@@ -378,7 +378,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                             } else {
                               if (containerGameRoundRecordList
                                       .sortedList(
-                                          keyOf: (e) => e.createdTime!,
+                                          keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                           desc: false)
                                       .lastOrNull
                                       ?.status ==
@@ -397,7 +397,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                               } else {
                                 if ((containerGameRoundRecordList
                                             .sortedList(
-                                                keyOf: (e) => e.createdTime!,
+                                                keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                 desc: false)
                                             .lastOrNull
                                             ?.status ==
@@ -412,7 +412,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                       'roundRef': serializeParam(
                                         containerGameRoundRecordList
                                             .sortedList(
-                                                keyOf: (e) => e.createdTime!,
+                                                keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                 desc: false)
                                             .lastOrNull
                                             ?.reference,
@@ -430,7 +430,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                 } else {
                                   if ((containerGameRoundRecordList
                                               .sortedList(
-                                                  keyOf: (e) => e.createdTime!,
+                                                  keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                   desc: false)
                                               .lastOrNull
                                               ?.status ==
@@ -538,7 +538,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                             null) {
                           if (containerGameRoundRecordList
                                   .sortedList(
-                                      keyOf: (e) => e.createdTime!, desc: false)
+                                      keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0), desc: false)
                                   .lastOrNull
                                   ?.status ==
                               0) {
@@ -556,7 +556,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                           } else {
                             if (containerGameRoundRecordList
                                     .sortedList(
-                                        keyOf: (e) => e.createdTime!,
+                                        keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                         desc: false)
                                     .lastOrNull
                                     ?.status ==
@@ -575,7 +575,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                             } else {
                               if (containerGameRoundRecordList
                                       .sortedList(
-                                          keyOf: (e) => e.createdTime!,
+                                          keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                           desc: false)
                                       .lastOrNull
                                       ?.status ==
@@ -594,7 +594,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                               } else {
                                 if ((containerGameRoundRecordList
                                             .sortedList(
-                                                keyOf: (e) => e.createdTime!,
+                                                keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                 desc: false)
                                             .lastOrNull
                                             ?.status ==
@@ -616,7 +616,7 @@ class _GameStatusListenerWidgetState extends State<GameStatusListenerWidget> {
                                 } else {
                                   if ((containerGameRoundRecordList
                                               .sortedList(
-                                                  keyOf: (e) => e.createdTime!,
+                                                  keyOf: (e) => e.createdTime ?? DateTime.fromMillisecondsSinceEpoch(0),
                                                   desc: false)
                                               .lastOrNull
                                               ?.status ==
