@@ -50,9 +50,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Для загрузки фото, разрешите доступ к камере</string>
+	<string>Airsoft Arena uses your camera to take and upload your profile photo and team images.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Airsoft Arena uses your location to show nearby airsoft games and find players within your search radius.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>In order to search nearby, this app requires access to your current location.</string>
+	<string>Airsoft Arena uses your location to show nearby airsoft games and find players within your search radius.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Для загрузки фото, разрешите доступ к галерее</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

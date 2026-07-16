@@ -247,7 +247,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                   ),
                                                 ),
                                               ),
-                                              // Кланы tab
+                                              // Команды tab
                                               InkWell(
                                                 splashColor: Colors.transparent,
                                                 focusColor: Colors.transparent,
@@ -299,7 +299,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                                           AlignmentDirectional(
                                                               0.0, 0.0),
                                                       child: Text(
-                                                        'Кланы',
+                                                        'Команды',
                                                         style: FlutterFlowTheme
                                                                 .of(context)
                                                             .bodyMedium
@@ -1499,7 +1499,7 @@ class _LeaderboardPageWidgetState extends State<LeaderboardPageWidget> {
                                         ),
                                         SizedBox(height: 12.0),
                                         Text(
-                                          'Кланов пока нет',
+                                          'Команд пока нет',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium

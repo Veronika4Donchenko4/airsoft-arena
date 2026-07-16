@@ -92,7 +92,7 @@ class _CreateClanWidgetState extends State<CreateClanWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                'Создать клан',
+                'Создать команду',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       font: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class _CreateClanWidgetState extends State<CreateClanWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Флаг клана',
+                      'Флаг команды',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FontWeight.w500,
@@ -263,7 +263,7 @@ class _CreateClanWidgetState extends State<CreateClanWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Форма клана',
+                      'Форма команды',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             font: GoogleFonts.inter(
                               fontWeight: FontWeight.w500,
@@ -408,7 +408,7 @@ class _CreateClanWidgetState extends State<CreateClanWidget> {
             autofocus: false,
             obscureText: false,
             decoration: InputDecoration(
-              labelText: 'Название клана',
+              labelText: 'Название команды',
               labelStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                     font: GoogleFonts.inter(
                       fontWeight:
@@ -494,7 +494,7 @@ class _CreateClanWidgetState extends State<CreateClanWidget> {
             autofocus: false,
             obscureText: false,
             decoration: InputDecoration(
-              labelText: 'Слоган клана',
+              labelText: 'Слоган команды',
               labelStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                     font: GoogleFonts.inter(
                       fontWeight:
@@ -578,7 +578,7 @@ class _CreateClanWidgetState extends State<CreateClanWidget> {
             model: _model.generalButtomModel,
             updateCallback: () => safeSetState(() {}),
             child: GeneralButtomWidget(
-              title: 'Создать клан',
+              title: 'Создать команду',
               isActive: _model.nameTextController.text.isNotEmpty,
               ignoreIsActive: false,
               onTap: () async {

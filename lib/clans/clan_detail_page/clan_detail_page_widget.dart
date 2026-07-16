@@ -121,7 +121,7 @@ class _ClanDetailPageWidgetState extends State<ClanDetailPageWidget> {
                     PopupMenuItem<String>(
                       value: 'remove',
                       child: Text(
-                        'Удалить из клана',
+                        'Удалить из команды',
                         style:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   font: GoogleFonts.inter(
@@ -584,7 +584,7 @@ class _ClanDetailPageWidgetState extends State<ClanDetailPageWidget> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Покинуть клан',
+                                        'Покинуть команду',
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(

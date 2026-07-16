@@ -74,7 +74,7 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                           backgroundColor:
                               FlutterFlowTheme.of(context).primaryBackground,
                           title: Text(
-                            'Вы уже в клане',
+                            'Вы уже в команде',
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
@@ -93,7 +93,7 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                                 ),
                           ),
                           content: Text(
-                            'Чтобы создать клан, вам нужно сначала покинуть текущий клан.',
+                            'Чтобы создать команду, вам нужно сначала покинуть текущую команду.',
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
@@ -218,7 +218,7 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                       child: Text(
-                        'Кланы',
+                        'Команды',
                         style:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   font: GoogleFonts.inter(
@@ -293,7 +293,7 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 12.0, 0.0, 0.0),
                                 child: Text(
-                                  'Кланов пока нет',
+                                  'Команд пока нет',
                                   textAlign: TextAlign.center,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -319,7 +319,7 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 8.0, 0.0, 0.0),
                                 child: Text(
-                                  'Пока нет кланов, дождитесь создания клана чтобы подать заявку на вступление или достигните рейтинга больше 100 в лидерборде чтобы создать собственный',
+                                  'Пока нет команд, дождитесь создания команды чтобы подать заявку на вступление или достигните рейтинга больше 100 в лидерборде чтобы создать собственную',
                                   textAlign: TextAlign.center,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
@@ -498,7 +498,7 @@ class _ClansPageWidgetState extends State<ClansPageWidget> {
                                                     child: Text(
                                                       clan.captain ==
                                                               currentUserReference
-                                                          ? 'Мой клан'
+                                                          ? 'Моя команда'
                                                           : 'Участник',
                                                       style: FlutterFlowTheme
                                                               .of(context)

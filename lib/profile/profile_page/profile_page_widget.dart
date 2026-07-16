@@ -1338,7 +1338,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 0.0, 0.0, 0.0),
                                           child: Text(
-                                            'Кланы',
+                                            'Команды',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
