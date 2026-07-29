@@ -1583,32 +1583,90 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                       width:
                                                                           8.0)),
                                                                 ),
-                                                                Text(
-                                                                  'Участники: ${containerTeamRecord.usersJob.length.toString()}/${containerGameRecord.playersLimit.toString()}',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        font: GoogleFonts
-                                                                            .inter(
-                                                                          fontWeight: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontWeight,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: [
+                                                                    Text(
+                                                                      'Участники: ${containerTeamRecord.usersJob.length.toString()}/${containerGameRecord.playersLimit.toString()}',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font: GoogleFonts
+                                                                                .inter(
+                                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                            fontSize:
+                                                                                13.0,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                    ),
+                                                                    // Allow the club (game creator) to edit any team in their game.
+                                                                    if (containerGameRecord
+                                                                            .creator ==
+                                                                        currentUserReference)
+                                                                      InkWell(
+                                                                        splashColor:
+                                                                            Colors.transparent,
+                                                                        focusColor:
+                                                                            Colors.transparent,
+                                                                        hoverColor:
+                                                                            Colors.transparent,
+                                                                        highlightColor:
+                                                                            Colors.transparent,
+                                                                        onTap:
+                                                                            () async {
+                                                                          await showModalBottomSheet(
+                                                                            isScrollControlled:
+                                                                                true,
+                                                                            backgroundColor:
+                                                                                Colors.transparent,
+                                                                            barrierColor:
+                                                                                FlutterFlowTheme.of(context).overlay,
+                                                                            enableDrag:
+                                                                                false,
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (context) {
+                                                                              return WebViewAware(
+                                                                                child: GestureDetector(
+                                                                                  onTap: () {
+                                                                                    FocusScope.of(context).unfocus();
+                                                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                                                  },
+                                                                                  child: Padding(
+                                                                                    padding: MediaQuery.viewInsetsOf(context),
+                                                                                    child: CreateEditTeamWidget(
+                                                                                      teamDoc: containerTeamRecord,
+                                                                                      colorIsSet: true,
+                                                                                      gameRef: containerGameRecord.reference,
+                                                                                      colorsUsed: containerTeamRecordList.map((e) => e.color).withoutNulls.toList(),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          ).then((value) =>
+                                                                              safeSetState(() {}));
+                                                                        },
+                                                                        child: Icon(
+                                                                          FFIcons
+                                                                              .kpencilsimple,
+                                                                          color: FlutterFlowTheme.of(context)
+                                                                              .primaryText,
+                                                                          size:
+                                                                              18.0,
                                                                         ),
-                                                                        fontSize:
-                                                                            13.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
                                                                       ),
+                                                                  ].divide(SizedBox(
+                                                                      width: 8.0)),
                                                                 ),
                                                               ],
                                                             ),
