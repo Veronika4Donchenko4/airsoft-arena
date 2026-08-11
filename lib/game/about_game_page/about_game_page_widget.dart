@@ -2,6 +2,8 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/bottom_sheet/create_edit_team/create_edit_team_widget.dart';
+import '/bottom_sheet/club_team_actions/club_team_actions_widget.dart';
+import '/bottom_sheet/club_player_actions/club_player_actions_widget.dart';
 import '/components/fullscreen_image_viewer/fullscreen_image_viewer_widget.dart';
 import '/bottom_sheet/team_list/team_list_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
@@ -1607,7 +1609,8 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                             fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                           ),
                                                                     ),
-                                                                    // Allow the club (game creator) to edit any team in their game.
+                                                                    // Club (game creator) team-management "..." menu:
+                                                                    // edit team / invite player directly.
                                                                     if (containerGameRecord
                                                                             .creator ==
                                                                         currentUserReference)
@@ -1643,9 +1646,8 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                                   },
                                                                                   child: Padding(
                                                                                     padding: MediaQuery.viewInsetsOf(context),
-                                                                                    child: CreateEditTeamWidget(
+                                                                                    child: ClubTeamActionsWidget(
                                                                                       teamDoc: containerTeamRecord,
-                                                                                      colorIsSet: true,
                                                                                       gameRef: containerGameRecord.reference,
                                                                                       colorsUsed: containerTeamRecordList.map((e) => e.color).withoutNulls.toList(),
                                                                                     ),
@@ -1658,7 +1660,7 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                         },
                                                                         child: Icon(
                                                                           FFIcons
-                                                                              .kpencilsimple,
+                                                                              .kdotsthreeoutline,
                                                                           color: FlutterFlowTheme.of(context)
                                                                               .primaryText,
                                                                           size:
@@ -1788,6 +1790,51 @@ class _AboutGamePageWidgetState extends State<AboutGamePageWidget> {
                                                                                   ),
                                                                                 ),
                                                                               ),
+                                                                              // Club (game creator) per-player "..." menu:
+                                                                              // make captain / remove from team.
+                                                                              if (containerGameRecord.creator ==
+                                                                                  currentUserReference)
+                                                                                InkWell(
+                                                                                  splashColor: Colors.transparent,
+                                                                                  focusColor: Colors.transparent,
+                                                                                  hoverColor: Colors.transparent,
+                                                                                  highlightColor: Colors.transparent,
+                                                                                  onTap: () async {
+                                                                                    await showModalBottomSheet(
+                                                                                      isScrollControlled: true,
+                                                                                      backgroundColor: Colors.transparent,
+                                                                                      barrierColor: FlutterFlowTheme.of(context).overlay,
+                                                                                      enableDrag: false,
+                                                                                      context: context,
+                                                                                      builder: (context) {
+                                                                                        return WebViewAware(
+                                                                                          child: GestureDetector(
+                                                                                            onTap: () {
+                                                                                              FocusScope.of(context).unfocus();
+                                                                                              FocusManager.instance.primaryFocus?.unfocus();
+                                                                                            },
+                                                                                            child: Padding(
+                                                                                              padding: MediaQuery.viewInsetsOf(context),
+                                                                                              child: ClubPlayerActionsWidget(
+                                                                                                userJob: teamUsersListItem,
+                                                                                                teamDoc: containerTeamRecord,
+                                                                                                gameRef: containerGameRecord.reference,
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        );
+                                                                                      },
+                                                                                    ).then((value) => safeSetState(() {}));
+                                                                                  },
+                                                                                  child: Padding(
+                                                                                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 10.0, 8.0, 10.0),
+                                                                                    child: Icon(
+                                                                                      FFIcons.kdotsthreeoutline,
+                                                                                      color: FlutterFlowTheme.of(context).primaryText,
+                                                                                      size: 16.0,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
                                                                             ],
                                                                           ),
                                                                         ],
