@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
@@ -70,7 +71,10 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
-          child: StreamBuilder<List<GameRecord>>(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+          StreamBuilder<List<GameRecord>>(
             stream: queryGameRecord(
               queryBuilder: (gameRecord) => widget.gameRef != null
                   ? gameRecord.where(
@@ -1453,6 +1457,10 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                                               ignoreIsActive: false,
                                               onTap: () async {
                                                 if (!mounted) return;
+                                                if (widget.gameRef != null) {
+                                                  context.pop();
+                                                  return;
+                                                }
                                                 context.goNamed(
                                                     GamesPageWidget.routeName);
                                               },
@@ -1472,6 +1480,36 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
                 ),
               );
             },
+          ),
+              if (widget.gameRef != null)
+                Positioned(
+                  top: 0.0,
+                  left: 0.0,
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      context.safePop();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 12.0, 16.0, 13.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(0.0),
+                          child: SvgPicture.asset(
+                            'assets/images/Up_Left.svg',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
       ),
