@@ -23,7 +23,13 @@ import 'result_game_page_model.dart';
 export 'result_game_page_model.dart';
 
 class ResultGamePageWidget extends StatefulWidget {
-  const ResultGamePageWidget({super.key});
+  const ResultGamePageWidget({
+    super.key,
+    this.gameRef,
+  });
+
+  /// When set, shows results for this game instead of the user's active one.
+  final DocumentReference? gameRef;
 
   static String routeName = 'ResultGamePage';
   static String routePath = '/resultGamePage';
@@ -66,15 +72,20 @@ class _ResultGamePageWidgetState extends State<ResultGamePageWidget> {
           top: true,
           child: StreamBuilder<List<GameRecord>>(
             stream: queryGameRecord(
-              queryBuilder: (gameRecord) => gameRecord
-                  .where(
-                    'status',
-                    isEqualTo: 2,
-                  )
-                  .where(
-                    'users',
-                    arrayContains: currentUserReference,
-                  ),
+              queryBuilder: (gameRecord) => widget.gameRef != null
+                  ? gameRecord.where(
+                      FieldPath.documentId,
+                      isEqualTo: widget.gameRef!.id,
+                    )
+                  : gameRecord
+                      .where(
+                        'status',
+                        isEqualTo: 2,
+                      )
+                      .where(
+                        'users',
+                        arrayContains: currentUserReference,
+                      ),
               singleRecord: true,
             )..listen((snapshot) {
                 List<GameRecord> containerGameRecordList = snapshot;

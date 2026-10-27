@@ -365,7 +365,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: ResultGamePageWidget.routeName,
           path: ResultGamePageWidget.routePath,
-          builder: (context, params) => ResultGamePageWidget(),
+          builder: (context, params) => ResultGamePageWidget(
+            gameRef: params.getParam(
+              'gameRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Game'],
+            ),
+          ),
         ),
         FFRoute(
           name: ProcessRoundClubPageWidget.routeName,

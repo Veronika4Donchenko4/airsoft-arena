@@ -4,6 +4,7 @@ import '/components/app_bar/app_bar_widget.dart';
 import '/components/game_status_listener/game_status_listener_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -139,180 +140,194 @@ class _MyGamesPageWidgetState extends State<MyGamesPageWidget> {
                               return Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 8.0, 16.0, 8.0),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        FlutterFlowTheme.of(context).accent2,
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16.0),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          game.name,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  onTap: game.status == 1
+                                      ? () => context.pushNamed(
+                                            ResultGamePageWidget.routeName,
+                                            queryParameters: {
+                                              'gameRef': serializeParam(
+                                                game.reference,
+                                                ParamType.DocumentReference,
+                                              ),
+                                            }.withoutNulls,
+                                          )
+                                      : null,
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          FlutterFlowTheme.of(context).accent2,
+                                      borderRadius: BorderRadius.circular(12.0),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(16.0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            game.name,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  fontSize: 15.0,
+                                                  letterSpacing: 0.0,
                                                   fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
                                                 ),
-                                                fontSize: 15.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                        SizedBox(height: 4.0),
-                                        Text(
-                                          game.dateTime != null
-                                              ? DateFormat('d MMMM y HH:mm',
-                                                      'ru')
-                                                  .format(game.dateTime!)
-                                              : '',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                font: GoogleFonts.inter(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontWeight,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryText,
-                                                fontSize: 13.0,
-                                                letterSpacing: 0.0,
-                                              ),
-                                        ),
-                                        SizedBox(height: 8.0),
-                                        StreamBuilder<List<TeamRecord>>(
-                                          stream: queryTeamRecord(
-                                            queryBuilder: (teamRecord) =>
-                                                teamRecord.where(
-                                              'game',
-                                              isEqualTo: game.reference,
-                                            ),
                                           ),
-                                          builder: (context, teamSnapshot) {
-                                            final teams =
-                                                teamSnapshot.data ?? [];
-                                            final myTeam =
-                                                teams.firstWhereOrNull(
-                                              (t) => t.usersJob.any((uj) =>
-                                                  uj.user?.id ==
-                                                  currentUserReference?.id),
-                                            );
-                                            return Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Icon(
-                                                  FFIcons.kusers,
-                                                  color:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryText,
-                                                  size: 14.0,
-                                                ),
-                                                SizedBox(width: 4.0),
-                                                Text(
-                                                  myTeam?.name ?? '—',
-                                                  style: FlutterFlowTheme.of(
+                                          SizedBox(height: 4.0),
+                                          Text(
+                                            game.dateTime != null
+                                                ? DateFormat(
+                                                        'd MMMM y HH:mm', 'ru')
+                                                    .format(game.dateTime!)
+                                                : '',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
                                                           context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
-                                                        ),
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryText,
-                                                        fontSize: 13.0,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                                      .secondaryText,
+                                                  fontSize: 13.0,
+                                                  letterSpacing: 0.0,
                                                 ),
-                                              ],
-                                            );
-                                          },
-                                        ),
-                                        SizedBox(height: 8.0),
-                                        StreamBuilder<
-                                            List<GameRoundUserRecord>>(
-                                          stream: queryGameRoundUserRecord(
-                                            queryBuilder:
-                                                (gameRoundUserRecord) =>
-                                                    gameRoundUserRecord
-                                                        .where(
-                                                          'game',
-                                                          isEqualTo:
-                                                              game.reference,
-                                                        )
-                                                        .where(
-                                                          'user',
-                                                          isEqualTo:
-                                                              currentUserReference,
-                                                        ),
                                           ),
-                                          builder: (context, roundSnapshot) {
-                                            final roundUsers =
-                                                roundSnapshot.data ?? [];
-                                            final died = roundUsers
-                                                .any((r) => r.isDead);
-                                            return Text(
-                                              died ? 'Погиб ✗' : 'Выжил ✓',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        font: GoogleFonts.inter(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMedium
-                                                                  .fontStyle,
+                                          SizedBox(height: 8.0),
+                                          StreamBuilder<List<TeamRecord>>(
+                                            stream: queryTeamRecord(
+                                              queryBuilder: (teamRecord) =>
+                                                  teamRecord.where(
+                                                'game',
+                                                isEqualTo: game.reference,
+                                              ),
+                                            ),
+                                            builder: (context, teamSnapshot) {
+                                              final teams =
+                                                  teamSnapshot.data ?? [];
+                                              final myTeam =
+                                                  teams.firstWhereOrNull(
+                                                (t) => t.usersJob.any((uj) =>
+                                                    uj.user?.id ==
+                                                    currentUserReference?.id),
+                                              );
+                                              return Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Icon(
+                                                    FFIcons.kusers,
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryText,
+                                                    size: 14.0,
+                                                  ),
+                                                  SizedBox(width: 4.0),
+                                                  Text(
+                                                    myTeam?.name ?? '—',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font:
+                                                              GoogleFonts.inter(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                          fontSize: 13.0,
+                                                          letterSpacing: 0.0,
                                                         ),
-                                                        color: died
-                                                            ? FlutterFlowTheme
-                                                                    .of(context)
-                                                                .error
-                                                            : FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                        fontSize: 13.0,
-                                                        letterSpacing: 0.0,
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                          SizedBox(height: 8.0),
+                                          StreamBuilder<
+                                              List<GameRoundUserRecord>>(
+                                            stream: queryGameRoundUserRecord(
+                                              queryBuilder:
+                                                  (gameRoundUserRecord) =>
+                                                      gameRoundUserRecord
+                                                          .where(
+                                                            'game',
+                                                            isEqualTo:
+                                                                game.reference,
+                                                          )
+                                                          .where(
+                                                            'user',
+                                                            isEqualTo:
+                                                                currentUserReference,
+                                                          ),
+                                            ),
+                                            builder: (context, roundSnapshot) {
+                                              final roundUsers =
+                                                  roundSnapshot.data ?? [];
+                                              final died = roundUsers
+                                                  .any((r) => r.isDead);
+                                              return Text(
+                                                died ? 'Погиб ✗' : 'Выжил ✓',
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.inter(
                                                         fontWeight:
                                                             FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
-                                            );
-                                          },
-                                        ),
-                                      ],
+                                                      color: died
+                                                          ? FlutterFlowTheme.of(
+                                                                  context)
+                                                              .error
+                                                          : FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      fontSize: 13.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
